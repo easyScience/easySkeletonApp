@@ -5,7 +5,7 @@ Template for easyScience applications
 
 [![Release][30]][31]
 
-[![Downloads][70]][71]
+[![Downloads][70]][71] [![Lines of code][81]]() [![Total lines][80]]() [![Files][82]]()
 
 [![License][50]][51] [![License Scan][60]][61]
 
@@ -80,3 +80,8 @@ Template for easyScience applications
 <!---Downloads--->
 [70]: https://img.shields.io/github/downloads/easyScience/easyTemplateApp/total.svg
 [71]: https://github.com/easyScience/easyTemplateApp/releases
+
+<!---Code statistics--->
+[80]: https://tokei.rs/b1/github/easyScience/easyTemplateApp
+[81]: https://tokei.rs/b1/github/easyScience/easyTemplateApp?category=code
+[82]: https://tokei.rs/b1/github/easyScience/easyTemplateApp?category=files
