@@ -1,0 +1,14 @@
+release:
+  version: 0.7.0
+  date: 15 May 2020
+  changes:
+    - Implement in-app CIF editor
+    - Impove redability of the Fitables table
+    - Add CIF syntax highlighting
+    - Add Bragg peaks info tooltips
+    - Add license page to the installer
+    - Add calculation results to the project
+    - Add more neutron diffraction examples
+    - Update project description tab
+    - Fix axes ratio on the structure view
+    - Rename main and phases to project and samples

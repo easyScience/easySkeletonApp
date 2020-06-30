@@ -1,0 +1,98 @@
+# POETRY CONFIG
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry]
+name = "easyTemplateApp"
+version = "0.1.0"
+description = "Template for easyScience applications"
+license = "GPL-3.0-only"
+authors = ["Andrew Sazonov", "Simon Ward"]
+readme = "README.md"
+homepage = "https://github.com/tempscience"
+repository = "https://easyscience.apptimity.com/"
+documentation = "https://github.com/tempscience"
+include = ["CHANGELOG.md"]
+packages = [
+    { include = "easyTemplateApp" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+# easyScience
+easyAppLogic = { git = "https://github.com/tempScience/easyAppLogic.git", rev = "master" }
+easyAppGui = { git = "https://github.com/tempScience/easyAppGui.git", rev = "master" }
+easyTemplateLib = { git = "https://github.com/tempScience/easyTemplateLib.git", rev = "master" }
+
+[tool.poetry.dev-dependencies]
+# easyScience
+#easyTemplateLib = { path = '../easyTemplateLib' }
+#easyAppLogic = { path = "../easyAppLogic/" }
+#easyAppGui = { path = "../easyAppGui/" }
+# PyInstaller
+pyinstaller = "^3.6"
+macholib = "^1.14"
+pywin32-ctypes = { version = "^0.2.0", platform = "win32" }
+pefile = { version = "^2019.4.18", platform = "win32" }
+# Misc
+toml = "^0.10"
+matplotlib = "^3.2"
+requests = "^2.24"
+dephell_licenses = "^0.1"
+
+[tool.poetry.scripts]
+easyTemplateApp = "easyTemplateApp.main:main"
+
+# CUSTOM CONFIG
+
+[ci.project]
+license_file = "LICENSE" # how to combine this with tool.poetry.license???
+
+[ci.project.subdirs]
+distribution = '.Distribution'
+build = '.Build'
+download = '.Download'
+
+[ci.scripts]
+dir = ['Tools', 'Scripts']
+silent_install = 'SilentInstall.js'
+config_control = 'InstallerControlScript.js'
+package_install = 'InstallerInstallScript.js'
+
+[ci.app.icon]
+dir = ['Gui', 'Resources', 'Logo']
+file_name = 'App'
+file_ext = { macos = '.icns', linux = '.png', windows = '.ico' }
+
+[ci.app.setup]
+file_name_suffix = 'Setup'
+repository_dir_suffix = 'Repository'
+repository_os_suffix = { macos = 'MacOS', linux = 'Linux', windows = 'Windows' }
+file_ext = { macos = '.app', linux = '', windows = '.exe' }
+version = '0.1.0'
+maintenance_tool_suffix = 'Uninstaller'
+installation_dir = { macos = '/Applications', linux = '@ApplicationsDir@', windows = '@ApplicationsDir@' }
+
+[ci.app.setup.build]
+# config
+config_dir = 'config'
+config_xml = 'config.xml'
+# packages
+packages_dir = 'packages'
+url_subdir = 'org.easydiffraction'
+data_subsubdir = 'data'
+meta_subsubdir = 'meta'
+package_xml = 'package.xml'
+
+[ci.pyinstaller]
+separator = { macos = ':', linux = ':', windows = ';' }
+suffix = { macos = '.app', linux = '', windows = '' }
+
+[ci.qtifw.setup]
+version = '3.2.2'
+base_url = 'https://download.qt.io/official_releases/qt-installer-framework'
+file_name_base = 'QtInstallerFramework-'
+file_name_suffix = { macos = 'mac-x64', linux = 'linux-x64', windows = 'win-x86' }
+file_ext = { macos = '.dmg', linux = '.run', windows = '.exe' }
