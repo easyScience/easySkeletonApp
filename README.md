@@ -70,8 +70,8 @@ Template for easyScience applications
 [31]: https://github.com/easyScience/easyTemplateApp/releases
 
 <!---License--->
-[50]: https://img.shields.io/github/license/easyScience/easyTemplateApp.svg?color=blue&label=license
-[51]: https://github.com/easyScience/easyTemplateApp/blob/master/LICENSE
+[50]: https://img.shields.io/github/license/easyScience/easyTemplateApp.svg
+[51]: https://github.com/easyScience/easyTemplateApp/blob/master/LICENSE.md
 
 <!---LicenseScan--->
 [60]: https://app.fossa.com/api/projects/git%2Bgithub.com%2FeasyScience%2FeasyTemplateApp.svg?type=shield
