@@ -43,6 +43,10 @@ jobs:
       shell: bash
       run: echo ::set-env name=QWE::$(python Tools/Scripts/ProjectVar.py tool.poetry.name)
 
+    - name: Get current working dir
+      shell: bash
+      run: echo ::set-env name=CWD::$(python -c "import os; print(os.getcwd())")
+
     - name: Check-out the repository
       uses: actions/checkout@v2
 
@@ -69,35 +73,37 @@ jobs:
         echo '$RUNNER_OS:' $RUNNER_OS
         echo 'env.QWE:' ${{ env.QWE }}
         echo '$QWE:' $QWE
+        echo 'env.CWD:' ${{ env.CWD }}
+        echo '$CWD:' $CWD
 
     - name: Set up the Python environment
       uses: actions/setup-python@v2
       with:
           python-version: 3.7
 
-    - name: Set up python packages manager
-      uses: Gr1N/setup-poetry@v2
+#    - name: Set up python packages manager
+#      uses: Gr1N/setup-poetry@v2
 
-    - name: Create venv and install dependences
-      run: poetry update
+#    - name: Create venv and install dependences
+#      run: poetry update
 
-    - name: Create freezed python app
-      run: poetry run python $SCRIPTS_PATH/FreezeApp.py
+#    - name: Create freezed python app
+#      run: poetry run python $SCRIPTS_PATH/FreezeApp.py
 
-    - name: Create app installer
-      run: poetry run python $SCRIPTS_PATH/MakeInstaller.py
+#    - name: Create app installer
+#      run: poetry run python $SCRIPTS_PATH/MakeInstaller.py
 
-    - name: Create zip of archived artifacts
-      run: poetry run python $SCRIPTS_PATH/ZipArtifacts.py ${{ runner.os }} ${{ env.SHORT_GITHUB_REF }}
+#    - name: Create zip of archived artifacts
+#      run: poetry run python $SCRIPTS_PATH/ZipArtifacts.py ${{ runner.os }} ${{ env.SHORT_GITHUB_REF }}
 
-    - name: Upload artifacts to GitHub releases
-      uses: ncipollo/release-action@v1
-      with:
-        draft: true
-        prerelease: true
-        allowUpdates: true
-        replacesArtifacts: true
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit: ${{ env.SHORT_GITHUB_REF }}
-        tag: ${{ env.SHORT_GITHUB_REF }}
-        artifacts: ".Distribution/easyTemplateApp-*.zip"
+#    - name: Upload artifacts to GitHub releases
+#      uses: ncipollo/release-action@v1
+#      with:
+#        draft: true
+#        prerelease: true
+#        allowUpdates: true
+#        replacesArtifacts: true
+#        token: ${{ secrets.GITHUB_TOKEN }}
+#        commit: ${{ env.SHORT_GITHUB_REF }}
+#        tag: ${{ env.SHORT_GITHUB_REF }}
+#        artifacts: ".Distribution/easyTemplateApp-*.zip"
