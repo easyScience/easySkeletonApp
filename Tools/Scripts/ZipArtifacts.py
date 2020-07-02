@@ -4,6 +4,8 @@ import os, sys
 import Functions
 
 
+OS = sys.argv[1]
+BRANCH = sys.argv[2]
 CONFIG = Functions.config()
 
 def distributionDir():
@@ -18,9 +20,7 @@ def source():
 
 def destination():
     project_name = CONFIG['tool']['poetry']['name']
-    runner_os = Functions.environmentVariable('RUNNER_OS')
-    short_github_ref = Functions.environmentVariable('SHORT_GITHUB_REF')
-    setup_zip_name = f'{project_name}-{runner_os}-{short_github_ref}.zip'
+    setup_zip_name = f'{project_name}-{OS}-{BRANCH}.zip'
     setup_zip_path = os.path.join(distributionDir(), setup_zip_name)
     return setup_zip_path
 

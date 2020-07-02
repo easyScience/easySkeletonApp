@@ -31,7 +31,7 @@ jobs:
       SHORT_GITHUB_REF: ${GITHUB_REF#refs/*/}
       DOWNLOADS_PATH: .Download
       SCRIPTS_PATH: Tools/Scripts
-      
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
@@ -55,8 +55,10 @@ jobs:
         echo 'matrix.POETRY_VENV_PATH:' ${{ matrix.POETRY_VENV_PATH }}
         echo 'matrix.QT_PATH:' ${{ matrix.QT_PATH }}
         echo 'env.SHORT_GITHUB_REF:' ${{ env.SHORT_GITHUB_REF }}
-        echo 'env.DOWNLOADS_PATH:' ${{ env.DOWNLOADS_PATH }}
+        echo '$SHORT_GITHUB_REF:' $SHORT_GITHUB_REF
+        echo '$DOWNLOADS_PATH:' $DOWNLOADS_PATH
         echo '$SCRIPTS_PATH:' $SCRIPTS_PATH
+        echo '$RUNNER_OS:' $RUNNER_OS
 
     - name: Set up the Python environment
       uses: actions/setup-python@v2
@@ -76,7 +78,7 @@ jobs:
       run: poetry run python $SCRIPTS_PATH/MakeInstaller.py
 
     - name: Create zip of archived artifacts
-      run: poetry run python $SCRIPTS_PATH/ZipArtifacts.py
+      run: poetry run python $SCRIPTS_PATH/ZipArtifacts.py $RUNNER_OS $SHORT_GITHUB_REF
 
     - name: Upload artifacts to GitHub releases
       uses: ncipollo/release-action@v1
