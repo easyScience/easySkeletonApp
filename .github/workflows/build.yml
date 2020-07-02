@@ -35,6 +35,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
+    - name: Check-out the repository
+      uses: actions/checkout@v2
+
     - name: Declare os-independent env variables
       shell: bash
       run: echo ::set-env name=SHORT_GITHUB_REF::${GITHUB_REF#refs/*/}
@@ -47,8 +50,6 @@ jobs:
       shell: bash
       run: echo ::set-env name=CWD::$(python -c "import os; print(os.getcwd())")
 
-    - name: Check-out the repository
-      uses: actions/checkout@v2
 
     - name: Cache dependencies
       uses: actions/cache@v2
