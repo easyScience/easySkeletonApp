@@ -57,7 +57,7 @@ jobs:
 
     - name: Try python to set var
       shell: bash
-      run: echo ::set-env name=QWE::$(python Tools/Scripts/ProjectVar.py tool.poetry.name)
+      run: echo ::set-env name=QWE::$(python Tools/Scripts/Config.py tool.poetry.name)
 
     - name: Get current working dir
       shell: bash
