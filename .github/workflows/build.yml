@@ -6,6 +6,7 @@ on: [push]
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
+
   # This workflow contains a single job called "build"
   build:
 
@@ -90,6 +91,6 @@ jobs:
         allowUpdates: true
         replacesArtifacts: true
         token: ${{ secrets.GITHUB_TOKEN }}
-        commit: $SHORT_GITHUB_REF
-        tag: $SHORT_GITHUB_REF
-        artifacts: "$DISTRIBUTION_PATH/$APP_NAME-*.zip"
+        commit: ${{ env.SHORT_GITHUB_REF }}
+        tag: ${{ env.SHORT_GITHUB_REF }}
+        artifacts: "${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}-*.zip"
