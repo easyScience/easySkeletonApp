@@ -45,18 +45,6 @@ jobs:
         echo ::set-env name=POETRY_VENV_PATH::$(python pyproject.py ci.poetry.venv_path)
         echo ::set-env name=QTIFW_PATH::$(python pyproject.py ci.qtifw.setup.installation_path)
 
-    - name: Print variables
-      run: |
-        echo 'MATRIX_OS:' $MATRIX_OS ${{ matrix.os }}
-        echo 'RUNNER_OS:' $RUNNER_OS ${{ runner.os }}
-        echo 'SHORT_GITHUB_REF:' $SHORT_GITHUB_REF ${{ env.SHORT_GITHUB_REF }}
-        echo 'SCRIPTS_PATH:' $SCRIPTS_PATH
-        echo 'DOWNLOAD_PATH:' $DOWNLOAD_PATH
-        echo 'DISTRIBUTION_PATH:' $DISTRIBUTION_PATH
-        echo 'APP_NAME:' $APP_NAME
-        echo 'POETRY_VENV_PATH:' $POETRY_VENV_PATH
-        echo 'QTIFW_PATH:' $QTIFW_PATH
-
     - name: Cache dependencies
       uses: actions/cache@v2
       with:

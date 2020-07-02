@@ -87,7 +87,7 @@ meta_subsubdir = 'meta'
 package_xml = 'package.xml'
 
 [ci.poetry]
-venv_path = { macos = '$HOME/Library/Caches/pypoetry/virtualenvs', linux = '$HOME/.cache/pypoetry/virtualenvs', windows = '%USERPROFILE%\AppData\Local\pypoetry\Cache\virtualenvs' }
+venv_path = { macos = '/Users/runner/Library/Caches/pypoetry/virtualenvs', linux = '/home/runner/.cache/pypoetry/virtualenvs', windows = 'C:\Users\runneradmin\AppData\Local\pypoetry\Cache\virtualenvs' }
 
 [ci.pyinstaller]
 separator = { macos = ':', linux = ':', windows = ';' }
@@ -99,4 +99,4 @@ base_url = 'https://download.qt.io/official_releases/qt-installer-framework'
 file_name_base = 'QtInstallerFramework-'
 file_name_suffix = { macos = 'mac-x64', linux = 'linux-x64', windows = 'win-x86' }
 file_ext = { macos = '.dmg', linux = '.run', windows = '.exe' }
-installation_path = { macos = '~/Qt', linux = '~/Qt', windows = 'C:\Qt' }
+installation_path = { macos = '/Users/runner/Qt', linux = '/home/runner/Qt', windows = 'C:\Qt' }
