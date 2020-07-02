@@ -8,7 +8,7 @@ build-backend = "poetry.masonry.api"
 name = "easyTemplateApp"
 version = "0.1.0"
 description = "Template for easyScience applications"
-license = "GPL-3.0"
+license = "GPL-3.0-only"
 authors = ["Andrew Sazonov", "Simon Ward"]
 readme = "README.md"
 homepage = "https://github.com/tempscience"
@@ -48,7 +48,7 @@ easyTemplateApp = "easyTemplateApp.main:main"
 # CUSTOM CONFIG
 
 [ci.project]
-license_file = "LICENSE" # how to combine this with tool.poetry.license???
+license_file = "LICENSE.md" # how to combine this with tool.poetry.license???
 
 [ci.project.subdirs]
 distribution = '.Distribution'
