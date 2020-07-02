@@ -47,16 +47,15 @@ jobs:
 
     - name: Print variables
       run: |
-        echo 'matrix.os:' ${{ matrix.os }}
-        echo '$RUNNER_OS:' $RUNNER_OS
-        echo 'env.SHORT_GITHUB_REF:' ${{ env.SHORT_GITHUB_REF }}
-        echo '$SHORT_GITHUB_REF:' $SHORT_GITHUB_REF
-        echo '$SCRIPTS_PATH:' $SCRIPTS_PATH
-        echo '$DOWNLOAD_PATH:' $DOWNLOAD_PATH
-        echo '$DISTRIBUTION_PATH:' $DISTRIBUTION_PATH
-        echo '$APP_NAME:' $APP_NAME
-        echo '$POETRY_VENV_PATH:' $POETRY_VENV_PATH
-        echo '$QTIFW_PATH:' $QTIFW_PATH
+        echo 'MATRIX_OS:' $MATRIX_OS ${{ matrix.os }}
+        echo 'RUNNER_OS:' $RUNNER_OS ${{ runner.os }}
+        echo 'SHORT_GITHUB_REF:' $SHORT_GITHUB_REF ${{ env.SHORT_GITHUB_REF }}
+        echo 'SCRIPTS_PATH:' $SCRIPTS_PATH
+        echo 'DOWNLOAD_PATH:' $DOWNLOAD_PATH
+        echo 'DISTRIBUTION_PATH:' $DISTRIBUTION_PATH
+        echo 'APP_NAME:' $APP_NAME
+        echo 'POETRY_VENV_PATH:' $POETRY_VENV_PATH
+        echo 'QTIFW_PATH:' $QTIFW_PATH
 
     - name: Cache dependencies
       uses: actions/cache@v2
