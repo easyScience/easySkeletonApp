@@ -19,18 +19,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        # Declare os-dependent env variables
-        include:
-        - os: ubuntu-latest
-          POETRY_PATH: /home/runner/.poetry
-          POETRY_VENV_PATH: /home/runner/.cache/pypoetry/virtualenvs
-          QT_PATH: /home/runner/Qt
 
     # Declare os-independent env variables
     env:
       SHORT_GITHUB_REF: ${GITHUB_REF#refs/*/}
-      DOWNLOADS_PATH: .Download
-      SCRIPTS_PATH: Tools/Scripts
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -46,31 +38,20 @@ jobs:
     - name: Setup project config parser
       run: pip install toml
 
-
-    - name: Declare os-independent env variables
-      shell: bash
-      run: echo ::set-env name=SHORT_GITHUB_REF::${GITHUB_REF#refs/*/}
-
-    - name: Full py ver
-      shell: bash
-      run: echo ::set-env name=FULL_PYTHON_VERSION::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
-
     - name: Try python to set var
       shell: bash
-      run: echo ::set-env name=QWE::$(python Tools/Scripts/Config.py tool.poetry.name)
-
-    - name: Get current working dir
-      shell: bash
-      run: echo ::set-env name=CWD::$(python -c "import os; print(os.getcwd())")
-
+      run: |
+        echo ::set-env name=POETRY_VENV_PATH::$(python Tools/Scripts/Config.py ci.poetry.venv_path)
+        echo ::set-env name=QTIFW_PATH::$(python Tools/Scripts/Config.py ci.qtifw.setup.installation_path)
+        echo ::set-env name=DOWNLOAD_PATH::$(python Tools/Scripts/Config.py ci.project.subdirs.download)
+        echo ::set-env name=SCRIPTS_PATH::$(python Tools/Scripts/Config.py ci.scripts.dir)
 
     - name: Cache dependencies
       uses: actions/cache@v2
       with:
         path: |
-          ${{ matrix.POETRY_PATH }}
-          ${{ matrix.POETRY_VENV_PATH }}
-          ${{ matrix.QT_PATH }}
+          ${{ env.POETRY_VENV_PATH }}
+          ${{ env.QTIFW_PATH }}
           ${{ env.DOWNLOADS_PATH }}
         key: ${{ matrix.os }}-poetry-${{ hashFiles('poetry.lock') }}
 
@@ -78,18 +59,13 @@ jobs:
       run: |
         echo 'matrix.os:' ${{ matrix.os }}
         echo 'matrix.POETRY_PATH:' ${{ matrix.POETRY_PATH }}
-        echo 'matrix.POETRY_VENV_PATH:' ${{ matrix.POETRY_VENV_PATH }}
-        echo 'matrix.QT_PATH:' ${{ matrix.QT_PATH }}
+        echo 'env.POETRY_VENV_PATH:' ${{ env.POETRY_VENV_PATH }}
+        echo 'env.QTIFW_PATH:' ${{ env.QTIFW_PATH }}
         echo 'env.SHORT_GITHUB_REF:' ${{ env.SHORT_GITHUB_REF }}
         echo '$SHORT_GITHUB_REF:' $SHORT_GITHUB_REF
         echo '$DOWNLOADS_PATH:' $DOWNLOADS_PATH
         echo '$SCRIPTS_PATH:' $SCRIPTS_PATH
         echo '$RUNNER_OS:' $RUNNER_OS
-        echo 'env.QWE:' ${{ env.QWE }}
-        echo '$QWE:' $QWE
-        echo 'env.CWD:' ${{ env.CWD }}
-        echo '$CWD:' $CWD
-        echo '$FULL_PYTHON_VERSION:' $FULL_PYTHON_VERSION
 
 
 #    - name: Set up python packages manager
