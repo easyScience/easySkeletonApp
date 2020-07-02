@@ -1,0 +1,91 @@
+name: macOS, Linux, Windows
+
+# Controls when the action will run. Triggers the workflow on push events
+on: [push]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+
+  # This workflow contains a single job called "build"
+  build:
+
+    # CI skip conditions
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+
+    # Build matrix for different platforms
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        # Declare os-dependent env variables
+        include:
+        - os: ubuntu-latest
+          POETRY_PATH: /home/runner/.poetry
+          POETRY_VENV_PATH: /home/runner/.cache/pypoetry/virtualenvs
+          QT_PATH: /home/runner/Qt
+
+    # Declare os-independent env variables
+    env:
+      SHORT_GITHUB_REF: ${GITHUB_REF#refs/*/}
+      DOWNLOADS_PATH: .Download
+      SCRIPTS_PATH: Tools/Scripts
+      
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+
+    - name: Check-out the repository
+      uses: actions/checkout@v2
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          ${{ matrix.POETRY_PATH }}
+          ${{ matrix.POETRY_VENV_PATH }}
+          ${{ matrix.QT_PATH }}
+          ${{ env.DOWNLOADS_PATH }}
+        key: ${{ matrix.os }}-poetry-${{ hashFiles('poetry.lock') }}
+
+    - name: Print variables
+      run: |
+        echo 'matrix.os:' ${{ matrix.os }}
+        echo 'matrix.POETRY_PATH:' ${{ matrix.POETRY_PATH }}
+        echo 'matrix.POETRY_VENV_PATH:' ${{ matrix.POETRY_VENV_PATH }}
+        echo 'matrix.QT_PATH:' ${{ matrix.QT_PATH }}
+        echo 'env.SHORT_GITHUB_REF:' ${{ env.SHORT_GITHUB_REF }}
+        echo 'env.DOWNLOADS_PATH:' ${{ env.DOWNLOADS_PATH }}
+        echo '$SCRIPTS_PATH:' $SCRIPTS_PATH
+
+    - name: Set up the Python environment
+      uses: actions/setup-python@v2
+      with:
+          python-version: 3.7
+
+    - name: Set up python packages manager
+      uses: Gr1N/setup-poetry@v2
+
+    - name: Create venv and install dependences
+      run: poetry update
+
+    - name: Create freezed python app
+      run: poetry run python $SCRIPTS_PATH/FreezeApp.py
+
+    - name: Create app installer
+      run: poetry run python $SCRIPTS_PATH/MakeInstaller.py
+
+    - name: Create zip of archived artifacts
+      run: poetry run python $SCRIPTS_PATH/ZipArtifacts.py
+
+    - name: Upload artifacts to GitHub releases
+      uses: ncipollo/release-action@v1
+      with:
+        draft: true
+        prerelease: true
+        allowUpdates: true
+        replacesArtifacts: true
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit: ${{ env.SHORT_GITHUB_REF }}
+        tag: ${{ env.SHORT_GITHUB_REF }}
+        artifacts: ".Distribution/easyTemplateApp-*.zip"
