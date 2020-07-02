@@ -20,10 +20,6 @@ jobs:
       matrix:
         os: [ubuntu-latest]
 
-    # Declare os-independent env variables
-    env:
-      SHORT_GITHUB_REF: ${GITHUB_REF#refs/*/}
-
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
@@ -38,13 +34,29 @@ jobs:
     - name: Setup project config parser
       run: pip install toml
 
-    - name: Try python to set var
+    - name: Declare env variables
       shell: bash
       run: |
-        echo ::set-env name=POETRY_VENV_PATH::$(python Tools/Scripts/Config.py ci.poetry.venv_path)
-        echo ::set-env name=QTIFW_PATH::$(python Tools/Scripts/Config.py ci.qtifw.setup.installation_path)
-        echo ::set-env name=DOWNLOAD_PATH::$(python Tools/Scripts/Config.py ci.project.subdirs.download)
-        echo ::set-env name=SCRIPTS_PATH::$(python Tools/Scripts/Config.py ci.scripts.dir)
+        echo ::set-env name=SHORT_GITHUB_REF::${GITHUB_REF#refs/*/}
+        echo ::set-env name=SCRIPTS_PATH::Tools/Scripts
+        echo ::set-env name=DOWNLOAD_PATH::$(python $SCRIPTS_PATH/Config.py ci.project.subdirs.download)
+        echo ::set-env name=DISTRIBUTION_PATH::$(python $SCRIPTS_PATH/Config.py ci.project.subdirs.distribution)
+        echo ::set-env name=APP_NAME::$(python $SCRIPTS_PATH/Config.py tool.poetry.name)
+        echo ::set-env name=POETRY_VENV_PATH::$(python $SCRIPTS_PATH/Config.py ci.poetry.venv_path)
+        echo ::set-env name=QTIFW_PATH::$(python $SCRIPTS_PATH/Config.py ci.qtifw.setup.installation_path)
+
+    - name: Print variables
+      run: |
+        echo 'matrix.os:' ${{ matrix.os }}
+        echo '$RUNNER_OS:' $RUNNER_OS
+        echo 'env.SHORT_GITHUB_REF:' ${{ env.SHORT_GITHUB_REF }}
+        echo '$SHORT_GITHUB_REF:' $SHORT_GITHUB_REF
+        echo '$SCRIPTS_PATH:' $SCRIPTS_PATH
+        echo '$DOWNLOAD_PATH:' $DOWNLOAD_PATH
+        echo '$DISTRIBUTION_PATH:' $DISTRIBUTION_PATH
+        echo '$APP_NAME:' $APP_NAME
+        echo '$POETRY_VENV_PATH:' $POETRY_VENV_PATH
+        echo '$QTIFW_PATH:' $QTIFW_PATH
 
     - name: Cache dependencies
       uses: actions/cache@v2
@@ -52,45 +64,32 @@ jobs:
         path: |
           ${{ env.POETRY_VENV_PATH }}
           ${{ env.QTIFW_PATH }}
-          ${{ env.DOWNLOADS_PATH }}
+          ${{ env.DOWNLOAD_PATH }}
         key: ${{ matrix.os }}-poetry-${{ hashFiles('poetry.lock') }}
 
-    - name: Print variables
-      run: |
-        echo 'matrix.os:' ${{ matrix.os }}
-        echo 'matrix.POETRY_PATH:' ${{ matrix.POETRY_PATH }}
-        echo 'env.POETRY_VENV_PATH:' ${{ env.POETRY_VENV_PATH }}
-        echo 'env.QTIFW_PATH:' ${{ env.QTIFW_PATH }}
-        echo 'env.SHORT_GITHUB_REF:' ${{ env.SHORT_GITHUB_REF }}
-        echo '$SHORT_GITHUB_REF:' $SHORT_GITHUB_REF
-        echo '$DOWNLOADS_PATH:' $DOWNLOADS_PATH
-        echo '$SCRIPTS_PATH:' $SCRIPTS_PATH
-        echo '$RUNNER_OS:' $RUNNER_OS
+    - name: Set up python packages manager
+      uses: Gr1N/setup-poetry@v2
 
+    - name: Create venv and install dependences
+      run: poetry update
 
-#    - name: Set up python packages manager
-#      uses: Gr1N/setup-poetry@v2
+    - name: Create freezed python app
+      run: poetry run python $SCRIPTS_PATH/FreezeApp.py
 
-#    - name: Create venv and install dependences
-#      run: poetry update
+    - name: Create app installer
+      run: poetry run python $SCRIPTS_PATH/MakeInstaller.py
 
-#    - name: Create freezed python app
-#      run: poetry run python $SCRIPTS_PATH/FreezeApp.py
+    - name: Create zip of archived artifacts
+      run: poetry run python $SCRIPTS_PATH/ZipArtifacts.py $RUNNER_OS $SHORT_GITHUB_REF
 
-#    - name: Create app installer
-#      run: poetry run python $SCRIPTS_PATH/MakeInstaller.py
-
-#    - name: Create zip of archived artifacts
-#      run: poetry run python $SCRIPTS_PATH/ZipArtifacts.py ${{ runner.os }} ${{ env.SHORT_GITHUB_REF }}
-
-#    - name: Upload artifacts to GitHub releases
-#      uses: ncipollo/release-action@v1
-#      with:
-#        draft: true
-#        prerelease: true
-#        allowUpdates: true
-#        replacesArtifacts: true
-#        token: ${{ secrets.GITHUB_TOKEN }}
-#        commit: ${{ env.SHORT_GITHUB_REF }}
-#        tag: ${{ env.SHORT_GITHUB_REF }}
-#        artifacts: ".Distribution/easyTemplateApp-*.zip"
+    - name: Upload artifacts to GitHub releases
+      uses: ncipollo/release-action@v1
+      with:
+        draft: true
+        prerelease: true
+        allowUpdates: true
+        replacesArtifacts: true
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit: $SHORT_GITHUB_REF
+        tag: $SHORT_GITHUB_REF
+        artifacts: "$DISTRIBUTION_PATH/$APP_NAME-*.zip"
