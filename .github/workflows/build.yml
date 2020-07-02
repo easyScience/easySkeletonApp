@@ -35,6 +35,14 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
+    - name: Declare os-independent env variables
+      shell: bash
+      run: echo ::set-env name=SHORT_GITHUB_REF::${GITHUB_REF#refs/*/}
+
+    - name: Try python to set var
+      shell: bash
+      run: echo ::set-env name=QWE::$(python Tools/Scripts/ProjectVar.py tool.poetry.name)
+
     - name: Check-out the repository
       uses: actions/checkout@v2
 
@@ -59,6 +67,8 @@ jobs:
         echo '$DOWNLOADS_PATH:' $DOWNLOADS_PATH
         echo '$SCRIPTS_PATH:' $SCRIPTS_PATH
         echo '$RUNNER_OS:' $RUNNER_OS
+        echo 'env.QWE:' ${{ env.QWE }}
+        echo '$QWE:' $QWE
 
     - name: Set up the Python environment
       uses: actions/setup-python@v2
