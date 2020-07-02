@@ -45,14 +45,14 @@ jobs:
         echo ::set-env name=POETRY_VENV_PATH::$(python pyproject.py ci.poetry.venv_path ${{ matrix.os }})
         echo ::set-env name=QTIFW_PATH::$(python pyproject.py ci.qtifw.setup.installation_path ${{ matrix.os }})
 
-#    - name: Cache dependencies
-#      uses: actions/cache@v2
-#      with:
-#        path: |
-#          ${{ env.POETRY_VENV_PATH }}
-#          ${{ env.QTIFW_PATH }}
-#          ${{ env.DOWNLOAD_PATH }}
-#        key: ${{ matrix.os }}-poetry-${{ hashFiles('poetry.lock') }}
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          ${{ env.POETRY_VENV_PATH }}
+          ${{ env.QTIFW_PATH }}
+          ${{ env.DOWNLOAD_PATH }}
+        key: ${{ matrix.os }}-poetry-${{ hashFiles('poetry.lock') }}
 
     - name: Set up python packages manager
       uses: Gr1N/setup-poetry@v2
