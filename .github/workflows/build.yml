@@ -43,6 +43,10 @@ jobs:
       with:
           python-version: 3.7
 
+    - name: Setup project config parser
+      run: pip install toml
+
+
     - name: Declare os-independent env variables
       shell: bash
       run: echo ::set-env name=SHORT_GITHUB_REF::${GITHUB_REF#refs/*/}
