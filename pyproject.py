@@ -9,28 +9,21 @@ def config():
     project_fpath = os.path.join(os.getcwd(), project_fname)
     return toml.load(project_fpath)
 
-def osName():
-    platform = sys.platform
-    if platform.startswith('darwin'):
-        return 'macos'
-    elif platform.startswith('lin'):
-        return 'linux'
-    elif platform.startswith('win'):
-        return 'windows'
-    else:
-        print("- Unsupported platform '{0}'".format(platform))
-        return None
+def keyPath():
+    if len(sys.argv) < 2:
+        return ''
+    path = sys.argv[1]
+    if len(sys.argv) > 2:
+        os = sys.argv[2].split('-')[0]
+        path += '.' + os
+    return path
 
-def key():
-    return sys.argv[1]
-
-def getValue(json, element):
+def getValue(d, element):
     keys = element.split('.')
-    rv = json
+    rv = d
     for key in keys:
         rv = rv[key]
-    if isinstance(rv, dict):
-        rv = rv[osName()]
     return rv
 
-print(getValue(config(), key()))
+if __name__ == "__main__":
+    print(getValue(config(), keyPath()))
