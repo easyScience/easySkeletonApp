@@ -74,13 +74,13 @@ jobs:
       run: poetry update
 
     - name: Create freezed python app
-      run: poetry run python $SCRIPTS_PATH/FreezeApp.py
+      run: poetry run python ${{ env.SCRIPTS_PATH }}/FreezeApp.py
 
     - name: Create app installer
-      run: poetry run python $SCRIPTS_PATH/MakeInstaller.py
+      run: poetry run python ${{ env.SCRIPTS_PATH }}/MakeInstaller.py
 
     - name: Create zip of archived artifacts
-      run: poetry run python $SCRIPTS_PATH/ZipArtifacts.py $RUNNER_OS $SHORT_GITHUB_REF
+      run: poetry run python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ runner.os }} ${{ env.SHORT_GITHUB_REF }}
 
     - name: Upload artifacts to GitHub releases
       uses: ncipollo/release-action@v1
