@@ -30,7 +30,7 @@ def getValue(json, element):
     for key in keys:
         rv = rv[key]
     if isinstance(rv, dict):
-        rv = rv[Functions.osName()]
+        rv = rv[osName()]
     return rv
 
 print(getValue(config(), key()))
