@@ -38,9 +38,18 @@ jobs:
     - name: Check-out the repository
       uses: actions/checkout@v2
 
+    - name: Set up the Python environment
+      uses: actions/setup-python@v2
+      with:
+          python-version: 3.7
+
     - name: Declare os-independent env variables
       shell: bash
       run: echo ::set-env name=SHORT_GITHUB_REF::${GITHUB_REF#refs/*/}
+
+    - name: Full py ver
+      shell: bash
+      run: echo ::set-env name=FULL_PYTHON_VERSION::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
 
     - name: Try python to set var
       shell: bash
@@ -76,11 +85,8 @@ jobs:
         echo '$QWE:' $QWE
         echo 'env.CWD:' ${{ env.CWD }}
         echo '$CWD:' $CWD
+        echo '$FULL_PYTHON_VERSION:' $FULL_PYTHON_VERSION
 
-    - name: Set up the Python environment
-      uses: actions/setup-python@v2
-      with:
-          python-version: 3.7
 
 #    - name: Set up python packages manager
 #      uses: Gr1N/setup-poetry@v2
