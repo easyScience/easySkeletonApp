@@ -54,7 +54,7 @@ def distributionDir():
     return CONFIG['ci']['project']['subdirs']['distribution']
 
 def scriptsDir():
-    return CONFIG['ci']['scripts']['dir']
+    return CONFIG['ci']['project']['subdir']['scripts']
 
 def setupBuildDir():
     return os.path.join(CONFIG['ci']['project']['subdirs']['build'], setupName())
