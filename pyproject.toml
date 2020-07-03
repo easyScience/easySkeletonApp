@@ -35,6 +35,7 @@ easyTemplateLib = { git = "https://github.com/tempScience/easyTemplateLib.git", 
 pyinstaller = "^3.6"
 macholib = "^1.14"
 pywin32-ctypes = { version = "^0.2.0", platform = "win32" }
+pypiwin32 = { version = "^223", platform = "win32" }
 pefile = { version = "^2019.4.18", platform = "win32" }
 # Misc
 toml = "^0.10"
