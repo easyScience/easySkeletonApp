@@ -90,7 +90,7 @@ def osName():
     if platform.startswith('darwin'):
         return 'macos'
     elif platform.startswith('lin'):
-        return 'linux'
+        return 'ubuntu'
     elif platform.startswith('win'):
         return 'windows'
     else:

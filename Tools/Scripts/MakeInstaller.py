@@ -26,7 +26,7 @@ def qtifwSetupExe():
     setup_name, _ = os.path.splitext(qtifwSetupFileName())
     d = {
         'macos': f'/Volumes/{setup_name}/{setup_name}.app/Contents/MacOS/{setup_name}',
-        'linux': qtifwSetupDownloadDest(),
+        'ubuntu': qtifwSetupDownloadDest(),
         'windows': qtifwSetupDownloadDest()
     }
     return d[Functions.osName()]
@@ -36,7 +36,7 @@ def qtifwDirPath():
     qtifw_version = CONFIG['ci']['qtifw']['setup']['version']
     d = {
         'macos': f'{home_dir}/Qt/QtIFW-{qtifw_version}',
-        'linux': f'{home_dir}/Qt/QtIFW-{qtifw_version}',
+        'ubuntu': f'{home_dir}/Qt/QtIFW-{qtifw_version}',
         'windows': f'C:\\Qt\\QtIFW-{qtifw_version}'
     }
     return d[Functions.osName()]
@@ -161,7 +161,7 @@ def osDependentPreparation():
     message = f'prepare for os {Functions.osName()}'
     if Functions.osName() == 'macos':
         Functions.attachDmg(qtifwSetupDownloadDest())
-    elif Functions.osName() == 'linux':
+    elif Functions.osName() == 'ubuntu':
         Functions.run('sudo', 'apt-get', 'install', '-qq', 'libxkbcommon-x11-0')
         Functions.setEnvironmentVariable('QT_QPA_PLATFORM', 'minimal')
         Functions.addReadPermission(qtifwSetupExe())
