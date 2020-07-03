@@ -92,9 +92,9 @@ venv_path = { macos = '/Users/runner/Library/Caches/pypoetry/virtualenvs', ubunt
 [ci.pyinstaller]
 separator = { macos = ':', ubuntu = ':', windows = ';' }
 suffix = { macos = '.app', ubuntu = '', windows = '' }
-missing_files = { macos = ['libshiboken2.abi3.*.dylib'], ubuntu = [], windows = ['shiboken2.abi3.dll', 'MSVCP140.dll'] }
-missing_plugins = { macos = [''], ubuntu = ['Qt/plugins/xcbglintegrations'], windows = [''] }
-  
+missing_pyside2_files = { macos = ['libshiboken2.abi3.*.dylib'], ubuntu = [], windows = ['shiboken2.abi3.dll', 'MSVCP140.dll'] }
+missing_pyside2_plugins = { macos = [''], ubuntu = ['Qt/plugins/xcbglintegrations'], windows = [''] } # EGL and GLX plugins
+
 [ci.qtifw.setup]
 version = '3.2.2'
 base_url = 'https://download.qt.io/official_releases/qt-installer-framework'

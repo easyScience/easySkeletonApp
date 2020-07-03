@@ -73,12 +73,12 @@ def runPyInstaller():
         Functions.printSuccessMessage(message)
 
 def copyMissingLibs():
-    missing_files = CONFIG['ci']['pyinstaller']['missing_files'][Functions.osName()]
+    missing_files = CONFIG['ci']['pyinstaller']['missing_pyside2_files'][Functions.osName()]
     if len(missing_files) == 0:
-        Functions.printNeutralMessage(f'No missing libraries for os {Functions.osName()}')
+        Functions.printNeutralMessage(f'No missing PySide2 libraries for os {Functions.osName()}')
         exit()
     try:
-        message = 'copy missing libraries'
+        message = 'copy missing PySide2 libraries'
         pyside2_path = PySide2.__path__[0]
         shiboken2_path = shiboken2.__path__[0]
         for file_name in missing_files:
@@ -91,6 +91,27 @@ def copyMissingLibs():
     else:
         Functions.printSuccessMessage(message)
 
+def copyMissingPlugins():
+    missing_plugins = CONFIG['ci']['pyinstaller']['missing_pyside2_plugins'][Functions.osName()]
+    if len(missing_plugins) == 0:
+        Functions.printNeutralMessage(f'No missing PySide2 plugins for os {Functions.osName()}')
+        exit()
+    try:
+        message = 'copy missing PySide2 plugins'
+        pyside2_path = PySide2.__path__[0]
+            app_plugins_path = os.path.join(distributionDirPath(), appName(), 'PySide2', 'plugins')
+            for relative_dir_path in missing_plugins:
+                src_dir_name = os.path.basename(relative_dir_path)
+                src_dir_path = os.path.join(pyside2_path, relative_dir_path)
+                dst_dir_path = os.path.join(app_plugins_path, src_dir_name)
+                Functions.copyDir(src_dir_path, dst_dir_path)
+    except Exception as exception:
+        Functions.printFailMessage(message, exception)
+        sys.exit()
+    else:
+        Functions.printSuccessMessage(message)
+
 if __name__ == "__main__":
     copyMissingLibs()
+    copyMissingPlugins()
     runPyInstaller()

@@ -3,9 +3,9 @@
 import os, sys
 import toml
 import subprocess
-import zipfile
 import requests
-import shutil
+import shutil, distutils
+import zipfile
 
 # FUNCTIONS
 
@@ -139,6 +139,20 @@ def createFile(path, content):
     else:
         printSuccessMessage(message)
 
+def copyFile(source, destination):
+    path = os.path.join(destination, os.path.basename(source))
+    if os.path.exists(path):
+        printNeutralMessage(f'File already exists {path}')
+        return
+    try:
+        message = f'copy file {source} to {destination}'
+        shutil.copy2(source, destination, follow_symlinks=True)
+    except Exception as exception:
+        printFailMessage(message, exception)
+        sys.exit()
+    else:
+        printSuccessMessage(message)
+
 def createDir(path):
     if os.path.exists(path):
         printNeutralMessage(f'Directory already exists {path}')
@@ -152,14 +166,14 @@ def createDir(path):
     else:
         printSuccessMessage(message)
 
-def copyFile(source, destination):
+def copyDir(source, destination):
     path = os.path.join(destination, os.path.basename(source))
     if os.path.exists(path):
-        printNeutralMessage(f'File already exists {path}')
+        printNeutralMessage(f'Directory already exists {path}')
         return
     try:
-        message = f'copy file {source} to {destination}'
-        shutil.copy2(source, destination, follow_symlinks=True)
+        message = f'copy dir {source} to {destination}'
+        distutils.dir_util.copy_tree(source, destination)
     except Exception as exception:
         printFailMessage(message, exception)
         sys.exit()
