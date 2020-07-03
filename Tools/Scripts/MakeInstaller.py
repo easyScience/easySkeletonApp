@@ -265,5 +265,5 @@ if __name__ == "__main__":
     osDependentPreparation()
     installQtInstallerFramework()
     createInstallerSourceDir()
-    createOnlineRepository()
+    #createOnlineRepository()
     createInstaller()

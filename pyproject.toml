@@ -5,7 +5,7 @@ requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
 [tool.poetry]
-name = "easyTemplateApp"
+name = "easyTemplate"
 version = "0.1.0"
 description = "Template for easyScience applications"
 license = "GPL-3.0-only"
@@ -44,7 +44,7 @@ requests = "^2.24"
 dephell_licenses = "^0.1"
 
 [tool.poetry.scripts]
-easyTemplateApp = "easyTemplateApp.main:main"
+easyTemplate = "easyTemplateApp.main:main"
 
 # CUSTOM CONFIG
 

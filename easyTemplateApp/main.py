@@ -9,15 +9,11 @@ from easyTemplateApp.Logic.PyQmlProxy import PyQmlProxy
 
 def main():
     # Define paths
-    current_path = os.path.dirname(os.path.abspath(__file__))
-    # current_path = os.path.dirname(sys.argv[0])
-    main_qml_path = QUrl.fromLocalFile(os.path.join(current_path, "Gui", "main.qml"))
-    gui_path = str(QUrl.fromLocalFile(os.path.join(current_path)).toString())
+    current_path = os.path.dirname(sys.argv[0])
+    package_path = os.path.join(current_path, "easyTemplateApp")
+    main_qml_path = QUrl.fromLocalFile(os.path.join(package_path, "Gui", "main.qml"))
+    gui_path = str(QUrl.fromLocalFile(package_path).toString())
     easyAppGui_path = easyAppGui.__path__[0]
-    #print("current_path", current_path)
-    #print("main_qml_path", main_qml_path)
-    #print("gui_path", gui_path)
-    #print("easyAppGui_path", easyAppGui_path)
 
     # Create a proxy object between python logic and QML GUI
     py_qml_proxy_obj = PyQmlProxy()
@@ -28,7 +24,7 @@ def main():
 
     # Create qml application engine
     engine = QQmlApplicationEngine()
-    engine.rootContext().setContextProperty("_screenshotPath", os.path.join(current_path, "..", "dist", "screenshot.png"))
+    #engine.rootContext().setContextProperty("_screenshotPath", os.path.join(current_path, "..", "dist", "screenshot.png"))
     engine.rootContext().setContextProperty("_pyQmlProxyObj", py_qml_proxy_obj)
     engine.addImportPath(easyAppGui_path)
     engine.addImportPath(gui_path)

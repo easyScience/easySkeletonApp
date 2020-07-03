@@ -10,17 +10,17 @@ from PyInstaller.__main__ import run as pyInstallerMain
 
 CONFIG = Functions.config()
 
-def package_name():
+def appName():
     return CONFIG['tool']['poetry']['name']
+
+def package_name():
+    return f'{appName()}App'
 
 def separator():
     return CONFIG['ci']['pyinstaller']['separator'][Functions.osName()]
 
 def mainPyPath():
     return os.path.join(os.getcwd(), package_name(), 'main.py')
-
-def appName():
-    return package_name()
 
 def distributionDirPath():
     return os.path.join(os.getcwd(), CONFIG['ci']['project']['subdirs']['distribution'])
@@ -29,7 +29,7 @@ def workDirPath():
     return os.path.join(os.getcwd(), CONFIG['ci']['project']['subdirs']['build'])
 
 def projectData():
-    return f'{package_name()}{separator()}.'
+    return f'{package_name()}{separator()}{package_name()}'
 
 def easyTemplateLibData():
     return f'{easyTemplateLib.__path__[0]}{separator()}.'
@@ -60,6 +60,12 @@ def runPyInstaller():
             '--log-level', 'WARN',                   # LEVEL may be one of DEBUG, INFO, WARN, ERROR, CRITICAL (default: INFO).
             '--distpath', distributionDirPath(),     # Where to put the bundled app (default: ./dist)
             '--workpath', workDirPath(),             # Where to put all the temporary work files, .log, .pyz and etc. (default: ./build)
+            '--exclude-module', 'FixTk',             # Exclude tcl/tk toolkit
+            '--exclude-module', 'tcl',
+            '--exclude-module', 'tk',
+            '--exclude-module', '_tkinter',
+            '--exclude-module', 'tkinter',
+            '--exclude-module', 'Tkinter',
             f'--add-data={projectData()}',           # Add both project Python and QML source files
             f'--add-data={easyTemplateLibData()}',   # Add easyTemplateLib package
             f'--add-data={easyAppLogicData()}',      # Add easyAppLogic package
