@@ -25,8 +25,8 @@ def destination():
     setup_zip_path = os.path.join(distributionDir(), setup_zip_name)
     return setup_zip_path
 
-def zipDir():
-    Functions.zipDir(source(), destination())
+def zip():
+    Functions.zip(source(), destination())
 
 if __name__ == "__main__":
-    zipDir()
+    zip()

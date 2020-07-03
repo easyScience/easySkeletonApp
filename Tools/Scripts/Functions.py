@@ -236,29 +236,40 @@ def dict2xml(d, root_node=None, add_xml_version=True):
 
     return xml
 
-def zipDir(source, destination):
+def zip(source, destination):
     # https://thispointer.com/python-how-to-create-a-zip-archive-from-multiple-files-or-directory/
     # https://stackoverflow.com/questions/27991745/zip-file-and-avoid-directory-structure
     # https://stackoverflow.com/questions/32640053/compressing-directory-using-shutil-make-archive-while-preserving-directory-str
     # Zip all the files from given directory
     """
-    Compress a directory (ZIP file).
+    Compress a file/directory.
     """
     # Check if src exists
     if not os.path.exists(source):
-        printFailMessage(f"zip directory (it doesn't exist) {source}")
+        printFailMessage(f"zip file/directory (it doesn't exist): {source}")
         sys.exit()
         return
     # create a ZipFile object
     try:
-        message = f'zip dir {source} to {destination}'
         with zipfile.ZipFile(destination, 'w') as zf:
             rootdirname = os.path.basename(source)
-            for dirpath, _, filenames in os.walk(source):
-                for filename in filenames:
-                    filepath = os.path.join(dirpath, filename)
-                    arcpath = os.path.relpath(filepath, rootdirname)
-                    zf.write(filepath, arcpath)
+            if os.path.isfile(source):
+                message = f'zip file {source} to {destination}'
+                filepath = source
+                parentpath = os.path.relpath(filepath, source)
+                arcpath = os.path.join(rootdirname, parentpath)
+                zf.write(filepath, arcpath)
+            elif os.path.isdir(source):
+                message = f'zip dir {source} to {destination}'
+                for dirpath, _, filenames in os.walk(source):
+                    for filename in filenames:
+                        filepath = os.path.join(dirpath, filename)
+                        parentpath = os.path.relpath(filepath, source)
+                        arcpath = os.path.join(rootdirname, parentpath)
+                        zf.write(filepath, arcpath)
+            else:
+                printFailMessage(message + ": It is a special file (socket, FIFO, device file)" )
+                sys.exit()
     except Exception as exception:
         printFailMessage(message, exception)
         sys.exit()
