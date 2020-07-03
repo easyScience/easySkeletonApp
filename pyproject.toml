@@ -6,7 +6,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "easyTemplate"
-version = "0.1.0"
+version = "0.1.1"
 description = "Template for easyScience applications"
 license = "GPL-3.0-only"
 authors = ["Andrew Sazonov", "Simon Ward"]
@@ -15,9 +15,7 @@ homepage = "https://github.com/tempscience"
 repository = "https://easyscience.apptimity.com/"
 documentation = "https://github.com/tempscience"
 include = ["CHANGELOG.md"]
-packages = [
-    { include = "easyTemplateApp" }
-]
+packages = [ { include = "easyTemplateApp" } ]
 
 [tool.poetry.dependencies]
 python = "^3.7"

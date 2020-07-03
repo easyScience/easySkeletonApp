@@ -52,13 +52,17 @@ jobs:
           ${{ env.POETRY_VENV_PATH }}
           ${{ env.QTIFW_PATH }}
           ${{ env.DOWNLOAD_PATH }}
-        key: poetry-${{ matrix.os }}-${{ hashFiles('poetry.lock') }}
+        key: ${{ matrix.os }}-poetry-${{ hashFiles('poetry.lock') }}
 
     - name: Set up python packages manager
       uses: Gr1N/setup-poetry@v2
 
     - name: Create venv and install dependences
       run: poetry update
+
+    - name: Test app
+      if: runner.os == 'macOS'
+      run: poetry run easyTemplate debug
 
     - name: Create freezed python app
       run: poetry run python ${{ env.SCRIPTS_PATH }}/FreezeApp.py
