@@ -254,6 +254,7 @@ EaComponents.ApplicationWindow {
     }
 
 
+    /*
     Timer {
         id: quit
         interval: 5000
@@ -271,6 +272,7 @@ EaComponents.ApplicationWindow {
             quit.start()
         }
     }
+    */
 
     /*
     Item {

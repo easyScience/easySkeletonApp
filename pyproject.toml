@@ -53,6 +53,7 @@ license_file = "LICENSE.md" # how to combine this with tool.poetry.license???
 distribution = '.Distribution'
 build = '.Build'
 download = '.Download'
+screenshots = '.Screenshots'
 scripts = 'Tools/Scripts'
 
 [ci.scripts]

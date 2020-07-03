@@ -32,7 +32,8 @@ def appExePath():
 def runApp():
     try:
         message = f'run {appName()}'
-        Functions.run(appExePath(), 'debug')
+        screenshots_path = CONFIG['ci']['project']['subdirs']['screenshots']
+        Functions.run(appExePath(), 'test', screenshots_path)
     except Exception as exception:
         Functions.printFailMessage(message, exception)
         sys.exit()

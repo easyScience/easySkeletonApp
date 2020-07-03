@@ -60,9 +60,9 @@ jobs:
     - name: Create venv and install dependences
       run: poetry update
 
-    - name: Test app
-      if: runner.os == 'macOS'
-      run: poetry run easyTemplate debug
+    #- name: Test app
+    #  if: runner.os == 'macOS'
+    #  run: poetry run easyTemplate debug
 
     - name: Create freezed python app
       run: poetry run python ${{ env.SCRIPTS_PATH }}/FreezeApp.py
@@ -70,7 +70,7 @@ jobs:
     - name: Create app installer
       run: poetry run python ${{ env.SCRIPTS_PATH }}/MakeInstaller.py
 
-    - name: Test app 2
+    - name: Install and run app in debug mode
       if: runner.os == 'macOS'
       run: |
         poetry run python ${{ env.SCRIPTS_PATH }}/InstallApp.py

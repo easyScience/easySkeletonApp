@@ -8,6 +8,7 @@ import easyAppGui.Components 1.0 as EaComponents
 import Gui.Globals 1.0 as ExGlobals
 
 Item {
+    id: root
 
     Column {
         anchors.centerIn: parent
@@ -85,5 +86,34 @@ Item {
 
         rc.wait(1000)
         rc.hide()
+    }
+
+    Timer {
+        id: quit
+        interval: 3000
+        onTriggered: {
+            print("* closing app")
+            Qt.quit()
+        }
+    }
+
+    Timer {
+        id: saveScreenshot
+        onTriggered: {
+            print("* saving screenshot to", _screenshotsDir)
+            root.grabToImage(function(result) { result.saveToFile(_screenshotsDir) })
+            quit.start()
+        }
+    }
+
+    Component.onCompleted: {
+        if (_testMode) {
+            print('DEBUG MODE')
+            print("* run Tutorial 1")
+            runTutorial1()
+            //print("* closing app")
+            //Qt.quit()
+            saveScreenshot.start()
+        }
     }
 }
