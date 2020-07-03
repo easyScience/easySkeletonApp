@@ -154,6 +154,19 @@ def copyFile(source, destination):
     else:
         printSuccessMessage(message)
 
+def removeFile(path):
+    if not os.path.exists(path):
+        printNeutralMessage(f'File does not exist {path}')
+        return
+    try:
+        message = f'delete file {path}'
+        os.remove(path)
+    except Exception as exception:
+        printFailMessage(message, exception)
+        sys.exit()
+    else:
+        printSuccessMessage(message)
+
 def createDir(path):
     if os.path.exists(path):
         printNeutralMessage(f'Directory already exists {path}')

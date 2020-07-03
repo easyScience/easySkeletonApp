@@ -60,12 +60,7 @@ def runPyInstaller():
             '--log-level', 'WARN',                   # LEVEL may be one of DEBUG, INFO, WARN, ERROR, CRITICAL (default: INFO).
             '--distpath', distributionDirPath(),     # Where to put the bundled app (default: ./dist)
             '--workpath', workDirPath(),             # Where to put all the temporary work files, .log, .pyz and etc. (default: ./build)
-            '--exclude-module', 'FixTk',             # Exclude tcl/tk toolkit
-            '--exclude-module', 'tcl',
-            '--exclude-module', 'tk',
-            '--exclude-module', '_tkinter',
-            '--exclude-module', 'tkinter',
-            '--exclude-module', 'Tkinter',
+            '--exclude-module', '_tkinter',          # Exclude tcl/tk toolkit
             f'--add-data={projectData()}',           # Add both project Python and QML source files
             f'--add-data={easyTemplateLibData()}',   # Add easyTemplateLib package
             f'--add-data={easyAppLogicData()}',      # Add easyAppLogic package
@@ -78,10 +73,27 @@ def runPyInstaller():
     else:
         Functions.printSuccessMessage(message)
 
+def excludeLibs():
+    exclude_files = CONFIG['ci']['pyinstaller']['exclude_libs'][Functions.osName()]
+    if len(exclude_files) == 0:
+        Functions.printNeutralMessage(f'No libraries to be excluded for {Functions.osName()}')
+        return
+    try:
+        message = 'exclude libraries'
+        for file_name in exclude_files:
+            file_path = os.path.join(distributionDirPath(), appName() + '.app', 'Contents', 'MacOS', file_name)
+            for file_path in glob.glob(file_path): # for cases with '*' in the lib name
+                Functions.removeFile(file_path)
+    except Exception as exception:
+        Functions.printFailMessage(message, exception)
+        sys.exit()
+    else:
+        Functions.printSuccessMessage(message)
+
 def copyMissingLibs():
     missing_files = CONFIG['ci']['pyinstaller']['missing_pyside2_files'][Functions.osName()]
     if len(missing_files) == 0:
-        Functions.printNeutralMessage(f'No missing PySide2 libraries for os {Functions.osName()}')
+        Functions.printNeutralMessage(f'No missing PySide2 libraries for {Functions.osName()}')
         return
     try:
         message = 'copy missing PySide2 libraries'
@@ -100,7 +112,7 @@ def copyMissingLibs():
 def copyMissingPlugins():
     missing_plugins = CONFIG['ci']['pyinstaller']['missing_pyside2_plugins'][Functions.osName()]
     if len(missing_plugins) == 0:
-        Functions.printNeutralMessage(f'No missing PySide2 plugins for os {Functions.osName()}')
+        Functions.printNeutralMessage(f'No missing PySide2 plugins for {Functions.osName()}')
         return
     try:
         message = 'copy missing PySide2 plugins'
@@ -121,3 +133,4 @@ if __name__ == "__main__":
     copyMissingLibs()
     copyMissingPlugins()
     runPyInstaller()
+    excludeLibs()
