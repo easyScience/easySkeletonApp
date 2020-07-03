@@ -253,6 +253,25 @@ EaComponents.ApplicationWindow {
         text: "Status bar"
     }
 
+
+    Timer {
+        id: quit
+        interval: 5000
+        onTriggered: {
+            print("* closing app")
+            Qt.quit()
+        }
+    }
+
+    Component.onCompleted: {
+        if (_debug) {
+            print('DEBUG MODE')
+            print("* windows size:", window.width, "x", window.height)
+            print("* waiting 5 sec before closing")
+            quit.start()
+        }
+    }
+
     /*
     Item {
         id: item

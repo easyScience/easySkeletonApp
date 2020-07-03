@@ -7,6 +7,12 @@ import easyAppGui
 from easyTemplateApp.Logic.PyQmlProxy import PyQmlProxy
 
 
+def debug():
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'debug':
+            return True
+    return False
+
 def main():
     # Define paths
     current_path = os.path.dirname(sys.argv[0])
@@ -26,6 +32,7 @@ def main():
     engine = QQmlApplicationEngine()
     #engine.rootContext().setContextProperty("_screenshotPath", os.path.join(current_path, "..", "dist", "screenshot.png"))
     engine.rootContext().setContextProperty("_pyQmlProxyObj", py_qml_proxy_obj)
+    engine.rootContext().setContextProperty("_debug", debug())
     engine.addImportPath(easyAppGui_path)
     engine.addImportPath(gui_path)
     engine.load(main_qml_path)
