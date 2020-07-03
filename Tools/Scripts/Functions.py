@@ -2,10 +2,11 @@
 
 import os, sys
 import toml
+import zipfile
 import subprocess
 import requests
-import shutil, distutils
-import zipfile
+import shutil
+from distutils import dir_util
 
 # FUNCTIONS
 
@@ -173,7 +174,7 @@ def copyDir(source, destination):
         return
     try:
         message = f'copy dir {source} to {destination}'
-        distutils.dir_util.copy_tree(source, destination)
+        dir_util.copy_tree(source, destination)
     except Exception as exception:
         printFailMessage(message, exception)
         sys.exit()
