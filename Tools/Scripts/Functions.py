@@ -71,7 +71,7 @@ def attachDmg(file):
 
 def installSilently(installer, silent_script):
     try:
-        message = f'install {installer}'
+        message = f'run install {installer}'
         run(
             installer,
             '--script', silent_script,
