@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import os, sys
+import glob
+import PySide2, shiboken2
 import easyTemplateLib, easyAppGui, easyAppLogic
 import Functions
 from PyInstaller.__main__ import run as pyInstallerMain
@@ -70,5 +72,25 @@ def runPyInstaller():
     else:
         Functions.printSuccessMessage(message)
 
+def copyMissingLibs():
+    missing_files = CONFIG['ci']['pyinstaller']['missing_files'][Functions.osName()]
+    if len(missing_files) == 0:
+        Functions.printNeutralMessage(f'No missing libraries for os {Functions.osName()}')
+        exit()
+    try:
+        message = 'copy missing libraries'
+        pyside2_path = PySide2.__path__[0]
+        shiboken2_path = shiboken2.__path__[0]
+        for file_name in missing_files:
+            file_path = os.path.join(shiboken2_path, file_name)
+            for file_path in glob.glob(file_path): # for cases with '*' in the lib name
+                Functions.copyFile(file_path, pyside2_path)
+    except Exception as exception:
+        Functions.printFailMessage(message, exception)
+        sys.exit()
+    else:
+        Functions.printSuccessMessage(message)
+
 if __name__ == "__main__":
+    copyMissingLibs()
     runPyInstaller()

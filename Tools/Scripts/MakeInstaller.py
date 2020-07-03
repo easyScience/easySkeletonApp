@@ -94,11 +94,11 @@ def installerConfigXml():
                 #'WizardStyle': 'Classic', #'Aero',
                 'StartMenuDir': appName(),
                 'TargetDir': target_dir,
-                'RemoteRepositories': {
-                    'Repository': {
-                        'Url': f'http://localhost/{repositoryDirName()}'
-                    }
-                },
+                #'RemoteRepositories': {
+                #    'Repository': {
+                #        'Url': f'http://localhost/{repositoryDirName()}'
+                #    }
+                #},
                 'MaintenanceToolName': maintenance_tool_name,
                 'AllowNonAsciiCharacters': 'true',
                 'AllowSpaceInPath': 'true',
@@ -247,7 +247,8 @@ def createInstaller():
         Functions.run(
             qtifw_binarycreator_path,
             '--verbose',
-            '--online-only',
+            #'--online-only',
+            '--offline-only',
             '-c', configXmlPath(),
             '-p', packagesDirPath(),
             '-t', qtifw_installerbase_path,
