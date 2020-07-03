@@ -64,16 +64,16 @@ package_install = 'InstallerInstallScript.js'
 [ci.app.icon]
 dir = ['Gui', 'Resources', 'Logo']
 file_name = 'App'
-file_ext = { macos = '.icns', linux = '.png', windows = '.ico' }
+file_ext = { macos = '.icns', ubuntu = '.png', windows = '.ico' }
 
 [ci.app.setup]
 file_name_suffix = 'Setup'
 repository_dir_suffix = 'Repository'
-repository_os_suffix = { macos = 'MacOS', linux = 'Linux', windows = 'Windows' }
-file_ext = { macos = '.app', linux = '', windows = '.exe' }
+repository_os_suffix = { macos = 'macOS', ubuntu = 'Ubuntu', windows = 'Windows' }
+file_ext = { macos = '.app', ubuntu = '', windows = '.exe' }
 version = '0.1.0'
 maintenance_tool_suffix = 'Uninstaller'
-installation_dir = { macos = '/Applications', linux = '@ApplicationsDir@', windows = '@ApplicationsDir@' }
+installation_dir = { macos = '/Applications', ubuntu = '@ApplicationsDir@', windows = '@ApplicationsDir@' }
 
 [ci.app.setup.build]
 # config
@@ -87,16 +87,16 @@ meta_subsubdir = 'meta'
 package_xml = 'package.xml'
 
 [ci.poetry]
-venv_path = { macos = '/Users/runner/Library/Caches/pypoetry/virtualenvs', linux = '/home/runner/.cache/pypoetry/virtualenvs', windows = 'C:\Users\runneradmin\AppData\Local\pypoetry\Cache\virtualenvs' }
+venv_path = { macos = '/Users/runner/Library/Caches/pypoetry/virtualenvs', ubuntu = '/home/runner/.cache/pypoetry/virtualenvs', windows = 'C:\Users\runneradmin\AppData\Local\pypoetry\Cache\virtualenvs' }
 
 [ci.pyinstaller]
-separator = { macos = ':', linux = ':', windows = ';' }
-suffix = { macos = '.app', linux = '', windows = '' }
+separator = { macos = ':', ubuntu = ':', windows = ';' }
+suffix = { macos = '.app', ubuntu = '', windows = '' }
 
 [ci.qtifw.setup]
 version = '3.2.2'
 base_url = 'https://download.qt.io/official_releases/qt-installer-framework'
 file_name_base = 'QtInstallerFramework-'
-file_name_suffix = { macos = 'mac-x64', linux = 'linux-x64', windows = 'win-x86' }
-file_ext = { macos = '.dmg', linux = '.run', windows = '.exe' }
-installation_path = { macos = '/Users/runner/Qt', linux = '/home/runner/Qt', windows = 'C:\Qt' }
+file_name_suffix = { macos = 'mac-x64', ubuntu = 'linux-x64', windows = 'win-x86' }
+file_ext = { macos = '.dmg', ubuntu = '.run', windows = '.exe' }
+installation_path = { macos = '/Users/runner/Qt', ubuntu = '/home/runner/Qt', windows = 'C:\Qt' }

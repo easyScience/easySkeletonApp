@@ -12,14 +12,11 @@ def config():
 def keyPath():
     if len(sys.argv) < 2:
         return ''
-    path = sys.argv[1]
-    if len(sys.argv) > 2:
-        os = sys.argv[2].split('-')[0]
-        path += '.' + os
-    return path
+    return sys.argv[1]
 
 def getValue(d, element):
     keys = element.split('.')
+    keys[-1] = keys[-1].split('-')[0] # macos-latest -> macos
     rv = d
     for key in keys:
         rv = rv[key]
