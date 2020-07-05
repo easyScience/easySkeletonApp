@@ -16,6 +16,8 @@ import Gui.Pages.Summary 1.0 as ExSummaryPage
 
 EaComponents.ApplicationWindow {
 
+    //Item {
+
     ///////////////////
     // APPLICATION BAR
     ///////////////////
@@ -305,4 +307,6 @@ EaComponents.ApplicationWindow {
         saveScreenshot.start()
     }
     */
+
+    //}
 }

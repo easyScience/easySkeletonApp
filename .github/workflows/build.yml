@@ -70,11 +70,21 @@ jobs:
     - name: Create app installer
       run: poetry run python ${{ env.SCRIPTS_PATH }}/MakeInstaller.py
 
-    - name: Install and run app in debug mode
+    - name: Install and run app in test mode
       if: runner.os == 'macOS'
       run: |
         poetry run python ${{ env.SCRIPTS_PATH }}/InstallApp.py
         poetry run python ${{ env.SCRIPTS_PATH }}/RunApp.py
+
+    - name: Convert screenshots to tutorial
+      if: runner.os == 'macOS'
+      run: poetry run python ${{ env.SCRIPTS_PATH }}/MakeTutorial.py
+
+    - name: Commit changes
+      if: runner.os == 'macOS'
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Create screenshots and video tutorial
 
     - name: Create zip of archived artifacts
       run: poetry run python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ runner.os }} ${{ env.SHORT_GITHUB_REF }}

@@ -15,7 +15,7 @@ def testMode():
 
 def screenshotsDir():
     if len(sys.argv) > 2:
-        return os.path.join(sys.argv[2], 'screenshot.png')
+        return sys.argv[2]
     return None
 
 def main():

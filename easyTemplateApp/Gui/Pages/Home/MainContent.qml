@@ -2,6 +2,7 @@ import QtQuick 2.13
 import QtQuick.Controls 2.13
 
 import easyAppGui.Style 1.0 as EaStyle
+import easyAppGui.Globals 1.0 as EaGlobals
 import easyAppGui.Elements 1.0 as EaElements
 import easyAppGui.Components 1.0 as EaComponents
 
@@ -110,10 +111,12 @@ Item {
         if (_testMode) {
             print('DEBUG MODE')
             print("* run Tutorial 1")
+            EaGlobals.Variables.saveScreenshotsRunning = true
             runTutorial1()
+            EaGlobals.Variables.saveScreenshotsRunning = false
             //print("* closing app")
             //Qt.quit()
-            saveScreenshot.start()
+            //saveScreenshot.start()
         }
     }
 }

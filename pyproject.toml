@@ -21,7 +21,7 @@ packages = [ { include = "easyTemplateApp" } ]
 python = "^3.7"
 # easyScience
 easyAppLogic = { git = "https://github.com/tempScience/easyAppLogic.git", rev = "master" }
-easyAppGui = { git = "https://github.com/tempScience/easyAppGui.git", rev = "master" }
+easyAppGui = { git = "https://github.com/easyScience/easyAppGui.git", rev = "master" }
 easyTemplateLib = { git = "https://github.com/tempScience/easyTemplateLib.git", rev = "master" }
 
 [tool.poetry.dev-dependencies]
@@ -40,6 +40,7 @@ toml = "^0.10"
 matplotlib = "^3.2"
 requests = "^2.24"
 dephell_licenses = "^0.1"
+opencv-python = "^4.2.0" # opencv-python-headless ?!
 
 [tool.poetry.scripts]
 easyTemplate = "easyTemplateApp.main:main"
@@ -54,6 +55,7 @@ distribution = '.Distribution'
 build = '.Build'
 download = '.Download'
 screenshots = '.Screenshots'
+tutorials = '.Tutorials'
 scripts = 'Tools/Scripts'
 
 [ci.scripts]
