@@ -78,7 +78,7 @@ jobs:
 
     - name: Convert screenshots to tutorial
       if: runner.os == 'macOS'
-      run: poetry run python ${{ env.SCRIPTS_PATH }}/MakeTutorial.py
+      run: poetry run python ${{ env.SCRIPTS_PATH }}/MakeTutorials.py
 
     - name: Commit changes
       if: runner.os == 'macOS'
