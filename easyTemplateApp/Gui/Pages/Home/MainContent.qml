@@ -114,8 +114,8 @@ Item {
             EaGlobals.Variables.saveScreenshotsRunning = true
             runTutorial1()
             EaGlobals.Variables.saveScreenshotsRunning = false
-            //print("* closing app")
-            //Qt.quit()
+            print("* closing app")
+            Qt.quit()
             //saveScreenshot.start()
         }
     }
