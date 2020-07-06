@@ -58,7 +58,9 @@ jobs:
       uses: Gr1N/setup-poetry@v2
 
     - name: Create venv and install dependences
-      run: poetry update
+      run: |
+        poetry run pip install --upgrade pip
+        poetry update
 
     - name: Create freezed python app
       run: poetry run python ${{ env.SCRIPTS_PATH }}/FreezeApp.py

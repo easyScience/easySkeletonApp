@@ -1,7 +1,7 @@
 # POETRY CONFIG
 
 [build-system]
-requires = ["poetry>=0.12", "pip>=20.0"]
+requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
 
 [tool.poetry]
@@ -19,7 +19,6 @@ packages = [ { include = "easyTemplateApp" } ]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-pip = "^20.0"
 # easyScience
 #easyAppLogic = { git = "https://github.com/tempScience/easyAppLogic.git", rev = "master" }
 #easyAppGui = { git = "https://github.com/easyScience/easyAppGui.git", rev = "master" }
