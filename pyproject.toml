@@ -1,7 +1,7 @@
 # POETRY CONFIG
 
 [build-system]
-requires = ["poetry>=0.12"]
+requires = ["poetry>=1.0"]
 build-backend = "poetry.masonry.api"
 
 [tool.poetry]
@@ -51,10 +51,10 @@ easyTemplate = "easyTemplateApp.main:main"
 license_file = "LICENSE.md" # how to combine this with tool.poetry.license???
 
 [ci.project.subdirs]
-distribution = '.ci/.Distribution'
-build = '.ci/.Build'
-download = '.ci/.Download'
-screenshots = '.ci/.Screenshots'
+distribution = '.ci/distribution'
+build = '.ci/build'
+download = '.ci/download'
+screenshots = '.ci/screenshots'
 tutorials = 'Docs/UserManual/VideoTutorials'
 scripts = 'Tools/Scripts'
 
