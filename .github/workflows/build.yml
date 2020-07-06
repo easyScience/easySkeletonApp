@@ -59,7 +59,11 @@ jobs:
 
     - name: Create venv and install dependences
       run: |
+        pip -V
+        poetry run pip -V
         poetry run pip install --upgrade pip
+        pip -V
+        poetry run pip -V
         poetry update
 
     - name: Create freezed python app
