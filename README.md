@@ -7,7 +7,7 @@ Template for easyScience applications
 
 [![Downloads][70]][71] [![Lines of code][81]]() [![Total lines][80]]() [![Files][82]]()
 
-[![License][50]][51] [![License Scan][60]][61]
+[![License][50]][51]
 
 ## Download easyTemplate
 * Open **Terminal**
@@ -39,7 +39,7 @@ Template for easyScience applications
 * Go to **easyTemplateApp** directory
 * Launch **easyTemplate** application using **poetry**
   ```
-  poetry run easytemplate
+  poetry run easyTemplate
   ```
 
 ## Update easyTemplate dependencies
