@@ -19,7 +19,7 @@ packages = [ { include = "easyTemplateApp" } ]
 
 [tool.poetry.dependencies]
 python = "^3.7"
-#pip = "^20.0"
+pip = "^20.0"
 # easyScience
 #easyAppLogic = { git = "https://github.com/tempScience/easyAppLogic.git", rev = "master" }
 #easyAppGui = { git = "https://github.com/easyScience/easyAppGui.git", rev = "master" }
