@@ -82,7 +82,6 @@ PySide2 = "^5.13"
 reference = "9550e968487fbcd95660fdc7764bce7cd84ebc8a"
 type = "git"
 url = "https://github.com/easyScience/easyAppGui.git"
-
 [[package]]
 category = "main"
 description = ""
@@ -95,7 +94,6 @@ version = "0.1.0"
 reference = "cd534e5f17c2e9d8789dfbed2e431364f4f741e2"
 type = "git"
 url = "https://github.com/tempScience/easyAppLogic.git"
-
 [[package]]
 category = "main"
 description = ""
@@ -117,7 +115,6 @@ version = "^1.6.1"
 reference = "095434c5016e974c571460ecec93c59bfd407b6b"
 type = "git"
 url = "https://github.com/tempScience/easyTemplateLib.git"
-
 [[package]]
 category = "dev"
 description = "Clean single-source support for Python 3 and 2"
@@ -194,7 +191,7 @@ python-versions = ">=3.6"
 version = "1.19.0"
 
 [[package]]
-category = "main"
+category = "dev"
 description = "Wrapper package for OpenCV python bindings."
 name = "opencv-python-headless"
 optional = false
@@ -369,7 +366,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "38dd729c9a906ae600b7437ca5b798eb66368c1fe608fd9cdf4587c5f881fb2f"
+content-hash = "60bd289af9c3f5974f0a24c1e6a402c43a716a14747f546fefbd250fffd2d3db"
 python-versions = "^3.7"
 
 [metadata.files]
