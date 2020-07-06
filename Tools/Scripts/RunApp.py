@@ -32,8 +32,12 @@ def appExePath():
 def runApp():
     try:
         message = f'run {appName()}'
-        screenshots_path = CONFIG['ci']['project']['subdirs']['screenshots']
-        Functions.run(appExePath(), 'test', screenshots_path)
+        if len(sys.argv) == 1:
+            Functions.run(appExePath())
+        else:
+            if 'test' in sys.argv[1:]:
+                Functions.createDir(CONFIG['ci']['project']['subdirs']['screenshots'])
+            Functions.run(appExePath(), *sys.argv[1:])
     except Exception as exception:
         Functions.printFailMessage(message, exception)
         sys.exit()

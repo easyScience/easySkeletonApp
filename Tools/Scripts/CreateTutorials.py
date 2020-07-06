@@ -15,6 +15,9 @@ def screenshotsDir():
 def tutorialsDir():
     return CONFIG['ci']['project']['subdirs']['tutorials']
 
+def fps():
+    return CONFIG['ci']['app']['tutorials']['fps']
+
 def writeVideo():
     images = []
     in_fname_pattern = os.path.join(screenshotsDir(), '*.png')
@@ -24,9 +27,9 @@ def writeVideo():
         size = (width, height)
         images.append(image)
 
-    fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+    fourcc = cv2.VideoWriter_fourcc(*'H264') # 'MP4V', 'DIVX'
     out_fname = os.path.join(tutorialsDir(), 'tutorial.mp4')
-    out = cv2.VideoWriter(out_fname, fourcc, 24, size)
+    out = cv2.VideoWriter(out_fname, fourcc, fps(), size)
     for image in images:
         out.write(image)
     out.release()

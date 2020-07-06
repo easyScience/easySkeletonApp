@@ -32,7 +32,29 @@ Item {
         id: rc
     }
 
+    Timer {
+        id: quit
+        interval: 1000
+        onTriggered: {
+            print("* closing app")
+            Qt.quit()
+        }
+    }
+
+    Component.onCompleted: {
+        if (EaGlobals.Variables.isTestMode) {
+            print('TEST MODE')
+            runTutorial1()
+            quit.start()
+        }
+    }
+
+    // Tutorials
+
     function runTutorial1() {
+        print("* run Tutorial 1")
+        EaGlobals.Variables.saveScreenshotsRunning = true
+
         rc.wait(1000)
         rc.show()
 
@@ -64,9 +86,15 @@ Item {
 
         rc.wait(1000)
         rc.hide()
+
+        rc.wait(1000)
+        EaGlobals.Variables.saveScreenshotsRunning = false
     }
 
     function runTutorial2() {
+        print("* run Tutorial 2")
+        EaGlobals.Variables.saveScreenshotsRunning = true
+
         rc.wait(1000)
         rc.show()
 
@@ -87,36 +115,21 @@ Item {
 
         rc.wait(1000)
         rc.hide()
+
+        rc.wait(1000)
+        EaGlobals.Variables.saveScreenshotsRunning = false
     }
 
-    Timer {
-        id: quit
-        interval: 3000
-        onTriggered: {
-            print("* closing app")
-            Qt.quit()
-        }
+    function runTutorial3() {
+        print("* run Tutorial 3")
+        EaGlobals.Variables.saveScreenshotsRunning = true
+        rc.wait(1000)
+        rc.show()
+        rc.mouseClick(ExGlobals.Variables.sampleTabButton)
+        rc.wait(1000)
+        rc.hide()
+        rc.wait(1000)
+        EaGlobals.Variables.saveScreenshotsRunning = false
     }
 
-    Timer {
-        id: saveScreenshot
-        onTriggered: {
-            print("* saving screenshot to", _screenshotsDir)
-            root.grabToImage(function(result) { result.saveToFile(_screenshotsDir) })
-            quit.start()
-        }
-    }
-
-    Component.onCompleted: {
-        if (_testMode) {
-            print('DEBUG MODE')
-            print("* run Tutorial 1")
-            EaGlobals.Variables.saveScreenshotsRunning = true
-            runTutorial1()
-            EaGlobals.Variables.saveScreenshotsRunning = false
-            print("* closing app")
-            Qt.quit()
-            //saveScreenshot.start()
-        }
-    }
 }

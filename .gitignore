@@ -23,12 +23,7 @@ dist
 
 # PyInstaller
 build
-.Build
-.Distribution
 *.spec
-
-# QtInstallerFramework
-.Download
 
 # Jupyter
 .ipynb_checkpoints
@@ -42,4 +37,5 @@ build
 ..*
 *.log
 *.zip
+.ci/
 .idea/

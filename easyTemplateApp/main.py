@@ -3,20 +3,16 @@ from PySide2.QtCore import QUrl
 from PySide2.QtQml import QQmlApplicationEngine
 from PySide2.QtWidgets import QApplication
 
+import pyproject
 import easyAppGui
 from easyTemplateApp.Logic.PyQmlProxy import PyQmlProxy
 
 
-def testMode():
+def isTestMode():
     if len(sys.argv) > 1:
-        if sys.argv[1] == 'test':
+        if 'test' in sys.argv[1:]:
             return True
     return False
-
-def screenshotsDir():
-    if len(sys.argv) > 2:
-        return sys.argv[2]
-    return None
 
 def main():
     # Define paths
@@ -35,10 +31,9 @@ def main():
 
     # Create qml application engine
     engine = QQmlApplicationEngine()
-    #engine.rootContext().setContextProperty("_screenshotPath", os.path.join(current_path, "..", "dist", "screenshot.png"))
     engine.rootContext().setContextProperty("_pyQmlProxyObj", py_qml_proxy_obj)
-    engine.rootContext().setContextProperty("_testMode", testMode())
-    engine.rootContext().setContextProperty("_screenshotsDir", screenshotsDir())
+    engine.rootContext().setContextProperty("_projectConfig", pyproject.config())
+    engine.rootContext().setContextProperty("_isTestMode", isTestMode())
     engine.addImportPath(easyAppGui_path)
     engine.addImportPath(gui_path)
     engine.load(main_qml_path)
