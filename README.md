@@ -58,6 +58,13 @@ Template for easyScience applications
    curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | POETRY_UNINSTALL=1 python
    ```
 
+## Test easyTemplate
+* Unit tests
+  * ...
+* GUI
+   * Test video: https://easyscience.github.io/easyTemplateAppPages
+
+
 <!---URLs--->
 <!---https://naereen.github.io/badges/--->
 
