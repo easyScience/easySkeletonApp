@@ -40,8 +40,7 @@ toml = "^0.10"
 matplotlib = "^3.2"
 requests = "^2.24"
 dephell_licenses = "^0.1"
-#opencv-python = "^4.2.0" # opencv-python-headless ?!
-opencv-python-headless = "^4.3.0"
+opencv-python-headless = "^4.2.0"
 
 [tool.poetry.scripts]
 easyTemplate = "easyTemplateApp.main:main"
