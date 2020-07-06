@@ -18,7 +18,7 @@ jobs:
     # Build matrix for different platforms
     strategy:
       matrix:
-        os: [ubuntu-latest] #[macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -59,11 +59,7 @@ jobs:
 
     - name: Create venv and install dependences
       run: |
-        pip -V
-        poetry run pip -V
         poetry run pip install --upgrade pip
-        pip -V
-        poetry run pip -V
         poetry update
 
     - name: Create freezed python app

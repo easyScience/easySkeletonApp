@@ -20,9 +20,9 @@ packages = [ { include = "easyTemplateApp" } ]
 [tool.poetry.dependencies]
 python = "^3.7"
 # easyScience
-#easyAppLogic = { git = "https://github.com/tempScience/easyAppLogic.git", rev = "master" }
-#easyAppGui = { git = "https://github.com/easyScience/easyAppGui.git", rev = "master" }
-#easyTemplateLib = { git = "https://github.com/tempScience/easyTemplateLib.git", rev = "master" }
+easyAppLogic = { git = "https://github.com/tempScience/easyAppLogic.git", rev = "master" }
+easyAppGui = { git = "https://github.com/easyScience/easyAppGui.git", rev = "master" }
+easyTemplateLib = { git = "https://github.com/tempScience/easyTemplateLib.git", rev = "master" }
 
 [tool.poetry.dev-dependencies]
 # easyScience
@@ -30,17 +30,17 @@ python = "^3.7"
 #easyAppLogic = { path = "../easyAppLogic/" }
 #easyAppGui = { path = "../easyAppGui/" }
 # PyInstaller
-#pyinstaller = "^3.6"
-#macholib = "^1.14"
-#pywin32-ctypes = { version = "^0.2.0", platform = "win32" }
-#pypiwin32 = { version = "^223", platform = "win32" }
-#pefile = { version = "^2019.4.18", platform = "win32" }
+pyinstaller = "^3.6"
+macholib = "^1.14"
+pywin32-ctypes = { version = "^0.2", platform = "win32" }
+pypiwin32 = { version = "^223", platform = "win32" }
+pefile = { version = "^2019.4", platform = "win32" }
 # Misc
-#toml = "^0.10"
-#matplotlib = "^3.2"
-#requests = "^2.24"
-#dephell_licenses = "^0.1"
-opencv-python-headless = "^4.2.0"
+toml = "^0.10"
+matplotlib = "^3.2"
+requests = "^2.24"
+dephell_licenses = "^0.1"
+opencv-python-headless = "^4.3"
 
 [tool.poetry.scripts]
 easyTemplate = "easyTemplateApp.main:main"
