@@ -55,8 +55,8 @@ distribution = '.ci/distribution'
 build = '.ci/build'
 download = '.ci/download'
 screenshots = '.ci/screenshots'
-tutorials = 'Docs/UserManual/VideoTutorials'
-scripts = 'Tools/Scripts'
+tutorials = 'docs/UserManual/VideoTutorials'
+scripts = 'tools/Scripts'
 
 [ci.scripts]
 silent_install = 'SilentInstall.js'
