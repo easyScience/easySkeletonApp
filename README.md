@@ -9,6 +9,8 @@ Template for easyScience applications
 
 [![License][50]][51]
 
+[![w3c][90]][91]
+
 ## Download easyTemplate
 * Open **Terminal**
 * Change the current working directory to the location where you want the **easyTemplateApp** directory
@@ -62,7 +64,7 @@ Template for easyScience applications
 * Unit tests
   * ...
 * GUI
-   * Test video: https://easyscience.github.io/easyTemplateAppPages
+   * Test video: https://easyscience.github.io/easyTemplateApp
 
 
 <!---URLs--->
@@ -92,3 +94,7 @@ Template for easyScience applications
 [80]: https://tokei.rs/b1/github/easyScience/easyTemplateApp
 [81]: https://tokei.rs/b1/github/easyScience/easyTemplateApp?category=code
 [82]: https://tokei.rs/b1/github/easyScience/easyTemplateApp?category=files
+
+<!---W3C validation--->
+[90]: https://img.shields.io/w3c-validation/default?targetUrl=https://easyscience.github.io/easyTemplateApp
+[91]: https://easyscience.github.io/easyTemplateApp
