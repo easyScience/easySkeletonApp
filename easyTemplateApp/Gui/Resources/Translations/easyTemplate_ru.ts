@@ -147,17 +147,16 @@
 <context>
     <name>MainContent</name>
     <message>
-        <location filename="../../Pages/Home/MainContent.qml" line="17"/>
         <source>Test</source>
-        <translation>Тест</translation>
+        <translation type="vanished">Тест</translation>
     </message>
     <message>
-        <location filename="../../Pages/Home/MainContent.qml" line="26"/>
+        <location filename="../../Pages/Home/MainContent.qml" line="20"/>
         <source>Tutorial 1: Data fitting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../Pages/Home/MainContent.qml" line="32"/>
+        <location filename="../../Pages/Home/MainContent.qml" line="26"/>
         <source>Tutorial 2: App settings</source>
         <translation type="unfinished"></translation>
     </message>
