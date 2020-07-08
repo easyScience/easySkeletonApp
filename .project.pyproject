@@ -8,6 +8,8 @@
 
     "easyTemplateApp/Logic/DisplayModels/DataModels.py",
 
+    "../easyAppLogic/easyAppLogic/Translator.py",
+
     "../easyTemplateLib/easyTemplateLib/interface.py",
 
     "../easyTemplateLib/easyTemplateLib/Objects/fitting.py",

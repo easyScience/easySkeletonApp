@@ -1,10 +1,11 @@
 import os, sys
 from PySide2.QtCore import QUrl
-from PySide2.QtQml import QQmlApplicationEngine
 from PySide2.QtWidgets import QApplication
+from PySide2.QtQml import QQmlApplicationEngine
 
 import pyproject
 import easyAppGui
+from easyAppLogic.Translator import Translator
 from easyTemplateApp.Logic.PyQmlProxy import PyQmlProxy
 
 
@@ -18,6 +19,7 @@ def main():
     # Define paths
     current_path = os.path.dirname(sys.argv[0])
     package_path = os.path.join(current_path, "easyTemplateApp")
+    translations_path = os.path.join(package_path, "Gui", "Resources", "Translations")
     main_qml_path = QUrl.fromLocalFile(os.path.join(package_path, "Gui", "main.qml"))
     gui_path = str(QUrl.fromLocalFile(package_path).toString())
     easyAppGui_path = easyAppGui.__path__[0]
@@ -25,13 +27,20 @@ def main():
     # Create a proxy object between python logic and QML GUI
     py_qml_proxy_obj = PyQmlProxy()
 
-    # Create application
+    # Create application and qml application engine
     app = QApplication(sys.argv)
+    engine = QQmlApplicationEngine()
+
+    # Create translator
+    translator = Translator(app, engine, translations_path)
+    translator.selectSystemLanguage()
+
+    # Application settings
     app.setApplicationName(py_qml_proxy_obj.appName)
 
-    # Create qml application engine
-    engine = QQmlApplicationEngine()
+    # Qml application engine settings
     engine.rootContext().setContextProperty("_pyQmlProxyObj", py_qml_proxy_obj)
+    engine.rootContext().setContextProperty("_translator", translator)
     engine.rootContext().setContextProperty("_projectConfig", pyproject.config())
     engine.rootContext().setContextProperty("_isTestMode", isTestMode())
     engine.addImportPath(easyAppGui_path)

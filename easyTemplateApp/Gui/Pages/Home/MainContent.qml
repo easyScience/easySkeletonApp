@@ -17,13 +17,13 @@ Item {
 
         EaElements.Button {
             highlighted: true
-            text: "Tutorial 1: Data fitting"
+            text: qsTr("Tutorial 1: Data fitting")
             onClicked: runTutorial1()
         }
 
         EaElements.Button {
             highlighted: true
-            text: "Tutorial 2: App settings"
+            text: qsTr("Tutorial 2: App settings")
             onClicked: runTutorial2()
         }
     }
