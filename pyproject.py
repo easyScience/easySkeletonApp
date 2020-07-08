@@ -6,7 +6,11 @@ import toml
 
 def config():
     project_fname = 'pyproject.toml'
-    project_fpath = os.path.join(os.getcwd(), project_fname)
+    print('os.getcwd()', os.getcwd())
+    print('os.path.dirname(sys.argv[0])', os.path.dirname(sys.argv[0]))
+    print('os.path.realpath(__file__)',os.path.dirname(__file__))
+    current_path = os.path.dirname(__file__)
+    project_fpath = os.path.join(current_path, project_fname)
     return toml.load(project_fpath)
 
 def keyPath():

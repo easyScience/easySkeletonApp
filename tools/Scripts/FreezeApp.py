@@ -50,6 +50,8 @@ def iconPath():
 def runPyInstaller():
     try:
         message = 'freeze app'
+        pyproject_py = f'pyproject.py{separator()}.'
+        pyproject_toml = f'pyproject.toml{separator()}.'
         pyInstallerMain([
             mainPyPath(),                            # Application main file
             f'--name={appName()}',                   # Name to assign to the bundled app and spec file (default: first script’s basename)
@@ -65,6 +67,8 @@ def runPyInstaller():
             f'--add-data={easyTemplateLibData()}',   # Add easyTemplateLib package
             f'--add-data={easyAppLogicData()}',      # Add easyAppLogic package
             f'--add-data={easyAppGuiData()}',        # Add easyAppGui package
+            f'--add-data={pyproject_py}',            #
+            f'--add-data={pyproject_toml}',          #
             f'--icon={iconPath()}'                   # Add application icon
             ])
     except Exception as exception:
