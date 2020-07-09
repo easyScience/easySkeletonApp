@@ -33,7 +33,6 @@ easyTemplateLib = { git = "https://github.com/tempScience/easyTemplateLib.git", 
 #pyinstaller = "^3.6"
 pyinstaller = { git = "https://github.com/pyinstaller/pyinstaller.git", rev = "develop" }
 macholib = "^1.14"
-setuptools = "^49.1"
 pywin32-ctypes = { version = "^0.2", platform = "win32" }
 pypiwin32 = { version = "^223", platform = "win32" }
 pefile = { version = "^2019.4", platform = "win32" }
