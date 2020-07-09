@@ -16,13 +16,13 @@ def isTestMode():
     return False
 
 def main():
-    # Define paths
     current_path = os.path.dirname(sys.argv[0])
     package_path = os.path.join(current_path, "easyTemplateApp")
     translations_path = os.path.join(package_path, "Gui", "Resources", "Translations")
     main_qml_path = QUrl.fromLocalFile(os.path.join(package_path, "Gui", "main.qml"))
     gui_path = str(QUrl.fromLocalFile(package_path).toString())
     easyAppGui_path = easyAppGui.__path__[0]
+    languages = pyproject.config()['ci']['app']['translations']['languages']
 
     # Create a proxy object between python logic and QML GUI
     py_qml_proxy_obj = PyQmlProxy()
@@ -32,8 +32,8 @@ def main():
     engine = QQmlApplicationEngine()
 
     # Create translator
-    translator = Translator(app, engine, translations_path)
-    translator.selectSystemLanguage()
+    translator = Translator(app, engine, translations_path, languages)
+    #translator.selectSystemLanguage()
 
     # Application settings
     app.setApplicationName(py_qml_proxy_obj.appName)

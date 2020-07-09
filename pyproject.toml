@@ -43,6 +43,7 @@ requests = "^2.24"
 dephell_licenses = "^0.1"
 opencv-python-headless = "^4.3"
 #opencv-python = "^4.3"
+googletrans = "^3.0"
 
 [tool.poetry.scripts]
 easyTemplate = "easyTemplateApp.main:main"
@@ -92,6 +93,19 @@ package_xml = 'package.xml'
 
 [ci.app.tutorials]
 fps = 15
+
+[ci.app.translations]
+dir = 'Gui/Resources/Translations'
+languages = [ { code = 'en', name = 'English' },
+              { code = 'fr', name = 'Française' },
+              { code = 'de', name = 'Deutsch' },
+              { code = 'es', name = 'Español' },
+              { code = 'it', name = 'Italiano' },
+              { code = 'pt', name = 'Português' },
+              { code = 'da', name = 'Dansk' },
+              { code = 'sv', name = 'Svenska' },
+              { code = 'pl', name = 'Polski' },
+              { code = 'ru', name = 'Русский' } ]
 
 [ci.poetry]
 venv_path = { macos = '/Users/runner/Library/Caches/pypoetry/virtualenvs', ubuntu = '/home/runner/.cache/pypoetry/virtualenvs', windows = 'C:\Users\runneradmin\AppData\Local\pypoetry\Cache\virtualenvs' }

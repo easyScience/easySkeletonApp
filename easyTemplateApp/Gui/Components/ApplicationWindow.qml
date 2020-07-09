@@ -161,7 +161,7 @@ EaComponents.ApplicationWindow {
                         text: qsTr("Structure view")
                     },
                     EaElements.TabButton {
-                        text: qsTr("samples.cif")
+                        text: "samples.cif"
                     }
                 ]
 
@@ -187,7 +187,7 @@ EaComponents.ApplicationWindow {
                         text: qsTr("Table view")
                     },
                     EaElements.TabButton {
-                        text: qsTr("experiments.cif")
+                        text: "experiments.cif"
                     }
                 ]
 
@@ -211,7 +211,7 @@ EaComponents.ApplicationWindow {
                         text: qsTr("Fitting")
                     },
                     EaElements.TabButton {
-                        text: qsTr("calculations.cif")
+                        text: "calculations.cif"
                     }
                 ]
 
