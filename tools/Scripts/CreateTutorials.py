@@ -27,7 +27,7 @@ def writeVideo():
         size = (width, height)
         images.append(image)
 
-    fourcc = cv2.VideoWriter_fourcc(*'H264') # 'MP4V', 'DIVX'
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v') # 'mp4v', 'DIVX', H264, X264
     out_fname = os.path.join(tutorialsDir(), 'tutorial.mp4')
     out = cv2.VideoWriter(out_fname, fourcc, fps(), size)
     for image in images:
