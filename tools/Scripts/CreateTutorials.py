@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
-import os, sys
-import cv2
-import numpy as np
-import glob
+import os
+import ffmpeg
 import Functions
 
 
@@ -18,21 +16,29 @@ def tutorialsDir():
 def fps():
     return CONFIG['ci']['app']['tutorials']['fps']
 
-def writeVideo():
-    images = []
-    in_fname_pattern = os.path.join(screenshotsDir(), '*.png')
-    for in_fname in sorted(glob.glob(in_fname_pattern), key=os.path.getmtime): # sorted by modification time
-        image = cv2.imread(in_fname)
-        height, width, layers = image.shape
-        size = (width, height)
-        images.append(image)
+def inputPattern():
+    return f'{screenshotsDir()}/*.png'
 
-    fourcc = cv2.VideoWriter_fourcc(*'mp4v') # 'avc1', 'hvc1', 'mp4v', 'DIVX', H264, X264 ('avc1' - best compression, 'hvc1' - 2nd, but GitHub CI error: The hardware encoder may be busy, or not supported.)
-    out_fname = os.path.join(tutorialsDir(), 'tutorial.mp4')
-    out = cv2.VideoWriter(out_fname, fourcc, fps(), size)
-    for image in images:
-        out.write(image)
-    out.release()
+def outputPath():
+    return os.path.join(tutorialsDir(), 'tutorial.mp4')
+
+def outputOptions():
+    # https://trac.ffmpeg.org/wiki/Encode/H.264
+    # https://slhck.info/video/2017/02/24/crf-guide.html
+    return {
+        'crf': 18,                  # Constant Rate Factor
+        'preset': 'slower',
+        'movflags': 'faststart',
+        'pix_fmt': 'yuv420p'        # Pixel format
+    }
+
+def writeVideo():
+    (
+        ffmpeg
+        .input(inputPattern(), pattern_type='glob', framerate=fps())
+        .output(outputPath(), **outputOptions())
+        .run(overwrite_output=True)
+    )
 
 if __name__ == "__main__":
     writeVideo()

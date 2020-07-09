@@ -82,6 +82,7 @@ PySide2 = "^5.13"
 reference = "3692a4104da51bf4cb57170de38a189dd5e67347"
 type = "git"
 url = "https://github.com/easyScience/easyAppGui.git"
+
 [[package]]
 category = "main"
 description = ""
@@ -97,6 +98,7 @@ dicttoxml = "^1.7.4"
 reference = "f7defe4ff3d3e0100080b8f887c6176af7afb360"
 type = "git"
 url = "https://github.com/easyScience/easyAppLogic.git"
+
 [[package]]
 category = "main"
 description = ""
@@ -118,10 +120,24 @@ version = "^1.6.1"
 reference = "095434c5016e974c571460ecec93c59bfd407b6b"
 type = "git"
 url = "https://github.com/tempScience/easyTemplateLib.git"
+
 [[package]]
-category = "dev"
+category = "main"
+description = "Python bindings for FFmpeg - with complex filtering support"
+name = "ffmpeg-python"
+optional = false
+python-versions = "*"
+version = "0.2.0"
+
+[package.dependencies]
+future = "*"
+
+[package.extras]
+dev = ["future (0.17.1)", "numpy (1.16.4)", "pytest-mock (1.10.4)", "pytest (4.6.1)", "Sphinx (2.1.0)", "tox (3.12.1)"]
+
+[[package]]
+category = "main"
 description = "Clean single-source support for Python 3 and 2"
-marker = "sys_platform == \"win32\""
 name = "future"
 optional = false
 python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
@@ -292,7 +308,6 @@ numpy = ">=1.11.1"
 [[package]]
 category = "dev"
 description = "Python PE parsing module"
-marker = "sys_platform == \"win32\""
 name = "pefile"
 optional = false
 python-versions = "*"
@@ -324,6 +339,7 @@ hook_testing = ["pytest (>=2.7.3)", "execnet (>=1.5.0)", "psutil"]
 reference = "0c75d32bdb53508df4feedb477b7fa2e880420cf"
 type = "git"
 url = "https://github.com/pyinstaller/pyinstaller.git"
+
 [[package]]
 category = "main"
 description = "Python parsing module"
@@ -378,7 +394,6 @@ version = "228"
 [[package]]
 category = "dev"
 description = ""
-marker = "sys_platform == \"win32\""
 name = "pywin32-ctypes"
 optional = false
 python-versions = "*"
@@ -483,7 +498,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "b06b9b04b1f49332a5b79988c6da190cd3ce79b8d5634b201a3bf84afc938cc1"
+content-hash = "7dd5afe0a3cc5f681f170dd34d05b701e9e0188df73b81c5786402c9c57ad7b2"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -517,6 +532,10 @@ dicttoxml = [
 easyappgui = []
 easyapplogic = []
 easytemplatelib = []
+ffmpeg-python = [
+    {file = "ffmpeg-python-0.2.0.tar.gz", hash = "sha256:65225db34627c578ef0e11c8b1eb528bb35e024752f6f10b78c011f6f64c4127"},
+    {file = "ffmpeg_python-0.2.0-py3-none-any.whl", hash = "sha256:ac441a0404e053f8b6a1113a77c0f452f1cfc62f6344a769475ffdc0f56c23c5"},
+]
 future = [
     {file = "future-0.18.2.tar.gz", hash = "sha256:b1bead90b70cf6ec3f0710ae53a525360fa360d306a86583adc6bf83a4db537d"},
 ]

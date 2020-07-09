@@ -41,8 +41,7 @@ toml = "^0.10"
 matplotlib = "^3.2"
 requests = "^2.24"
 dephell_licenses = "^0.1"
-opencv-python-headless = "^4.3"
-#opencv-python = "^4.3"
+ffmpeg-python = "^0.2"
 googletrans = "^3.0"
 
 [tool.poetry.scripts]
@@ -92,7 +91,7 @@ meta_subsubdir = 'meta'
 package_xml = 'package.xml'
 
 [ci.app.tutorials]
-fps = 15
+fps = 16
 
 [ci.app.translations]
 dir = 'Gui/Resources/Translations'
