@@ -249,6 +249,17 @@ def dict2xml(d, root_node=None, add_xml_version=True):
 
     return xml
 
+def unzip(archive_path, destination_dir):
+    try:
+        message = f'unzip {archive_path} to {destination_dir}'
+        with zipfile.ZipFile(archive_path, 'r') as zip_ref:
+            zip_ref.extractall(destination_dir)
+    except Exception as exception:
+        printFailMessage(message, exception)
+        sys.exit()
+    else:
+        printSuccessMessage(message)
+
 def zip(source, destination):
     # https://thispointer.com/python-how-to-create-a-zip-archive-from-multiple-files-or-directory/
     # https://stackoverflow.com/questions/27991745/zip-file-and-avoid-directory-structure
