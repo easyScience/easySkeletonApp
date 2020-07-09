@@ -82,7 +82,6 @@ PySide2 = "^5.13"
 reference = "3692a4104da51bf4cb57170de38a189dd5e67347"
 type = "git"
 url = "https://github.com/easyScience/easyAppGui.git"
-
 [[package]]
 category = "main"
 description = ""
@@ -98,7 +97,6 @@ dicttoxml = "^1.7.4"
 reference = "f7defe4ff3d3e0100080b8f887c6176af7afb360"
 type = "git"
 url = "https://github.com/easyScience/easyAppLogic.git"
-
 [[package]]
 category = "main"
 description = ""
@@ -120,9 +118,8 @@ version = "^1.6.1"
 reference = "095434c5016e974c571460ecec93c59bfd407b6b"
 type = "git"
 url = "https://github.com/tempScience/easyTemplateLib.git"
-
 [[package]]
-category = "main"
+category = "dev"
 description = "Python bindings for FFmpeg - with complex filtering support"
 name = "ffmpeg-python"
 optional = false
@@ -136,7 +133,7 @@ future = "*"
 dev = ["future (0.17.1)", "numpy (1.16.4)", "pytest-mock (1.10.4)", "pytest (4.6.1)", "Sphinx (2.1.0)", "tox (3.12.1)"]
 
 [[package]]
-category = "main"
+category = "dev"
 description = "Clean single-source support for Python 3 and 2"
 name = "future"
 optional = false
@@ -296,18 +293,8 @@ version = "1.19.0"
 
 [[package]]
 category = "dev"
-description = "Wrapper package for OpenCV python bindings."
-name = "opencv-python-headless"
-optional = false
-python-versions = "*"
-version = "4.3.0.36"
-
-[package.dependencies]
-numpy = ">=1.11.1"
-
-[[package]]
-category = "dev"
 description = "Python PE parsing module"
+marker = "sys_platform == \"win32\""
 name = "pefile"
 optional = false
 python-versions = "*"
@@ -339,7 +326,6 @@ hook_testing = ["pytest (>=2.7.3)", "execnet (>=1.5.0)", "psutil"]
 reference = "0c75d32bdb53508df4feedb477b7fa2e880420cf"
 type = "git"
 url = "https://github.com/pyinstaller/pyinstaller.git"
-
 [[package]]
 category = "main"
 description = "Python parsing module"
@@ -394,6 +380,7 @@ version = "228"
 [[package]]
 category = "dev"
 description = ""
+marker = "sys_platform == \"win32\""
 name = "pywin32-ctypes"
 optional = false
 python-versions = "*"
@@ -498,7 +485,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "7dd5afe0a3cc5f681f170dd34d05b701e9e0188df73b81c5786402c9c57ad7b2"
+content-hash = "477c6c3faf6a313b5c144bfe3aba1de7cf3f3f74b89f315989fb37f8b92e34ff"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -648,27 +635,6 @@ numpy = [
     {file = "numpy-1.19.0-cp38-cp38-win_amd64.whl", hash = "sha256:c2edbb783c841e36ca0fa159f0ae97a88ce8137fb3a6cd82eae77349ba4b607b"},
     {file = "numpy-1.19.0-pp36-pypy36_pp73-manylinux2010_x86_64.whl", hash = "sha256:8cde829f14bd38f6da7b2954be0f2837043e8b8d7a9110ec5e318ae6bf706610"},
     {file = "numpy-1.19.0.zip", hash = "sha256:76766cc80d6128750075378d3bb7812cf146415bd29b588616f72c943c00d598"},
-]
-opencv-python-headless = [
-    {file = "opencv_python_headless-4.3.0.36-cp35-cp35m-manylinux2014_i686.whl", hash = "sha256:e217bbbbb7dc06d77c799edac196f2f706601f4f6a8b2d44ae25eda4cda23e08"},
-    {file = "opencv_python_headless-4.3.0.36-cp35-cp35m-manylinux2014_x86_64.whl", hash = "sha256:3cf602a40750cbab284cb9d6f508d9110a3c79d4e18a261cb09957e2ca6f07d6"},
-    {file = "opencv_python_headless-4.3.0.36-cp35-cp35m-win32.whl", hash = "sha256:8c496eb24af0ff16844f5b12fcbb28469151822fe19ece7b6cf66279c451981d"},
-    {file = "opencv_python_headless-4.3.0.36-cp35-cp35m-win_amd64.whl", hash = "sha256:103c705540603f349e714edff93606c66d0e0a6a36d22aca8f4c2a3f8f25823c"},
-    {file = "opencv_python_headless-4.3.0.36-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:d269133ebfe8c99b7abe096358c0644212103b4806ae6e8ef5149d4e0d5edb36"},
-    {file = "opencv_python_headless-4.3.0.36-cp36-cp36m-manylinux2014_i686.whl", hash = "sha256:4b303ae6b207ed79071e2ab930a0f39d7e97bc176b730d552accdf7d0ea8ef5a"},
-    {file = "opencv_python_headless-4.3.0.36-cp36-cp36m-manylinux2014_x86_64.whl", hash = "sha256:baaeef03220c48430768503af990b3ca5582a3c1a1bf03519db122e2ddcd78a3"},
-    {file = "opencv_python_headless-4.3.0.36-cp36-cp36m-win32.whl", hash = "sha256:3d8b3e2b2dc5796cc1f34a6bd5e43d646818843a14554be55bb9e92dcb78ada0"},
-    {file = "opencv_python_headless-4.3.0.36-cp36-cp36m-win_amd64.whl", hash = "sha256:653459f61b44f1d7f20ce36c6112925b351e2abadb4be6f3007440b237bafffd"},
-    {file = "opencv_python_headless-4.3.0.36-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:fe28cfc3b6285f7e92905c53d42426f4f03e7af134712061329333e8fb8ea3d6"},
-    {file = "opencv_python_headless-4.3.0.36-cp37-cp37m-manylinux2014_i686.whl", hash = "sha256:9b0e9fa11f203c39a51044471f01d5db0dd493b13e6da209cc8945b12e6eef9e"},
-    {file = "opencv_python_headless-4.3.0.36-cp37-cp37m-manylinux2014_x86_64.whl", hash = "sha256:2f71a14ccd109948f9c4c1761794e3512e7eff1e3b893619de6443467cec9052"},
-    {file = "opencv_python_headless-4.3.0.36-cp37-cp37m-win32.whl", hash = "sha256:325fc39fcee0d07df07b409cefe3868086ed60f7286798c32765dce393c6951d"},
-    {file = "opencv_python_headless-4.3.0.36-cp37-cp37m-win_amd64.whl", hash = "sha256:1b1dcdd4ccf4b71767add0b674f876aad666395471ccdce5455209329f036109"},
-    {file = "opencv_python_headless-4.3.0.36-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:271d7de7655f8d3a55100565b486d9f63da7465722e7a7ab834c853a2ee67b6e"},
-    {file = "opencv_python_headless-4.3.0.36-cp38-cp38-manylinux2014_i686.whl", hash = "sha256:f5a29918dd8d8c3f4d7710a324fd3c733a91ad269c4863b32b920cb90801e22b"},
-    {file = "opencv_python_headless-4.3.0.36-cp38-cp38-manylinux2014_x86_64.whl", hash = "sha256:e204a75a00bee4c10875a94ccc8e102d9ab7e1259cc0f4ddf64cee777da6bbc9"},
-    {file = "opencv_python_headless-4.3.0.36-cp38-cp38-win32.whl", hash = "sha256:065c6fc2efc61ebc3dd7de7774895e200b2c050d4e8b499cee717a9db526880e"},
-    {file = "opencv_python_headless-4.3.0.36-cp38-cp38-win_amd64.whl", hash = "sha256:5fabfc789d6b8cffbb01f4e224d3583cce12666bbebafa15e8bca69111a21153"},
 ]
 pefile = [
     {file = "pefile-2019.4.18.tar.gz", hash = "sha256:a5d6e8305c6b210849b47a6174ddf9c452b2888340b8177874b862ba6c207645"},
