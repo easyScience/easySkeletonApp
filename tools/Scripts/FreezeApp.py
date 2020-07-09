@@ -137,4 +137,4 @@ if __name__ == "__main__":
     copyMissingLibs()
     copyMissingPlugins()
     runPyInstaller()
-    excludeLibs()
+    #excludeLibs()
