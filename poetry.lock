@@ -68,14 +68,6 @@ python-versions = "*"
 version = "1.7.4"
 
 [[package]]
-category = "dev"
-description = "Python 2.7 backport of the \"dis\" module from Python 3.5+"
-name = "dis3"
-optional = false
-python-versions = "*"
-version = "0.1.3"
-
-[[package]]
 category = "main"
 description = ""
 name = "easyappgui"
@@ -90,6 +82,7 @@ PySide2 = "^5.13"
 reference = "e21fb9411da60c5da8dec35c0e5f1f2bcf87de5a"
 type = "git"
 url = "https://github.com/easyScience/easyAppGui.git"
+
 [[package]]
 category = "main"
 description = ""
@@ -105,6 +98,7 @@ dicttoxml = "^1.7.4"
 reference = "a1b663a84ed831e26618cb633feb7910059a846c"
 type = "git"
 url = "https://github.com/easyScience/easyAppLogic.git"
+
 [[package]]
 category = "main"
 description = ""
@@ -126,6 +120,7 @@ version = "^1.6.1"
 reference = "095434c5016e974c571460ecec93c59bfd407b6b"
 type = "git"
 url = "https://github.com/tempScience/easyTemplateLib.git"
+
 [[package]]
 category = "dev"
 description = "Clean single-source support for Python 3 and 2"
@@ -215,7 +210,6 @@ numpy = ">=1.11.1"
 [[package]]
 category = "dev"
 description = "Python PE parsing module"
-marker = "sys_platform == \"win32\""
 name = "pefile"
 optional = false
 python-versions = "*"
@@ -229,13 +223,24 @@ category = "dev"
 description = "PyInstaller bundles a Python application and all its dependencies into a single package."
 name = "pyinstaller"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
-version = "3.6"
+python-versions = "*"
+version = "4.0.dev0+g0c75d32b"
 
 [package.dependencies]
 altgraph = "*"
-dis3 = "*"
+macholib = ">=1.8"
+pefile = ">=2017.8.1"
+pywin32-ctypes = ">=0.2.0"
 setuptools = "*"
+
+[package.extras]
+encryption = ["tinyaes (>=1.0.0)"]
+hook_testing = ["pytest (>=2.7.3)", "execnet (>=1.5.0)", "psutil"]
+
+[package.source]
+reference = "0c75d32bdb53508df4feedb477b7fa2e880420cf"
+type = "git"
+url = "https://github.com/pyinstaller/pyinstaller.git"
 
 [[package]]
 category = "main"
@@ -291,7 +296,6 @@ version = "228"
 [[package]]
 category = "dev"
 description = ""
-marker = "sys_platform == \"win32\""
 name = "pywin32-ctypes"
 optional = false
 python-versions = "*"
@@ -377,7 +381,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "2fe96475744dd369f6ef02a0b54f544635e4a696fe7140df20f64eea754cbad5"
+content-hash = "959c882ef75d9dc8e0aac461fdb05cb1211b6ce6d06cc659870c7397ad45a87a"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -407,11 +411,6 @@ dephell-licenses = [
 ]
 dicttoxml = [
     {file = "dicttoxml-1.7.4.tar.gz", hash = "sha256:ea44cc4ec6c0f85098c57a431a1ee891b3549347b07b7414c8a24611ecf37e45"},
-]
-dis3 = [
-    {file = "dis3-0.1.3-py2-none-any.whl", hash = "sha256:61f7720dd0d8749d23fda3d7227ce74d73da11c2fade993a67ab2f9852451b14"},
-    {file = "dis3-0.1.3-py3-none-any.whl", hash = "sha256:30b6412d33d738663e8ded781b138f4b01116437f0872aa56aa3adba6aeff218"},
-    {file = "dis3-0.1.3.tar.gz", hash = "sha256:9259b881fc1df02ed12ac25f82d4a85b44241854330b1a651e40e0c675cb2d1e"},
 ]
 easyappgui = []
 easyapplogic = []
@@ -519,9 +518,7 @@ opencv-python-headless = [
 pefile = [
     {file = "pefile-2019.4.18.tar.gz", hash = "sha256:a5d6e8305c6b210849b47a6174ddf9c452b2888340b8177874b862ba6c207645"},
 ]
-pyinstaller = [
-    {file = "PyInstaller-3.6.tar.gz", hash = "sha256:3730fa80d088f8bb7084d32480eb87cbb4ddb64123363763cf8f2a1378c1c4b7"},
-]
+pyinstaller = []
 pyparsing = [
     {file = "pyparsing-2.4.7-py2.py3-none-any.whl", hash = "sha256:ef9d7589ef3c200abe66653d3f1ab1033c3c419ae9b9bdb1240a85b024efc88b"},
     {file = "pyparsing-2.4.7.tar.gz", hash = "sha256:c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1"},
