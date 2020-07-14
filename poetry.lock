@@ -185,7 +185,7 @@ description = "Chromium HSTS Preload list as a Python package and updated daily"
 name = "hstspreload"
 optional = false
 python-versions = ">=3.6"
-version = "2020.7.7"
+version = "2020.7.14"
 
 [[package]]
 category = "dev"
@@ -323,7 +323,7 @@ encryption = ["tinyaes (>=1.0.0)"]
 hook_testing = ["pytest (>=2.7.3)", "execnet (>=1.5.0)", "psutil"]
 
 [package.source]
-reference = "0c75d32bdb53508df4feedb477b7fa2e880420cf"
+reference = "1e571ae1a302709583667f41fbc2508b9a79a05f"
 type = "git"
 url = "https://github.com/pyinstaller/pyinstaller.git"
 [[package]]
@@ -542,8 +542,8 @@ hpack = [
     {file = "hpack-3.0.0.tar.gz", hash = "sha256:8eec9c1f4bfae3408a3f30500261f7e6a65912dc138526ea054f9ad98892e9d2"},
 ]
 hstspreload = [
-    {file = "hstspreload-2020.7.7-py3-none-any.whl", hash = "sha256:051a752188c3422558a1302be99b742a2dd9d7568419614104ae7e87233f9d63"},
-    {file = "hstspreload-2020.7.7.tar.gz", hash = "sha256:3e1b107d6c865fc28f0f023456f193f2e916d14bca5a16c93fe440bef90c7c58"},
+    {file = "hstspreload-2020.7.14-py3-none-any.whl", hash = "sha256:1ca15ed74605eb9bda3983a459872ee7def91ba0129d637e5cd527063876886b"},
+    {file = "hstspreload-2020.7.14.tar.gz", hash = "sha256:fa88ae62a308dda8f40653152e8f484ea038751b8b8a47d456994aa096c2d617"},
 ]
 httpcore = [
     {file = "httpcore-0.9.1-py3-none-any.whl", hash = "sha256:9850fe97a166a794d7e920590d5ec49a05488884c9fc8b5dba8561effab0c2a0"},
