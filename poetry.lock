@@ -70,7 +70,6 @@ version = "1.7.4"
 [[package]]
 category = "main"
 description = ""
-develop = true
 name = "easyappgui"
 optional = false
 python-versions = "^3.7"
@@ -80,14 +79,12 @@ version = "0.2.0"
 PySide2 = "^5.13"
 
 [package.source]
-reference = ""
-type = "directory"
-url = "../easyAppGui"
-
+reference = "f7701e3783d4b34c3282f65caba2f37a84c63945"
+type = "git"
+url = "https://github.com/easyScience/easyAppGui.git"
 [[package]]
 category = "main"
 description = ""
-develop = true
 name = "easyapplogic"
 optional = false
 python-versions = "^3.7"
@@ -97,14 +94,12 @@ version = "0.1.0"
 dicttoxml = "^1.7.4"
 
 [package.source]
-reference = ""
-type = "directory"
-url = "../easyAppLogic"
-
+reference = "3c4acd7625591e2089571ff1797eb71327a4c31f"
+type = "git"
+url = "https://github.com/easyScience/easyAppLogic.git"
 [[package]]
 category = "main"
 description = ""
-develop = true
 name = "easytemplatelib"
 optional = false
 python-versions = "^3.6, >=3.6.1"
@@ -115,15 +110,14 @@ matplotlib = "^3.2.1"
 numpy = "^1.18.5"
 scipy = "^1.4.1"
 
-[package.dependencies.importlib_metadata]
+[package.dependencies.importlib-metadata]
 python = "<3.8"
-version = "^1.7"
+version = "^1.6.1"
 
 [package.source]
-reference = ""
-type = "directory"
-url = "../easyTemplateLib"
-
+reference = "095434c5016e974c571460ecec93c59bfd407b6b"
+type = "git"
+url = "https://github.com/tempScience/easyTemplateLib.git"
 [[package]]
 category = "dev"
 description = "Python bindings for FFmpeg - with complex filtering support"
@@ -491,7 +485,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "2f93db85151a87221b5af2f5536c9fc599be9e62c72346dc838321e46523305b"
+content-hash = "477c6c3faf6a313b5c144bfe3aba1de7cf3f3f74b89f315989fb37f8b92e34ff"
 python-versions = "^3.7"
 
 [metadata.files]

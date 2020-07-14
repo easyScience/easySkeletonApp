@@ -26,9 +26,9 @@ easyTemplateLib = { git = "https://github.com/tempScience/easyTemplateLib.git", 
 
 [tool.poetry.dev-dependencies]
 # easyScience
-easyTemplateLib = { path = '../easyTemplateLib/' }
-easyAppLogic = { path = "../easyAppLogic/" }
-easyAppGui = { path = "../easyAppGui/" }
+#easyTemplateLib = { path = '../easyTemplateLib/' }
+#easyAppLogic = { path = "../easyAppLogic/" }
+#easyAppGui = { path = "../easyAppGui/" }
 # PyInstaller
 #pyinstaller = "^3.6"
 pyinstaller = { git = "https://github.com/pyinstaller/pyinstaller.git", rev = "develop" }
