@@ -47,6 +47,14 @@ def iconPath():
     icon_path = os.path.join(package_name(), icon_dir, f'{icon_name}{icon_ext}')
     return icon_path
 
+def excludedModules():
+    module_names = CONFIG['ci']['pyinstaller']['auto_exclude'][Functions.osName()]
+    formatted = []
+    for name in module_names:
+        formatted.append('--exclude-module')
+        formatted.append(name)
+    return formatted
+
 def runPyInstaller():
     try:
         message = 'freeze app'
@@ -62,7 +70,8 @@ def runPyInstaller():
             '--log-level', 'WARN',                   # LEVEL may be one of DEBUG, INFO, WARN, ERROR, CRITICAL (default: INFO).
             '--distpath', distributionDirPath(),     # Where to put the bundled app (default: ./dist)
             '--workpath', workDirPath(),             # Where to put all the temporary work files, .log, .pyz and etc. (default: ./build)
-            '--exclude-module', '_tkinter',          # Exclude tcl/tk toolkit
+            #'--exclude-module', 'PySide2.QtNetwork',#
+            *excludedModules(),
             f'--add-data={projectData()}',           # Add both project Python and QML source files
             f'--add-data={easyTemplateLibData()}',   # Add easyTemplateLib package
             f'--add-data={easyAppLogicData()}',      # Add easyAppLogic package
@@ -77,14 +86,14 @@ def runPyInstaller():
     else:
         Functions.printSuccessMessage(message)
 
-def excludeLibs():
-    exclude_files = CONFIG['ci']['pyinstaller']['exclude_libs'][Functions.osName()]
+def excludeFiles():
+    file_names = CONFIG['ci']['pyinstaller']['manual_exclude'][Functions.osName()]
     if len(exclude_files) == 0:
         Functions.printNeutralMessage(f'No libraries to be excluded for {Functions.osName()}')
         return
     try:
-        message = 'exclude libraries'
-        for file_name in exclude_files:
+        message = 'exclude files'
+        for file_name in file_names:
             file_path = os.path.join(distributionDirPath(), appName() + '.app', 'Contents', 'MacOS', file_name)
             for file_path in glob.glob(file_path): # for cases with '*' in the lib name
                 Functions.removeFile(file_path)
@@ -137,4 +146,4 @@ if __name__ == "__main__":
     copyMissingLibs()
     copyMissingPlugins()
     runPyInstaller()
-    excludeLibs()
+    excludeFiles()

@@ -95,15 +95,9 @@ fps = 16
 
 [ci.app.translations]
 dir = 'Gui/Resources/Translations'
-languages = [ { code = 'en', name = 'English' },
-              { code = 'fr', name = 'Française' },
-              { code = 'de', name = 'Deutsch' },
-              { code = 'es', name = 'Español' },
-              { code = 'it', name = 'Italiano' },
-              { code = 'pt', name = 'Português' },
-              { code = 'da', name = 'Dansk' },
-              { code = 'sv', name = 'Svenska' },
-              { code = 'pl', name = 'Polski' },
+languages = [ { code = 'en', name = 'English' }, { code = 'fr', name = 'Française' }, { code = 'de', name = 'Deutsch' },
+              { code = 'es', name = 'Español' }, { code = 'it', name = 'Italiano' },  { code = 'pt', name = 'Português' },
+              { code = 'da', name = 'Dansk' },   { code = 'sv', name = 'Svenska' },   { code = 'pl', name = 'Polski' },
               { code = 'ru', name = 'Русский' } ]
 
 [ci.poetry]
@@ -114,7 +108,14 @@ separator = { macos = ':', ubuntu = ':', windows = ';' }
 suffix = { macos = '.app', ubuntu = '', windows = '' }
 missing_pyside2_files = { macos = ['libshiboken2.abi3.*.dylib'], ubuntu = [], windows = ['shiboken2.abi3.dll', 'MSVCP140.dll'] }
 missing_pyside2_plugins = { macos = [], ubuntu = ['Qt/plugins/xcbglintegrations'], windows = [] } # EGL and GLX plugins
-exclude_libs = { macos = ['libintl*', 'QtWebEngineCore'], ubuntu = [], windows = [] }
+auto_exclude = { macos = [ 'lib2to3', '_bisect', '_bz2', '_codecs_cn', '_codecs_hk', '_codecs_iso2022', '_codecs_jp',
+                           '_codecs_kr', '_codecs_tw', '_contextvars', '_curses', '_hashlib', '_heapq', '_lzma',
+                           '_multibytecodec', '_multiprocessing', '_opcode', '_pickle', '_queue', '_scproxy', '_tkinter',
+                           '_opcode', '_ssl', '_uuid', 'grp', 'libintl', 'mmap', 'readline', 'termios' ], ubuntu = [], windows = [] }
+manual_exclude = { macos = [ 'Qt3D*', 'QtBluetooth', 'QtBodymovin', 'QtConcurrent', 'QtGamepad', 'QtLocation',
+                             'QtMultimedia*', 'QtNfc', 'QtPositioning', 'QtPositioningQuick', 'QtPurchasing',
+                             'QtQuickParticles', 'QtQuickShapes', 'QtRemoteObjects', 'QtScxml', 'QtSensors',
+                             'QtSql', 'QtVirtualKeyboard', 'QtWeb*' ], ubuntu = [], windows = [] }
 
 [ci.qtifw.setup]
 version = '3.2.2'
