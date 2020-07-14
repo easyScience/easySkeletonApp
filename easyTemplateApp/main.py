@@ -5,7 +5,7 @@ from PySide2.QtQml import QQmlApplicationEngine
 
 import pyproject
 import easyAppGui
-from easyAppLogic.Translator import Translator
+from easyAppLogic.Translate import Translator
 from easyTemplateApp.Logic.PyQmlProxy import PyQmlProxy
 
 
@@ -18,11 +18,14 @@ def isTestMode():
 def main():
     current_path = os.path.dirname(sys.argv[0])
     package_path = os.path.join(current_path, "easyTemplateApp")
-    translations_path = os.path.join(package_path, "Gui", "Resources", "Translations")
+
     main_qml_path = QUrl.fromLocalFile(os.path.join(package_path, "Gui", "main.qml"))
     gui_path = str(QUrl.fromLocalFile(package_path).toString())
-    easyAppGui_path = easyAppGui.__path__[0]
+    easyAppGui_path = os.path.join(easyAppGui.__path__[0], "..")
+
     languages = pyproject.config()['ci']['app']['translations']['languages']
+    translations_dir = pyproject.config()['ci']['app']['translations']['dir']
+    translations_path = os.path.join(package_path, *translations_dir.split('/'))
 
     # Create a proxy object between python logic and QML GUI
     py_qml_proxy_obj = PyQmlProxy()

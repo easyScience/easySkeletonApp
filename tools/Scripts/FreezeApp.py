@@ -13,39 +13,20 @@ CONFIG = Functions.config()
 def appName():
     return CONFIG['tool']['poetry']['name']
 
-def package_name():
+def packageName():
     return f'{appName()}App'
 
 def separator():
     return CONFIG['ci']['pyinstaller']['separator'][Functions.osName()]
 
 def mainPyPath():
-    return os.path.join(os.getcwd(), package_name(), 'main.py')
+    return os.path.join(os.getcwd(), packageName(), 'main.py')
 
 def distributionDirPath():
     return os.path.join(os.getcwd(), CONFIG['ci']['project']['subdirs']['distribution'])
 
 def workDirPath():
     return os.path.join(os.getcwd(), CONFIG['ci']['project']['subdirs']['build'])
-
-def projectData():
-    return f'{package_name()}{separator()}{package_name()}'
-
-def easyTemplateLibData():
-    return f'{easyTemplateLib.__path__[0]}{separator()}.'
-
-def easyAppLogicData():
-    return f'{easyAppLogic.__path__[0]}{separator()}.'
-
-def easyAppGuiData():
-    return f'{easyAppGui.__path__[0]}{separator()}.'
-
-def iconPath():
-    icon_dir = os.path.join(*CONFIG['ci']['app']['icon']['dir'])
-    icon_name = CONFIG['ci']['app']['icon']['file_name']
-    icon_ext = CONFIG['ci']['app']['icon']['file_ext'][Functions.osName()]
-    icon_path = os.path.join(package_name(), icon_dir, f'{icon_name}{icon_ext}')
-    return icon_path
 
 def excludedModules():
     module_names = CONFIG['ci']['pyinstaller']['auto_exclude'][Functions.osName()]
@@ -55,30 +36,43 @@ def excludedModules():
         formatted.append(module_name)
     return formatted
 
+def addedData():
+    data = [{'from': packageName(), 'to': packageName()},
+            {'from': easyTemplateLib.__path__[0], 'to': 'easyTemplateLib'},
+            {'from': easyAppLogic.__path__[0], 'to': 'easyAppLogic'},
+            {'from': easyAppGui.__path__[0], 'to': 'easyAppGui'},
+            {'from': 'pyproject.py', 'to': '.'},
+            {'from': 'pyproject.toml', 'to': '.'}]
+    formatted = []
+    for element in data:
+        formatted.append(f'--add-data={element["from"]}{separator()}{element["to"]}')
+    return formatted
+
+def appIcon():
+    icon_dir = os.path.join(*CONFIG['ci']['app']['icon']['dir'])
+    icon_name = CONFIG['ci']['app']['icon']['file_name']
+    icon_ext = CONFIG['ci']['app']['icon']['file_ext'][Functions.osName()]
+    icon_path = os.path.join(packageName(), icon_dir, f'{icon_name}{icon_ext}')
+    icon_path = os.path.abspath(icon_path)
+    return f'--icon={icon_path}'
+
 def runPyInstaller():
     try:
         message = 'freeze app'
-        pyproject_py = f'pyproject.py{separator()}.'
-        pyproject_toml = f'pyproject.toml{separator()}.'
         pyInstallerMain([
-            mainPyPath(),                            # Application main file
-            f'--name={appName()}',                   # Name to assign to the bundled app and spec file (default: first script’s basename)
-            '--noconfirm',                           # Replace output directory (default: SPECPATH/dist/SPECNAME) without asking for confirmation
-            '--clean',                               # Clean PyInstaller cache and remove temporary files before building
-            '--windowed',                            # Windows and Mac OS X: do not provide a console window for standard i/o.
-            '--onedir',                              # Create a one-folder bundle containing an executable (default)
-            '--log-level', 'WARN',                   # LEVEL may be one of DEBUG, INFO, WARN, ERROR, CRITICAL (default: INFO).
-            '--distpath', distributionDirPath(),     # Where to put the bundled app (default: ./dist)
-            '--workpath', workDirPath(),             # Where to put all the temporary work files, .log, .pyz and etc. (default: ./build)
-            #'--exclude-module', 'PySide2.QtNetwork',#
-            *excludedModules(),
-            f'--add-data={projectData()}',           # Add both project Python and QML source files
-            f'--add-data={easyTemplateLibData()}',   # Add easyTemplateLib package
-            f'--add-data={easyAppLogicData()}',      # Add easyAppLogic package
-            f'--add-data={easyAppGuiData()}',        # Add easyAppGui package
-            f'--add-data={pyproject_py}',            #
-            f'--add-data={pyproject_toml}',          #
-            f'--icon={iconPath()}'                   # Add application icon
+            mainPyPath(),                           # Application main file
+            f'--name={appName()}',                  # Name to assign to the bundled app and spec file (default: first script’s basename)
+            '--log-level', 'WARN',                  # LEVEL may be one of DEBUG, INFO, WARN, ERROR, CRITICAL (default: INFO).
+            '--noconfirm',                          # Replace output directory (default: SPECPATH/dist/SPECNAME) without asking for confirmation
+            '--clean',                              # Clean PyInstaller cache and remove temporary files before building
+            '--windowed',                           # Windows and Mac OS X: do not provide a console window for standard i/o.
+            '--onedir',                             # Create a one-folder bundle containing an executable (default)
+            #'--specpath', workDirPath(),            # Folder to store the generated spec file (default: current directory)
+            '--distpath', distributionDirPath(),    # Where to put the bundled app (default: ./dist)
+            '--workpath', workDirPath(),            # Where to put all the temporary work files, .log, .pyz and etc. (default: ./build)
+            *excludedModules(),                     # Exclude modules
+            *addedData(),                           # Add data
+            appIcon()                               # Application icon
             ])
     except Exception as exception:
         Functions.printFailMessage(message, exception)
