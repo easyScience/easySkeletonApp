@@ -50,9 +50,9 @@ def iconPath():
 def excludedModules():
     module_names = CONFIG['ci']['pyinstaller']['auto_exclude'][Functions.osName()]
     formatted = []
-    for name in module_names:
+    for module_name in module_names:
         formatted.append('--exclude-module')
-        formatted.append(name)
+        formatted.append(module_name)
     return formatted
 
 def runPyInstaller():
@@ -88,7 +88,7 @@ def runPyInstaller():
 
 def excludeFiles():
     file_names = CONFIG['ci']['pyinstaller']['manual_exclude'][Functions.osName()]
-    if len(exclude_files) == 0:
+    if len(file_names) == 0:
         Functions.printNeutralMessage(f'No libraries to be excluded for {Functions.osName()}')
         return
     try:
