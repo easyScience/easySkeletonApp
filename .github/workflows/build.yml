@@ -44,7 +44,6 @@ jobs:
         echo ::set-env name=DISTRIBUTION_PATH::$(python pyproject.py ci.project.subdirs.distribution)
         echo ::set-env name=APP_NAME::$(python pyproject.py tool.poetry.name)
         echo ::set-env name=REPO_DIR_SUFFIX::$(python pyproject.py ci.app.setup.repository_dir_suffix)
-        echo ::set-env name=REPO_DIR_NAME::$(echo ${APP_NAME})$(echo {{ env.REPO_DIR_SUFFIX}})
         echo ::set-env name=POETRY_VENV_PATH::$(python pyproject.py ci.poetry.venv_path.${{ matrix.os }})
         echo ::set-env name=QTIFW_PATH::$(python pyproject.py ci.qtifw.setup.installation_path.${{ matrix.os }})
 
@@ -89,10 +88,10 @@ jobs:
       with:
         commit_message: Upload video tutorials
 
-    - name: Create zip archive of artifacts
+    - name: Create zip archive of app installer
       run: poetry run python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ runner.os }} ${{ env.SHORT_GITHUB_REF }}
 
-    - name: Upload zipped artifacts to GitHub releases
+    - name: Upload zipped app installer to GitHub releases
       uses: ncipollo/release-action@v1
       with:
         draft: true
@@ -104,11 +103,19 @@ jobs:
         tag: ${{ env.SHORT_GITHUB_REF }}
         artifacts: "${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}-*.zip"
 
-    - name: Deploy installer repository to FTP
-      if: runner.os == 'macOS'
-      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+    - name: Deploy app installer repository via FTP
+#      if: runner.os == 'macOS'
+#      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+#      with:
+#        ftp-server: ftp://ftp.apptimity.com/${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}/
+#        ftp-username: gh@easyscience.apptimity.com
+#        ftp-password: ${{ secrets.FTP_PASSWORD }}
+#        local-dir: ${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}/${{ runner.os }}
+#
+      uses: sebastianpopp/ftp-action@releases/v2
       with:
-        ftp-server: ftp://ftp.apptimity.com/${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}/
-        ftp-username: gh@easyscience.apptimity.com
-        ftp-password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}/${{ runner.os }}
+        host: ftp://ftp.apptimity.com/
+        user: gh@easyscience.apptimity.com
+        password: ${{ secrets.FTP_PASSWORD }}
+        localDir: ${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}/${{ runner.os }}
+        remoteDir: ${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}
