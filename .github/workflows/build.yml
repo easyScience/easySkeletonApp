@@ -31,12 +31,13 @@ jobs:
       with:
           python-version: 3.7
 
-    - name: Setup project config parser
-      run: pip install toml
+    #- name: Setup project config parser
+    #  run: pip install toml
 
     - name: Declare env variables
       shell: bash
       run: |
+        pip install toml
         echo ::set-env name=SHORT_GITHUB_REF::${GITHUB_REF#refs/*/}
         echo ::set-env name=SCRIPTS_PATH::$(python pyproject.py ci.project.subdirs.scripts)
         echo ::set-env name=DOWNLOAD_PATH::$(python pyproject.py ci.project.subdirs.download)

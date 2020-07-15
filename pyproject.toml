@@ -6,7 +6,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "easyTemplate"
-version = "0.1.1"
+version = "0.1.2"
 description = "Template for easyScience applications"
 license = "GPL-3.0-only"
 authors = ["Andrew Sazonov", "Simon Ward"]
@@ -53,12 +53,12 @@ easyTemplate = "easyTemplateApp.main:main"
 license_file = "LICENSE.md" # how to combine this with tool.poetry.license???
 
 [ci.project.subdirs]
-distribution = '.ci/distribution'
-build = '.ci/build'
+scripts = 'tools/Scripts'
+tutorials = 'docs/UserManual/VideoTutorials'
 download = '.ci/download'
 screenshots = '.ci/screenshots'
-tutorials = 'docs/UserManual/VideoTutorials'
-scripts = 'tools/Scripts'
+build = '.ci/build'
+distribution = '.ci/distribution'
 
 [ci.scripts]
 silent_install = 'SilentInstall.js'
@@ -105,17 +105,18 @@ venv_path = { macos = '/Users/runner/Library/Caches/pypoetry/virtualenvs', ubunt
 
 [ci.pyinstaller]
 separator = { macos = ':', ubuntu = ':', windows = ';' }
-suffix = { macos = '.app', ubuntu = '', windows = '' }
+dir_suffix = { macos = '.app', ubuntu = '', windows = '' }
+content_suffix = { macos = 'Contents/MacOS/', ubuntu = '', windows = '' }
 missing_pyside2_files = { macos = ['libshiboken2.abi3.*.dylib'], ubuntu = [], windows = ['shiboken2.abi3.dll', 'MSVCP140.dll'] }
 missing_pyside2_plugins = { macos = [], ubuntu = ['Qt/plugins/xcbglintegrations'], windows = [] } # EGL and GLX plugins
-auto_exclude = { macos = [ 'lib2to3', '_bisect', '_bz2', '_codecs_cn', '_codecs_hk', '_codecs_iso2022', '_codecs_jp',
-                           '_codecs_kr', '_codecs_tw', '_contextvars', '_curses', '_elementtree', '_hashlib', '_heapq', '_lzma',
-                           '_multibytecodec', '_multiprocessing', '_opcode', '_pickle', '_queue', '_scproxy', '_tkinter',
-                           '_opcode', '_ssl', '_uuid', 'grp', 'mmap', 'readline', 'termios' ], ubuntu = [], windows = [] }
-manual_exclude = { macos = [ 'libintl*', 'Qt3D*', 'QtBluetooth', 'QtBodymovin', 'QtConcurrent', 'QtGamepad', 'QtLocation',
-                             'QtMultimedia*', 'QtNfc', 'QtPositioning', 'QtPositioningQuick', 'QtPurchasing',
-                             'QtQuickParticles', 'QtQuickShapes', 'QtRemoteObjects', 'QtScxml', 'QtSensors',
-                             'QtSql', 'QtVirtualKeyboard', 'QtWeb*' ], ubuntu = [], windows = [] }
+auto_exclude = [ 'lib2to3', '_bisect', '_bz2', '_codecs_cn', '_codecs_hk', '_codecs_iso2022', '_codecs_jp',
+                 '_codecs_kr', '_codecs_tw', '_contextvars', '_curses', '_elementtree', '_hashlib', '_heapq', '_lzma',
+                 '_multibytecodec', '_multiprocessing', '_opcode', '_pickle', '_queue', '_scproxy', '_tkinter',
+                 '_opcode', '_ssl', '_uuid', 'grp', 'mmap', 'readline', 'termios' ]
+manual_exclude = [ 'libintl*', 'Qt3D*', 'QtBluetooth*', 'QtBodymovin*', 'QtConcurrent*', 'QtGamepad*', 'QtLocation*',
+                   'QtMultimedia*', 'QtNfc*', 'QtPositioning*', 'QtPositioningQuick*', 'QtPurchasing*',
+                   'QtQuickParticles*', 'QtQuickShapes*', 'QtRemoteObjects*', 'QtScxml*', 'QtSensors*',
+                   'QtSql*', 'QtVirtualKeyboard*', 'QtWeb*' ]
 
 [ci.qtifw.setup]
 version = '3.2.2'

@@ -196,7 +196,7 @@ def createInstallerSourceDir():
         meta_subsubdir_path =  os.path.join(url_subdir_path, CONFIG['ci']['app']['setup']['build']['meta_subsubdir'])
         package_xml_path = os.path.join(meta_subsubdir_path, CONFIG['ci']['app']['setup']['build']['package_xml'])
         package_install_script_path = os.path.join(scriptsDir(), CONFIG['ci']['scripts']['package_install'])
-        freezed_app_path = os.path.join(distributionDir(), f"{appName()}{CONFIG['ci']['pyinstaller']['suffix'][Functions.osName()]}")
+        freezed_app_path = os.path.join(distributionDir(), f"{appName()}{CONFIG['ci']['pyinstaller']['dir_suffix'][Functions.osName()]}")
         # base
         Functions.createDir(setupBuildDir())
         # config
