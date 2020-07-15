@@ -43,6 +43,8 @@ jobs:
         echo ::set-env name=DOWNLOAD_PATH::$(python pyproject.py ci.project.subdirs.download)
         echo ::set-env name=DISTRIBUTION_PATH::$(python pyproject.py ci.project.subdirs.distribution)
         echo ::set-env name=APP_NAME::$(python pyproject.py tool.poetry.name)
+        echo ::set-env name=REPO_DIR_SUFFIX::$(python pyproject.py ci.app.setup.repository_dir_suffix)
+        echo ::set-env name=REPO_DIR_NAME::${APP_NAME}${REPO_DIR_SUFFIX}
         echo ::set-env name=POETRY_VENV_PATH::$(python pyproject.py ci.poetry.venv_path.${{ matrix.os }})
         echo ::set-env name=QTIFW_PATH::$(python pyproject.py ci.qtifw.setup.installation_path.${{ matrix.os }})
 
@@ -101,3 +103,12 @@ jobs:
         commit: ${{ env.SHORT_GITHUB_REF }}
         tag: ${{ env.SHORT_GITHUB_REF }}
         artifacts: "${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}-*.zip"
+
+    - name: Deploy installer repository to FTP
+      if: runner.os == 'macOS'
+      uses: SamKirkland/FTP-Deploy-Action@3.1.1
+      with:
+        ftp-server: ftp://ftp.apptimity.com/${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}/
+        ftp-username: gh@easyscience.apptimity.com
+        ftp-password: ${{ secrets.FTP_PASSWORD }}
+        local-dir: ${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}/${{ runner.os }}

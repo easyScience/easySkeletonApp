@@ -54,6 +54,7 @@ license_file = "LICENSE.md" # how to combine this with tool.poetry.license???
 
 [ci.project.subdirs]
 scripts = 'tools/Scripts'
+docs = 'docs'
 tutorials = 'docs/UserManual/VideoTutorials'
 download = '.ci/download'
 screenshots = '.ci/screenshots'
@@ -73,7 +74,7 @@ file_ext = { macos = '.icns', ubuntu = '.png', windows = '.ico' }
 [ci.app.setup]
 file_name_suffix = 'Setup'
 repository_dir_suffix = 'Repo'
-repository_os_suffix = { macos = 'macOS', ubuntu = 'Ubuntu', windows = 'Windows' }
+repository_os_suffix = { macos = 'macOS', ubuntu = 'Linux', windows = 'Windows' } # Should be the same as GH actions ${{ runner.os }}
 file_ext = { macos = '.app', ubuntu = '', windows = '.exe' }
 version = '0.1.0'
 maintenance_tool_suffix = 'MaintenanceTool'
@@ -85,11 +86,16 @@ config_dir = 'config'
 config_xml = 'config.xml'
 # packages
 packages_dir = 'packages'
-app_package_subdir = 'app'
-docs_package_subdir = 'docs'
 data_subsubdir = 'data'
 meta_subsubdir = 'meta'
 package_xml = 'package.xml'
+# package: app
+app_package_subdir = 'app'
+# package: docs
+docs_package_subdir = 'docs'
+docs_package_name = 'Documentation'
+docs_package_description = "Documentation: User manual, text and video tutorials"
+docs_package_version = '2020.7.15'
 
 [ci.app.tutorials.video]
 fps = 16                # Frames per Second
