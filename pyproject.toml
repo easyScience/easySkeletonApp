@@ -113,10 +113,10 @@ auto_exclude = [ 'lib2to3', '_bisect', '_bz2', '_codecs_cn', '_codecs_hk', '_cod
                  '_codecs_kr', '_codecs_tw', '_contextvars', '_curses', '_elementtree', '_hashlib', '_heapq', '_lzma',
                  '_multibytecodec', '_multiprocessing', '_opcode', '_pickle', '_queue', '_scproxy', '_tkinter',
                  '_opcode', '_ssl', '_uuid', 'grp', 'mmap', 'readline', 'termios' ]
-manual_exclude = [ 'libintl*', 'Qt*3D*', 'Qt*Bluetooth*', 'Qt*Bodymovin*', 'Qt*Concurrent*', 'Qt*Gamepad*', 'Qt*Location*',
-                   'Qt*Multimedia*', 'Qt*Nfc*', 'Qt*Positioning*', 'Qt*Purchasing*',
-                   'Qt*QuickParticles*', 'Qt*QuickShapes*', 'Qt*RemoteObjects*', 'Qt*Scxml*', 'Qt*Sensors*',
-                   'Qt*Sql*', 'Qt*VirtualKeyboard*', 'Qt*Web*' ]
+manual_exclude = [ 'libintl*', '*Qt*3D*', '*Qt*Bluetooth*', '*Qt*Bodymovin*', '*Qt*Concurrent*', '*Qt*Gamepad*',
+                   '*Qt*Location*', '*Qt*Multimedia*', '*Qt*Nfc*', '*Qt*Positioning*', '*Qt*Purchasing*',
+                   '*Qt*QuickParticles*', '*Qt*QuickShapes*', '*Qt*RemoteObjects*', '*Qt*Scxml*', '*Qt*Sensors*',
+                   '*Qt*Sql*', '*Qt*VirtualKeyboard*', '*Qt*Wayland*', '*Qt*Web*' ]
 
 [ci.qtifw.setup]
 version = '3.2.2'

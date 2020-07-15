@@ -74,7 +74,7 @@ jobs:
         poetry run python ${{ env.SCRIPTS_PATH }}/RunApp.py test
 #        poetry run python ${{ env.SCRIPTS_PATH }}/CreateTutorials.py
 
-#    - name: Upload video tutorials
+#    - name: Upload video tutorials to repository
 #      if: runner.os == 'macOS'
 #      uses: stefanzweifel/git-auto-commit-action@v4
 #      with:
