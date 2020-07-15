@@ -118,7 +118,7 @@ def installerConfigXml():
         Functions.printSuccessMessage(message)
         return pretty_xml
 
-def installerPackageXml():
+def appPackageXml():
     try:
         message = f"create {CONFIG['ci']['app']['setup']['build']['package_xml']} content"
         app_description = CONFIG['tool']['poetry']['description']
@@ -144,6 +144,33 @@ def installerPackageXml():
                     }
                 },
                 'Script': package_install_script,
+            }
+        })
+        pretty_xml = xml.dom.minidom.parseString(raw_xml).toprettyxml()
+    except Exception as exception:
+        Functions.printFailMessage(message, exception)
+        sys.exit()
+    else:
+        Functions.printSuccessMessage(message)
+        return pretty_xml
+
+def docsPackageXml():
+    try:
+        message = f"create {CONFIG['ci']['app']['setup']['build']['package_xml']} content"
+        app_description = CONFIG['tool']['poetry']['description']
+        app_version = CONFIG['tool']['poetry']['version']
+        release_date = "2020-01-01" #datetime.datetime.strptime(config['release']['date'], "%d %b %Y").strftime("%Y-%m-%d")
+        package_install_script = CONFIG['ci']['scripts']['package_install']
+        license_id = CONFIG['tool']['poetry']['license'].replace('-only', '')
+        license_name = dephell_licenses.licenses.get_by_id(license_id).name
+        raw_xml = Functions.dict2xml({
+            'Package': {
+                'DisplayName': 'Documentation',
+                'Description': 'Docs package description',
+                'Version': app_version,
+                'ReleaseDate': release_date,
+                'Default': 'true',
+                #'Script': package_install_script,
             }
         })
         pretty_xml = xml.dom.minidom.parseString(raw_xml).toprettyxml()
@@ -194,12 +221,18 @@ def createInstallerSourceDir():
         message = f'create installer source directory {setupBuildDir()}'
         # config
         config_control_script_path = os.path.join(scriptsDir(), CONFIG['ci']['scripts']['config_control'])
-        # packages
-        url_subdir_path =  os.path.join(packagesDirPath(), CONFIG['ci']['app']['setup']['build']['url_subdir'])
-        data_subsubdir_path =  os.path.join(url_subdir_path, CONFIG['ci']['app']['setup']['build']['data_subsubdir'])
-        meta_subsubdir_path =  os.path.join(url_subdir_path, CONFIG['ci']['app']['setup']['build']['meta_subsubdir'])
-        package_xml_path = os.path.join(meta_subsubdir_path, CONFIG['ci']['app']['setup']['build']['package_xml'])
+        # package: app
+        app_subdir_path =  os.path.join(packagesDirPath(), CONFIG['ci']['app']['setup']['build']['app_package_subdir'])
+        app_data_subsubdir_path =  os.path.join(app_subdir_path, CONFIG['ci']['app']['setup']['build']['data_subsubdir'])
+        app_meta_subsubdir_path =  os.path.join(app_subdir_path, CONFIG['ci']['app']['setup']['build']['meta_subsubdir'])
+        app_package_xml_path = os.path.join(app_meta_subsubdir_path, CONFIG['ci']['app']['setup']['build']['package_xml'])
         package_install_script_path = os.path.join(scriptsDir(), CONFIG['ci']['scripts']['package_install'])
+        # package: docs
+        docs_subdir_path =  os.path.join(packagesDirPath(), CONFIG['ci']['app']['setup']['build']['docs_package_subdir'])
+        docs_data_subsubdir_path = os.path.join(docs_subdir_path, CONFIG['ci']['app']['setup']['build']['data_subsubdir'])
+        docs_meta_subsubdir_path = os.path.join(docs_subdir_path, CONFIG['ci']['app']['setup']['build']['meta_subsubdir'])
+        docs_package_xml_path = os.path.join(docs_meta_subsubdir_path, CONFIG['ci']['app']['setup']['build']['package_xml'])
+        #
         freezed_app_path = os.path.join(distributionDir(), f"{appName()}{CONFIG['ci']['pyinstaller']['dir_suffix'][Functions.osName()]}")
         # base
         Functions.createDir(setupBuildDir())
@@ -207,15 +240,21 @@ def createInstallerSourceDir():
         Functions.createDir(configDirPath())
         Functions.createFile(path=configXmlPath(), content=installerConfigXml())
         Functions.copyFile(source=config_control_script_path, destination=configDirPath())
-        # packages
+        # package: app
         Functions.createDir(packagesDirPath())
-        Functions.createDir(url_subdir_path)
-        Functions.createDir(data_subsubdir_path)
-        Functions.createDir(meta_subsubdir_path)
-        Functions.createFile(path=package_xml_path, content=installerPackageXml())
-        Functions.copyFile(source=package_install_script_path, destination=meta_subsubdir_path)
-        Functions.copyFile(source=licenseFile(), destination=meta_subsubdir_path)
-        Functions.moveDir(source=freezed_app_path, destination=data_subsubdir_path)
+        Functions.createDir(app_subdir_path)
+        Functions.createDir(app_data_subsubdir_path)
+        Functions.createDir(app_meta_subsubdir_path)
+        Functions.createFile(path=app_package_xml_path, content=appPackageXml())
+        Functions.copyFile(source=package_install_script_path, destination=app_meta_subsubdir_path)
+        Functions.copyFile(source=licenseFile(), destination=app_meta_subsubdir_path)
+        Functions.moveDir(source=freezed_app_path, destination=app_data_subsubdir_path)
+        # package: docs
+        Functions.createDir(docs_subdir_path)
+        Functions.createDir(docs_data_subsubdir_path)
+        Functions.createDir(docs_meta_subsubdir_path)
+        Functions.createFile(path=docs_package_xml_path, content=docsPackageXml())
+        Functions.copyDir(source='docs', destination=os.path.join(docs_data_subsubdir_path, 'Documentation'))
     except Exception as exception:
         Functions.printFailMessage(message, exception)
         sys.exit()

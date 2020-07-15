@@ -3,7 +3,7 @@ function Component()
 {
   if (installer.isInstaller())
   {
-    installer.setDefaultPageVisible(QInstaller.ComponentSelection, false) // works for Installer, but not for Updater !?
+    //installer.setDefaultPageVisible(QInstaller.ComponentSelection, false) // works for Installer, but not for Updater !?
   }
   //installer.setDefaultPageVisible(QInstaller.LicenseCheck, false)
 }
