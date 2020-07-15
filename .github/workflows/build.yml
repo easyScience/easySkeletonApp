@@ -83,7 +83,7 @@ jobs:
     - name: Create zip archive of artifacts
       run: poetry run python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ runner.os }} ${{ env.SHORT_GITHUB_REF }}
 
-    - name: Upload artifacts to GitHub releases
+    - name: Upload zipped artifacts to GitHub releases
       uses: ncipollo/release-action@v1
       with:
         draft: true

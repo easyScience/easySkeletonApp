@@ -73,13 +73,16 @@ def repositoryDirName():
     repository_os_suffix = f"{CONFIG['ci']['app']['setup']['repository_os_suffix'][Functions.osName()]}"
     return f"{appName()}{repository_dir_suffix}{repository_os_suffix}"
 
+def installationDir():
+    var = CONFIG['ci']['app']['setup']['installation_dir'][Functions.osName()]
+    return Functions.environmentVariable(var, var)
+
 def installerConfigXml():
     try:
         message = f"create {CONFIG['ci']['app']['setup']['build']['config_xml']} content"
         app_version = CONFIG['ci']['app']['setup']['version']
         app_url = CONFIG['tool']['poetry']['homepage']
-        target_dir = CONFIG['ci']['app']['setup']['installation_dir'][Functions.osName()]
-        target_dir = os.path.join(target_dir, appName())
+        target_dir = os.path.join(installationDir(), appName())
         maintenance_tool_suffix = CONFIG['ci']['app']['setup']['maintenance_tool_suffix']
         maintenance_tool_name = f'{appName()}{maintenance_tool_suffix}'
         config_control_script = CONFIG['ci']['scripts']['config_control']

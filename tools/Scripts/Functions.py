@@ -103,7 +103,7 @@ def environmentVariable(name, default=None):
     if value is not None:
         return value
     else:
-        printFailMessage(f'find environment variable {name}, using default value {default}')
+        printNeutralMessage(f'Environment variable {name} is not found, using default value {default}')
         return default
 
 def setEnvironmentVariable(name, value):
