@@ -23,18 +23,15 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
-    - name: Check-out the repository
+    - name: Check-out repository
       uses: actions/checkout@v2
 
-    - name: Set up the Python environment
+    - name: Set up Python environment
       uses: actions/setup-python@v2
       with:
           python-version: 3.7
 
-    #- name: Setup project config parser
-    #  run: pip install toml
-
-    - name: Declare env variables
+    - name: Set up project config parser & Declare env variables
       shell: bash
       run: |
         pip install toml
@@ -62,12 +59,13 @@ jobs:
       run: |
         poetry self update
         poetry run pip install --upgrade pip
+        poetry run pip install --upgrade setuptools
         poetry update
 
-    - name: Create freezed python app
+    - name: Create freezed python app bundle
       run: poetry run python ${{ env.SCRIPTS_PATH }}/FreezeApp.py
 
-    - name: Create app installer
+    - name: Create app installer from freezed app bundle
       run: poetry run python ${{ env.SCRIPTS_PATH }}/MakeInstaller.py
 
     - name: Install and run app in test mode to create video tutorials
@@ -83,7 +81,7 @@ jobs:
       with:
         commit_message: Upload video tutorials
 
-    - name: Create zip of archived artifacts
+    - name: Create zip archive of artifacts
       run: poetry run python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ runner.os }} ${{ env.SHORT_GITHUB_REF }}
 
     - name: Upload artifacts to GitHub releases
