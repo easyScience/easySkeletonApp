@@ -69,6 +69,7 @@ jobs:
       run: poetry run python ${{ env.SCRIPTS_PATH }}/MakeInstaller.py
 
     - name: Install and run app in test mode to create video tutorials
+      if: runner.os != 'Windows'    
       run: |
         poetry run python ${{ env.SCRIPTS_PATH }}/InstallApp.py
         poetry run python ${{ env.SCRIPTS_PATH }}/RunApp.py test
