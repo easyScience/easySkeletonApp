@@ -68,10 +68,10 @@ def configXmlPath():
 def packagesDirPath():
     return os.path.join(setupBuildDir(), CONFIG['ci']['app']['setup']['build']['packages_dir'])
 
-def repositoryDirName():
+def repositoryDir():
     repository_dir_suffix = CONFIG['ci']['app']['setup']['repository_dir_suffix']
     repository_os_suffix = f"{CONFIG['ci']['app']['setup']['repository_os_suffix'][Functions.osName()]}"
-    return f"{appName()}{repository_dir_suffix}{repository_os_suffix}"
+    return f'{appName()}{repository_dir_suffix}/{repository_os_suffix}'
 
 def installationDir():
     var = CONFIG['ci']['app']['setup']['installation_dir'][Functions.osName()]
@@ -84,7 +84,7 @@ def installerConfigXml():
         app_url = CONFIG['tool']['poetry']['homepage']
         target_dir = os.path.join(installationDir(), appName())
         maintenance_tool_suffix = CONFIG['ci']['app']['setup']['maintenance_tool_suffix']
-        maintenance_tool_name = f'{appName()}{maintenance_tool_suffix}'
+        maintenance_tool_name = maintenance_tool_suffix #f'{appName()}{maintenance_tool_suffix}'
         config_control_script = CONFIG['ci']['scripts']['config_control']
         raw_xml = Functions.dict2xml({
             'Installer': {
@@ -97,11 +97,12 @@ def installerConfigXml():
                 #'WizardStyle': 'Classic', #'Aero',
                 'StartMenuDir': appName(),
                 'TargetDir': target_dir,
-                #'RemoteRepositories': {
-                #    'Repository': {
-                #        'Url': f'http://localhost/{repositoryDirName()}'
-                #    }
-                #},
+                'RemoteRepositories': {
+                    'Repository': {
+                        #'Url': f'http://localhost/{repositoryDir()}'
+                        'Url': f'http://easyscience.apptimity.com/{repositoryDir()}'
+                    }
+                },
                 'MaintenanceToolName': maintenance_tool_name,
                 'AllowNonAsciiCharacters': 'true',
                 'AllowSpaceInPath': 'true',
@@ -227,7 +228,7 @@ def createOnlineRepository():
         qtifw_bin_dir_path = os.path.join(qtifwDirPath(), 'bin')
         qtifw_repogen_path = os.path.join(qtifw_bin_dir_path, 'repogen')
         repository_os_suffix = f"{appName()}{CONFIG['ci']['app']['setup']['repository_os_suffix']}"
-        repository_dir_path = os.path.join(CONFIG['ci']['project']['subdirs']['distribution'], repositoryDirName())
+        repository_dir_path = os.path.join(CONFIG['ci']['project']['subdirs']['distribution'], repositoryDir())
         Functions.run(
             qtifw_repogen_path,
             '--update-new-components',
@@ -251,7 +252,7 @@ def createInstaller():
             qtifw_binarycreator_path,
             '--verbose',
             #'--online-only',
-            '--offline-only',
+            #'--offline-only',
             '-c', configXmlPath(),
             '-p', packagesDirPath(),
             '-t', qtifw_installerbase_path,
@@ -268,5 +269,5 @@ if __name__ == "__main__":
     osDependentPreparation()
     installQtInstallerFramework()
     createInstallerSourceDir()
-    #createOnlineRepository()
+    createOnlineRepository()
     createInstaller()
