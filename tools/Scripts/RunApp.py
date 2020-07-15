@@ -7,7 +7,8 @@ import Functions
 CONFIG = Functions.config()
 
 def installationDir():
-    return CONFIG['ci']['app']['setup']['installation_dir'][Functions.osName()]
+    var = CONFIG['ci']['app']['setup']['installation_dir'][Functions.osName()]
+    return Functions.environmentVariable(var, var)
 
 def appName():
     return CONFIG['tool']['poetry']['name']
@@ -15,21 +16,16 @@ def appName():
 def appFileExt():
     return CONFIG['ci']['app']['setup']['file_ext'][Functions.osName()]
 
-def appFullName():
-    return f'{appName()}{appFileExt()}'
-
-def appExe():
+def appExePath():
     d = {
-        'macos': f'{appFullName()}/Contents/MacOS/{appName()}',
-        'ubuntu': appFullName(), # check this
-        'windows': appFullName() # check this
+        'macos': os.path.join(installationDir(), appName(), appName()+appFileExt(), 'Contents', 'MacOS', appName()),
+        'ubuntu': os.path.join(installationDir(), appName(), appName(), appName()+appFileExt()),
+        'windows': os.path.join(installationDir(), appName(), appName(), appName()+appFileExt())
     }
     return d[Functions.osName()]
 
-def appExePath():
-    return os.path.join(installationDir(), appName(), appExe())
-
 def runApp():
+    Functions.printNeutralMessage(f'Installed application exe path: {appExePath()}')
     try:
         message = f'run {appName()}'
         if len(sys.argv) == 1:
