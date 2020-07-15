@@ -44,7 +44,7 @@ jobs:
         echo ::set-env name=DISTRIBUTION_PATH::$(python pyproject.py ci.project.subdirs.distribution)
         echo ::set-env name=APP_NAME::$(python pyproject.py tool.poetry.name)
         echo ::set-env name=REPO_DIR_SUFFIX::$(python pyproject.py ci.app.setup.repository_dir_suffix)
-        echo ::set-env name=REPO_DIR_NAME::${APP_NAME}${REPO_DIR_SUFFIX}
+        echo ::set-env name=REPO_DIR_NAME::${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}
         echo ::set-env name=POETRY_VENV_PATH::$(python pyproject.py ci.poetry.venv_path.${{ matrix.os }})
         echo ::set-env name=QTIFW_PATH::$(python pyproject.py ci.qtifw.setup.installation_path.${{ matrix.os }})
 
@@ -83,7 +83,7 @@ jobs:
         poetry run python ${{ env.SCRIPTS_PATH }}/RunApp.py test
         poetry run python ${{ env.SCRIPTS_PATH }}/CreateTutorials.py
 
-    - name: Upload video tutorials to repository
+    - name: Upload video tutorials to GitHub repository
       if: runner.os == 'macOS'
       uses: stefanzweifel/git-auto-commit-action@v4
       with:
