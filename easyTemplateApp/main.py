@@ -39,7 +39,9 @@ def main():
     #translator.selectSystemLanguage()
 
     # Application settings
-    app.setApplicationName(py_qml_proxy_obj.appName)
+    #app.setApplicationName(py_qml_proxy_obj.appName)
+    app.setApplicationName(pyproject.config()['tool']['poetry']['name'])
+    app.setApplicationVersion(pyproject.config()['tool']['poetry']['version'])
 
     # Qml application engine settings
     engine.rootContext().setContextProperty("_pyQmlProxyObj", py_qml_proxy_obj)
