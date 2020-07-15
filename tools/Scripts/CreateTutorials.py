@@ -10,20 +10,13 @@ CONFIG = Functions.config()
 def downloadDir():
     return CONFIG['ci']['project']['subdirs']['download']
 
-def screenshotsDir():
-    return CONFIG['ci']['project']['subdirs']['screenshots']
-
-def tutorialsDir():
-    return CONFIG['ci']['project']['subdirs']['tutorials']
-
-def fps():
-    return CONFIG['ci']['app']['tutorials']['fps']
-
 def inputPattern():
-    return f'{screenshotsDir()}/*.png'
+    screenshots_dir = CONFIG['ci']['project']['subdirs']['screenshots']
+    return f'{screenshots_dir}/*.png'
 
 def outputPath():
-    return os.path.join(tutorialsDir(), 'tutorial.mp4')
+    tutorials_dir = CONFIG['ci']['project']['subdirs']['tutorials']
+    return os.path.join(tutorials_dir, 'tutorial.mp4')
 
 def outputOptions():
     # https://trac.ffmpeg.org/wiki/Encode/H.264
@@ -31,11 +24,14 @@ def outputOptions():
     # https://kkroening.github.io/ffmpeg-python/
     # https://github.com/kkroening/ffmpeg-python/issues/95
     return {
-        'crf': 18,                  # Constant Rate Factor
-        'preset': 'slower',
-        'movflags': 'faststart',
-        'pix_fmt': 'yuv420p'        # Pixel format
+        'crf': CONFIG['ci']['app']['tutorials']['video']['crf'],
+        'preset': CONFIG['ci']['app']['tutorials']['video']['preset'],
+        'movflags': CONFIG['ci']['app']['tutorials']['video']['movflags'],
+        'pix_fmt': CONFIG['ci']['app']['tutorials']['video']['pix_fmt']
     }
+
+def fps():
+    return CONFIG['ci']['app']['tutorials']['video']['fps']
 
 def writeVideo():
     (

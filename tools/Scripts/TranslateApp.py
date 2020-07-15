@@ -13,14 +13,12 @@ TRANSLATOR = googletrans.Translator()
 def appName():
     return CONFIG['tool']['poetry']['name']
 
-def packageName():
-    return f'{appName()}App'
-
 def tsFilesDir():
     return CONFIG['ci']['app']['translations']['dir']
 
 def tsFilesDirPath():
-    return os.path.join(packageName(), tsFilesDir())
+    package_name = f'{appName()}App'
+    return os.path.join(package_name, tsFilesDir())
 
 def fromLanguage():
     return 'en'
@@ -28,13 +26,6 @@ def fromLanguage():
 def toLanguage(fpath):
     fname, _ = os.path.splitext(os.path.basename(fpath))
     return fname[-2:]
-
-#def tsFilePaths():
-#    fpaths = []
-#    for fname in os.listdir(tsFilesDirPath()):
-#        if fname.endswith(".ts"):
-#            fpaths.append(os.path.join(tsFilesDirPath(), fname))
-#    return fpaths
 
 def tsFilePaths():
     languages = CONFIG['ci']['app']['translations']['languages']

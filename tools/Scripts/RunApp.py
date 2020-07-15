@@ -13,14 +13,12 @@ def installationDir():
 def appName():
     return CONFIG['tool']['poetry']['name']
 
-def appFileExt():
-    return CONFIG['ci']['app']['setup']['file_ext'][Functions.osName()]
-
 def appExePath():
+    app_file_ext = CONFIG['ci']['app']['setup']['file_ext'][Functions.osName()]
     d = {
-        'macos': os.path.join(installationDir(), appName(), appName()+appFileExt(), 'Contents', 'MacOS', appName()),
-        'ubuntu': os.path.join(installationDir(), appName(), appName(), appName()+appFileExt()),
-        'windows': os.path.join(installationDir(), appName(), appName(), appName()+appFileExt())
+        'macos': os.path.join(installationDir(), appName(), appName()+app_file_ext, 'Contents', 'MacOS', appName()),
+        'ubuntu': os.path.join(installationDir(), appName(), appName(), appName()+app_file_ext),
+        'windows': os.path.join(installationDir(), appName(), appName(), appName()+app_file_ext)
     }
     return d[Functions.osName()]
 
