@@ -37,6 +37,7 @@ Component.prototype.createOperations = function()
     )
 
     // Add start menu shortcut for the app uninstaller
+    /*
     component.addOperation(
       "CreateShortcut",
       "@TargetDir@/@ProductName@Uninstaller.exe",
@@ -45,6 +46,7 @@ Component.prototype.createOperations = function()
       "iconPath=@TargetDir@/@ProductName@Uninstaller.exe", "iconId=0",
       "description=@ProductName@Uninstaller"
     )
+    */
   }
 
   if (systemInfo.productType === "ubuntu")
