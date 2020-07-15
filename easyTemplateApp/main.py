@@ -9,6 +9,8 @@ from easyAppLogic.Translate import Translator
 from easyTemplateApp.Logic.PyQmlProxy import PyQmlProxy
 
 
+CONFIG = pyproject.config()
+
 def isTestMode():
     if len(sys.argv) > 1:
         if 'test' in sys.argv[1:]:
@@ -23,8 +25,8 @@ def main():
     gui_path = str(QUrl.fromLocalFile(package_path).toString())
     easyAppGui_path = os.path.join(easyAppGui.__path__[0], "..")
 
-    languages = pyproject.config()['ci']['app']['translations']['languages']
-    translations_dir = pyproject.config()['ci']['app']['translations']['dir']
+    languages = CONFIG['ci']['app']['translations']['languages']
+    translations_dir = CONFIG['ci']['app']['translations']['dir']
     translations_path = os.path.join(package_path, *translations_dir.split('/'))
 
     # Create a proxy object between python logic and QML GUI
@@ -40,13 +42,13 @@ def main():
 
     # Application settings
     #app.setApplicationName(py_qml_proxy_obj.appName)
-    app.setApplicationName(pyproject.config()['tool']['poetry']['name'])
-    app.setApplicationVersion(pyproject.config()['tool']['poetry']['version'])
+    app.setApplicationName(CONFIG['tool']['poetry']['name'])
+    app.setApplicationVersion(CONFIG['tool']['poetry']['version'])
 
     # Qml application engine settings
     engine.rootContext().setContextProperty("_pyQmlProxyObj", py_qml_proxy_obj)
     engine.rootContext().setContextProperty("_translator", translator)
-    engine.rootContext().setContextProperty("_projectConfig", pyproject.config())
+    engine.rootContext().setContextProperty("_projectConfig", CONFIG)
     engine.rootContext().setContextProperty("_isTestMode", isTestMode())
     engine.addImportPath(easyAppGui_path)
     engine.addImportPath(gui_path)
