@@ -23,9 +23,13 @@ def distributionDir():
     return CONFIG['ci']['project']['subdirs']['distribution']
 
 def excludedModules():
-    module_names = CONFIG['ci']['pyinstaller']['auto_exclude']
+    os_independent = CONFIG['ci']['pyinstaller']['auto_exclude']['all']
+    os_dependent = CONFIG['ci']['pyinstaller']['auto_exclude'][Functions.osName()]
     formatted = []
-    for module_name in module_names:
+    for module_name in os_independent:
+        formatted.append('--exclude-module')
+        formatted.append(module_name)
+    for module_name in os_dependent:
         formatted.append('--exclude-module')
         formatted.append(module_name)
     return formatted
