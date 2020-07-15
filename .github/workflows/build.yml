@@ -1,13 +1,16 @@
 name: macOS, Linux, Windows
 
-# Controls when the action will run. Triggers the workflow on push events
-on: [push]
+# Trigger the workflow on push or pull request
+on: [push, pull_request]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
   # This workflow contains a single job called "build"
   build:
+
+    # Rename job "build"
+    name: App Build
 
     # CI skip conditions
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
@@ -58,7 +61,7 @@ jobs:
     - name: Create venv and install dependences
       # --upgrade pip: To get rid of ERROR: No matching distribution found for opencv-python-headless==4.3.0.36
       # --upgrade setuptools: To get rid of ModuleNotFoundError: No module named 'pkg_resources.py2_warn'
-      # poetry update: Install dependencies or update them 
+      # poetry update: Install dependencies or update them
       run: |
         poetry self update
         poetry run pip install --upgrade pip
