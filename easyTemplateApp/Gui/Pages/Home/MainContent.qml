@@ -51,9 +51,21 @@ Item {
 
     // Tutorials
 
+    function startSavingScreenshots(message) {
+        if (EaGlobals.Variables.isTestMode) {
+            print(message)
+            EaGlobals.Variables.saveScreenshotsRunning = true
+        }
+    }
+
+    function endSavingScreenshots() {
+        if (EaGlobals.Variables.isTestMode) {
+            EaGlobals.Variables.saveScreenshotsRunning = false
+        }
+    }
+
     function runTutorial1() {
-        print("* run Tutorial 1")
-        EaGlobals.Variables.saveScreenshotsRunning = true
+        startSavingScreenshots("* run Tutorial 1")
 
         rc.wait(1000)
         rc.show()
@@ -88,12 +100,11 @@ Item {
         rc.hide()
 
         rc.wait(1000)
-        EaGlobals.Variables.saveScreenshotsRunning = false
+        endSavingScreenshots()
     }
 
     function runTutorial2() {
-        print("* run Tutorial 2")
-        EaGlobals.Variables.saveScreenshotsRunning = true
+        startSavingScreenshots("* run Tutorial 2")
 
         rc.wait(1000)
         rc.show()
@@ -117,19 +128,18 @@ Item {
         rc.hide()
 
         rc.wait(1000)
-        EaGlobals.Variables.saveScreenshotsRunning = false
+        endSavingScreenshots()
     }
 
     function runTutorial3() {
-        print("* run Tutorial 3")
-        EaGlobals.Variables.saveScreenshotsRunning = true
+        startSavingScreenshots("* run Tutorial 3")
         rc.wait(1000)
         rc.show()
         rc.mouseClick(ExGlobals.Variables.sampleTabButton)
         rc.wait(1000)
         rc.hide()
         rc.wait(1000)
-        EaGlobals.Variables.saveScreenshotsRunning = false
+        endSavingScreenshots()
     }
 
 }

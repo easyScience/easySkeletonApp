@@ -56,6 +56,9 @@ jobs:
       uses: Gr1N/setup-poetry@v2
 
     - name: Create venv and install dependences
+      # --upgrade pip: To get rid of ERROR: No matching distribution found for opencv-python-headless==4.3.0.36
+      # --upgrade setuptools: To get rid of ModuleNotFoundError: No module named 'pkg_resources.py2_warn'
+      # poetry update: Install dependencies or update them
       run: |
         poetry self update
         poetry run pip install --upgrade pip
