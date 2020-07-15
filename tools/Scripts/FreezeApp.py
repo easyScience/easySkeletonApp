@@ -126,6 +126,7 @@ def excludeFiles():
             dir_suffix = CONFIG['ci']['pyinstaller']['dir_suffix'][Functions.osName()]
             content_suffix = CONFIG['ci']['pyinstaller']['content_suffix'][Functions.osName()]
             freezed_app_path = os.path.join(distributionDir(), f'{appName()}{dir_suffix}', f'{content_suffix}')
+            print('freezed_app_path', freezed_app_path)
             file_path = os.path.join(freezed_app_path, file_name)
             for file_path in glob.glob(file_path): # for cases with '*' in the lib name
                 Functions.removeFile(file_path)
