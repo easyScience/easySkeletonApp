@@ -89,7 +89,7 @@ jobs:
         commit_message: Upload video tutorials
 
     - name: Create zip archive of app installer
-      run: poetry run python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ runner.os }} ${{ env.SHORT_GITHUB_REF }}
+      run: poetry run python ${{ env.SCRIPTS_PATH }}/ZipArtifacts.py ${{ env.SHORT_GITHUB_REF }}
 
     - name: Upload zipped app installer to GitHub releases
       uses: ncipollo/release-action@v1
@@ -104,18 +104,4 @@ jobs:
         artifacts: "${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}-*.zip"
 
     - name: Deploy app installer repository via FTP
-#      if: runner.os == 'macOS'
-#      uses: SamKirkland/FTP-Deploy-Action@3.1.1
-#      with:
-#        ftp-server: ftp://ftp.apptimity.com/${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}/
-#        ftp-username: gh@easyscience.apptimity.com
-#        ftp-password: ${{ secrets.FTP_PASSWORD }}
-#        local-dir: ${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}/${{ runner.os }}
-#
-      uses: sebastianpopp/ftp-action@releases/v2
-      with:
-        host: ftp://ftp.apptimity.com/
-        user: gh@easyscience.apptimity.com
-        password: ${{ secrets.FTP_PASSWORD }}
-        localDir: ${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}/${{ runner.os }}
-        remoteDir: ${{ env.APP_NAME }}${{ env.REPO_DIR_SUFFIX}}
+      run: poetry run python ${{ env.SCRIPTS_PATH }}/DeployFtp.py ${{ secrets.FTP_PASSWORD }}

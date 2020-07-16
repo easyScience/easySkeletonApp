@@ -80,6 +80,11 @@ version = '0.1.0'
 maintenance_tool_suffix = 'MaintenanceTool'
 installation_dir = { macos = '/Applications', ubuntu = '/opt', windows = 'ProgramFiles(x86)' }
 
+[ci.app.setup.ftp]
+host = 'ftp.apptimity.com'
+port = 21
+user = 'gh@easyscience.apptimity.com'
+
 [ci.app.setup.build]
 # config
 config_dir = 'config'

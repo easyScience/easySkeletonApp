@@ -70,8 +70,8 @@ def packagesDirPath():
 
 def repositoryDir():
     repository_dir_suffix = CONFIG['ci']['app']['setup']['repository_dir_suffix']
-    repository_os_suffix = f"{CONFIG['ci']['app']['setup']['repository_os_suffix'][Functions.osName()]}"
-    return f'{appName()}{repository_dir_suffix}/{repository_os_suffix}'
+    repository_os_suffix = CONFIG['ci']['app']['setup']['repository_os_suffix'][Functions.osName()]
+    return os.path.join(f'{appName()}{repository_dir_suffix}', repository_os_suffix)
 
 def installationDir():
     var = CONFIG['ci']['app']['setup']['installation_dir'][Functions.osName()]

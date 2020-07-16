@@ -4,8 +4,7 @@ import os, sys
 import Functions
 
 
-OS = sys.argv[1]
-BRANCH = sys.argv[2]
+BRANCH = sys.argv[1]
 CONFIG = Functions.config()
 
 def appName():
@@ -21,7 +20,8 @@ def source():
     return setup_exe_path
 
 def destination():
-    setup_zip_name = f'{appName()}-{OS}-{BRANCH}.zip'
+    repository_os = CONFIG['ci']['app']['setup']['repository_os_suffix'][Functions.osName()]
+    setup_zip_name = f'{appName()}-{repository_os}-{BRANCH}.zip'
     setup_zip_path = os.path.join(distributionDir(), setup_zip_name)
     return setup_zip_path
 
