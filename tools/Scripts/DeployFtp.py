@@ -53,12 +53,13 @@ def make_dir(ftp, destination):
 
 def upload_file(ftp, source, destination):
     try:
+        destination = destination.replace('\\', '/')
         message = f'upload file {source} to {destination}'
         dir_name = os.path.basename(destination)
         dir_names = ftp.nlst(os.path.dirname(destination))
         if dir_name not in dir_names:
             make_dir(ftp, destination)
-        destination = os.path.join(destination, os.path.basename(source)).replace('\\', '/')
+        destination = f'{destination}/{os.path.basename(source)}'
         with open(source, 'rb') as fb:
             ftp.storbinary(f'STOR {destination}', fb)
     except Exception as exception:
