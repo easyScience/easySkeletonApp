@@ -38,7 +38,6 @@ pypiwin32 = { version = "^223", platform = "win32" }
 pefile = { version = "^2019.4", platform = "win32" }
 # Misc
 toml = "^0.10"
-matplotlib = "^3.2"
 requests = "^2.24"
 dephell_licenses = "^0.1"
 ffmpeg-python = "^0.2"
