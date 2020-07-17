@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+__author__ = "github.com/AndrewSazonov"
+__version__ = '0.0.1'
 
 import os, sys
 import toml
@@ -71,7 +72,7 @@ def attachDmg(file):
 
 def installSilently(installer, silent_script):
     try:
-        message = f'run install {installer}'
+        message = f'run installer {installer}'
         run(
             installer,
             '--script', silent_script,

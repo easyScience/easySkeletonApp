@@ -1,31 +1,29 @@
-#!/usr/bin/env python3
+__author__ = "github.com/AndrewSazonov"
+__version__ = '0.0.1'
 
 import os, sys
-import Functions
+import Functions, Config
 
 
-CONFIG = Functions.config()
+CONFIG = Config.Config()
 
 def installationDir():
-    var = CONFIG['ci']['app']['setup']['installation_dir'][Functions.osName()]
+    var = CONFIG['ci']['app']['setup']['installation_dir'][CONFIG.os]
     return Functions.environmentVariable(var, var)
 
-def appName():
-    return CONFIG['tool']['poetry']['name']
-
 def appExePath():
-    app_file_ext = CONFIG['ci']['app']['setup']['file_ext'][Functions.osName()]
+    app_file_ext = CONFIG['ci']['app']['setup']['file_ext'][CONFIG.os]
     d = {
-        'macos': os.path.join(installationDir(), appName(), appName()+app_file_ext, 'Contents', 'MacOS', appName()),
-        'ubuntu': os.path.join(installationDir(), appName(), appName(), appName()+app_file_ext),
-        'windows': os.path.join(installationDir(), appName(), appName(), appName()+app_file_ext)
+        'macos': os.path.join(installationDir(), CONFIG.app_name, CONFIG.app_full_name, 'Contents', 'MacOS', CONFIG.app_name),
+        'ubuntu': os.path.join(installationDir(), CONFIG.app_name, CONFIG.app_name, CONFIG.app_full_name),
+        'windows': os.path.join(installationDir(), CONFIG.app_name, CONFIG.app_name, CONFIG.app_full_name)
     }
-    return d[Functions.osName()]
+    return d[CONFIG.os]
 
 def runApp():
     Functions.printNeutralMessage(f'Installed application exe path: {appExePath()}')
     try:
-        message = f'run {appName()}'
+        message = f'run {CONFIG.app_name}'
         if len(sys.argv) == 1:
             Functions.run(appExePath())
         else:

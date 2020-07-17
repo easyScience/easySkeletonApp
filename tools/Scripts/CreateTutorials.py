@@ -1,14 +1,12 @@
-#!/usr/bin/env python3
+__author__ = "github.com/AndrewSazonov"
+__version__ = '0.0.1'
 
 import os
 import ffmpeg
-import Functions
+import Functions, Config
 
 
-CONFIG = Functions.config()
-
-def downloadDir():
-    return CONFIG['ci']['project']['subdirs']['download']
+CONFIG = Config.Config()
 
 def inputPattern():
     screenshots_dir = CONFIG['ci']['project']['subdirs']['screenshots']
@@ -49,14 +47,14 @@ def ffmpegZippedFileName():
 
 def ffmpegUnzippedFilePath():
     exe = CONFIG['ci']['ffmpeg']['macos']['exe']
-    return os.path.join(downloadDir(), exe)
+    return os.path.join(CONFIG.download_dir, exe)
 
 def ffmpegDownloadUrl():
     base_url = CONFIG['ci']['ffmpeg']['macos']['base_url']
     return f'{base_url}/{ffmpegZippedFileName()}'
 
 def ffmpegDownloadDest():
-    return os.path.join(downloadDir(), f'{ffmpegZippedFileName()}')
+    return os.path.join(CONFIG.download_dir, f'{ffmpegZippedFileName()}')
 
 def downloadFfmpeg():
     Functions.downloadFile(
@@ -68,12 +66,12 @@ def unzipFfmpeg():
     if os.path.exists(ffmpegUnzippedFilePath()):
         Functions.printNeutralMessage(f'File already exists {ffmpegUnzippedFilePath()}')
         return
-    Functions.unzip(ffmpegDownloadDest(), downloadDir())
+    Functions.unzip(ffmpegDownloadDest(), CONFIG.download_dir)
     Functions.addReadPermission(ffmpegUnzippedFilePath())
 
 def addDownloadDestToPath():
     path = Functions.environmentVariable('PATH')
-    download_dest = os.path.abspath(downloadDir())
+    download_dest = os.path.abspath(CONFIG.download_dir)
     Functions.setEnvironmentVariable('PATH', f'{download_dest}:{path}')
 
 if __name__ == "__main__":

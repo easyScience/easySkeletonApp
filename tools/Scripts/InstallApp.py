@@ -1,40 +1,28 @@
-#!/usr/bin/env python3
+__author__ = "github.com/AndrewSazonov"
+__version__ = '0.0.1'
 
 import os, sys
-import Functions
+import Functions, Config
 
 
-CONFIG = Functions.config()
-
-def appName():
-    return CONFIG['tool']['poetry']['name']
-
-def setupExe():
-    app_version = CONFIG['tool']['poetry']['version']
-    setup_os = CONFIG['ci']['app']['setup']['os'][Functions.osName()]
-    setup_arch = CONFIG['ci']['app']['setup']['arch'][Functions.osName()]
-    setup_name = f'{appName()}_{setup_os}_{setup_arch}_v{app_version}'
-    setup_file_ext = CONFIG['ci']['app']['setup']['file_ext'][Functions.osName()]
-    setup_full_name = f'{setup_name}{setup_file_ext}'
-    d = {
-        'macos': f'{setup_full_name}/Contents/MacOS/{setup_name}',
-        'ubuntu': setup_full_name,
-        'windows': setup_full_name
-    }
-    return d[Functions.osName()]
+CONFIG = Config.Config()
 
 def setupExePath():
-    distribution_dir = CONFIG['ci']['project']['subdirs']['distribution']
-    return os.path.join(distribution_dir, setupExe())
+    d = {
+        'macos': os.path.join(CONFIG.setup_full_name, 'Contents', 'MacOS', CONFIG.setup_name),
+        'ubuntu': CONFIG.setup_full_name,
+        'windows': CONFIG.setup_full_name
+    }
+    return os.path.join(CONFIG.dist_dir, d[CONFIG.os])
 
-def runInstaller():
-    scripts_dir = CONFIG['ci']['project']['subdirs']['scripts']
+def runInstallerSilently():
     try:
-        message = f'install {appName()}'
-        silent_script = os.path.join(scripts_dir, CONFIG['ci']['scripts']['silent_install'])
+        message = f'install {CONFIG.app_name}'
+        silent_script = CONFIG['ci']['scripts']['silent_install']
+        silent_script_path = os.path.join(CONFIG.scripts_dir, silent_script)
         Functions.installSilently(
             installer=setupExePath(),
-            silent_script=silent_script
+            silent_script=silent_script_path
         )
     except Exception as exception:
         Functions.printFailMessage(message, exception)
@@ -43,4 +31,4 @@ def runInstaller():
         Functions.printSuccessMessage(message)
 
 if __name__ == "__main__":
-    runInstaller()
+    runInstallerSilently()

@@ -1,25 +1,13 @@
-#!/usr/bin/env python3
+__author__ = "github.com/AndrewSazonov"
+__version__ = '0.0.1'
 
 import os, sys
 import ftplib
 import pathlib
-import Functions
+import Functions, Config
 
 
-CONFIG = Functions.config()
-
-def appName():
-    return CONFIG['tool']['poetry']['name']
-
-def localRepositoryDirPath():
-    distribution_dir = CONFIG['ci']['project']['subdirs']['distribution']
-    setup_os = CONFIG['ci']['app']['setup']['os'][Functions.osName()]
-    repository_dir_suffix = CONFIG['ci']['app']['setup']['repository_dir_suffix']
-    return os.path.join(distribution_dir, f'{appName()}{repository_dir_suffix}', setup_os)
-
-def remoteRepositoriesRootDir():
-    repository_dir_suffix = CONFIG['ci']['app']['setup']['repository_dir_suffix']
-    return f'{appName()}{repository_dir_suffix}'
+CONFIG = Config.Config()
 
 def connect(ftp, host, port):
     try:
@@ -101,14 +89,26 @@ def upload(ftp, source, destination):
     else:
         Functions.printSuccessMessage(message)
 
-if __name__ == "__main__":
+def deploy():
+    branch = sys.argv[1]
+    if branch != 'master':
+        Functions.printNeutralMessage(f'No deploy needed for branch {branch}')
+        return
+
+    password = sys.argv[2]
     host = CONFIG['ci']['app']['setup']['ftp']['host']
     port = CONFIG['ci']['app']['setup']['ftp']['port']
     user = CONFIG['ci']['app']['setup']['ftp']['user']
-    password = sys.argv[1]
+
+    repository_dir_name = f'{CONFIG.app_name}{CONFIG.repository_dir_suffix}'
+    local_repository_dir_path = os.path.join(CONFIG.dist_dir, repository_dir_name, CONFIG.setup_os)
+    remote_repositories_root_dir = repository_dir_name
 
     ftp = ftplib.FTP()
     connect(ftp, host, port)
     login(ftp, user, password)
-    upload(ftp, localRepositoryDirPath(), remoteRepositoriesRootDir())
+    upload(ftp, local_repository_dir_path, remote_repositories_root_dir)
     ftp.quit()
+
+if __name__ == "__main__":
+    deploy()

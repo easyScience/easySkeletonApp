@@ -1,37 +1,24 @@
-#!/usr/bin/env python3
+__author__ = "github.com/AndrewSazonov"
+__version__ = '0.0.1'
 
 import os, sys
-import Functions
+import Functions, Config
 
 
-BRANCH = sys.argv[1]
-CONFIG = Functions.config()
-
-def appName():
-    return CONFIG['tool']['poetry']['name']
-
-def distributionDir():
-    return CONFIG['ci']['project']['subdirs']['distribution']
-
-def setupName():
-    app_version = CONFIG['tool']['poetry']['version']
-    setup_os = CONFIG['ci']['app']['setup']['os'][Functions.osName()]
-    setup_arch = CONFIG['ci']['app']['setup']['arch'][Functions.osName()]
-    return f'{appName()}_{setup_os}_{setup_arch}_v{app_version}'
+CONFIG = Config.Config()
 
 def zipFileSuffix():
-    if BRANCH != 'master':
-        return f'_{BRANCH}'
+    branch = sys.argv[1]
+    if branch != 'master':
+        return f'_{branch}'
     return ''
 
 def source():
-    setup_file_ext = CONFIG['ci']['app']['setup']['file_ext'][Functions.osName()]
-    setup_exe_path = os.path.join(distributionDir(), f'{setupName()}{setup_file_ext}')
-    return setup_exe_path
+    return CONFIG.setup_exe_path
 
 def destination():
-    setup_zip_name = f'{setupName()}{zipFileSuffix()}.zip'
-    setup_zip_path = os.path.join(distributionDir(), setup_zip_name)
+    setup_zip_name = f'{CONFIG.setup_name}{zipFileSuffix()}.zip'
+    setup_zip_path = os.path.join(CONFIG.dist_dir, setup_zip_name)
     return setup_zip_path
 
 def zip():

@@ -1,24 +1,19 @@
-#!/usr/bin/env python3
+__author__ = "github.com/AndrewSazonov"
+__version__ = '0.0.1'
 
 import os, sys
 import xml.etree.ElementTree as ET
 import googletrans
 import PySide2
-import Functions
+import Functions, Config
 
 
-CONFIG = Functions.config()
+CONFIG = Config.Config()
 TRANSLATOR = googletrans.Translator()
 
-def appName():
-    return CONFIG['tool']['poetry']['name']
-
-def tsFilesDir():
-    return CONFIG['ci']['app']['translations']['dir']
-
 def tsFilesDirPath():
-    package_name = f'{appName()}App'
-    return os.path.join(package_name, tsFilesDir())
+    ts_files_dir = CONFIG['ci']['app']['translations']['dir']
+    return os.path.join(CONFIG.package_name, ts_files_dir)
 
 def fromLanguage():
     return 'en'

@@ -1,17 +1,18 @@
-#!/usr/bin/env python3
+__author__ = "github.com/AndrewSazonov"
+__version__ = '0.0.1'
 
 import os, sys
 import xml.dom.minidom
 import dephell_licenses
-import Functions
+import Functions, Config
 
 
-CONFIG = Functions.config()
+CONFIG = Config.Config()
 
 def qtifwSetupFileName():
     file_name_base = CONFIG['ci']['qtifw']['setup']['file_name_base']
-    file_name_suffix = CONFIG['ci']['qtifw']['setup']['file_name_suffix'][Functions.osName()]
-    file_ext = CONFIG['ci']['qtifw']['setup']['file_ext'][Functions.osName()]
+    file_name_suffix = CONFIG['ci']['qtifw']['setup']['file_name_suffix'][CONFIG.os]
+    file_ext = CONFIG['ci']['qtifw']['setup']['file_ext'][CONFIG.os]
     return f'{file_name_base}{file_name_suffix}{file_ext}'
 
 def qtifwSetupDownloadDest():
@@ -29,7 +30,7 @@ def qtifwSetupExe():
         'ubuntu': qtifwSetupDownloadDest(),
         'windows': qtifwSetupDownloadDest()
     }
-    return d[Functions.osName()]
+    return d[CONFIG.os]
 
 def qtifwDirPath():
     home_dir = os.path.expanduser('~')
@@ -39,36 +40,12 @@ def qtifwDirPath():
         'ubuntu': f'{home_dir}/Qt/QtIFW-{qtifw_version}',
         'windows': f'C:\\Qt\\QtIFW-{qtifw_version}'
     }
-    return d[Functions.osName()]
-
-def licenseFile():
-    return CONFIG['ci']['project']['license_file']
-
-def appName():
-    return CONFIG['tool']['poetry']['name']
-
-def appVersion():
-    return CONFIG['tool']['poetry']['version']
-
-def setupOs():
-    return CONFIG['ci']['app']['setup']['os'][Functions.osName()]
-
-def setupArch():
-    return CONFIG['ci']['app']['setup']['arch'][Functions.osName()]
-
-def setupName():
-    return f'{appName()}_{setupOs()}_{setupArch()}_v{appVersion()}'
-
-def distributionDir():
-    return CONFIG['ci']['project']['subdirs']['distribution']
-
-def scriptsDir():
-    return CONFIG['ci']['project']['subdirs']['scripts']
+    return d[CONFIG.os]
 
 def setupBuildDirPath():
     build_dir = CONFIG['ci']['project']['subdirs']['build']
     setup_build_dir_suffix = CONFIG['ci']['app']['setup']['build_dir_suffix']
-    return os.path.join(build_dir, f'{appName()}{setup_build_dir_suffix}')
+    return os.path.join(build_dir, f'{CONFIG.app_name}{setup_build_dir_suffix}')
 
 def configDirPath():
     return os.path.join(setupBuildDirPath(), CONFIG['ci']['app']['setup']['build']['config_dir'])
@@ -81,19 +58,19 @@ def packagesDirPath():
 
 def repositoryDir():
     repository_dir_suffix = CONFIG['ci']['app']['setup']['repository_dir_suffix']
-    return os.path.join(f'{appName()}{repository_dir_suffix}', setupOs())
+    return os.path.join(f'{CONFIG.app_name}{repository_dir_suffix}', CONFIG.setup_os)
 
 def installationDir():
-    var = CONFIG['ci']['app']['setup']['installation_dir'][Functions.osName()]
+    var = CONFIG['ci']['app']['setup']['installation_dir'][CONFIG.os]
     return Functions.environmentVariable(var, var)
 
 def installerConfigXml():
     try:
         message = f"create {CONFIG['ci']['app']['setup']['build']['config_xml']} content"
         app_url = CONFIG['tool']['poetry']['homepage']
-        target_dir = os.path.join(installationDir(), appName())
+        target_dir = os.path.join(installationDir(), CONFIG.app_name)
         maintenance_tool_suffix = CONFIG['ci']['app']['setup']['maintenance_tool_suffix']
-        maintenance_tool_name = maintenance_tool_suffix #f'{appName()}{maintenance_tool_suffix}'
+        maintenance_tool_name = maintenance_tool_suffix #f'{CONFIG.app_name}{maintenance_tool_suffix}'
         config_control_script = CONFIG['ci']['scripts']['config_control']
         config_style = CONFIG['ci']['scripts']['config_style']
         # https://doc.qt.io/qtinstallerframework/ifw-globalconfig.html
@@ -102,17 +79,17 @@ def installerConfigXml():
         # https://stackoverflow.com/questions/46455360/workaround-for-qt-installer-framework-not-overwriting-existing-installation/46614107#46614107
         raw_xml = Functions.dict2xml({
             'Installer': {
-                'Name': appName(),
-                'Version': appVersion(),
-                'Title': appName(),
-                'Publisher': appName(),
+                'Name': CONFIG.app_name,
+                'Version': CONFIG.app_version,
+                'Title': CONFIG.app_name,
+                'Publisher': CONFIG.app_name,
                 'ProductUrl': app_url,
                 #'Logo': 'logo.png',
                 'WizardStyle': 'Classic', #'Aero',
                 'WizardDefaultWidth': 900,
                 'WizardDefaultHeight': 600,
                 'StyleSheet': config_style,
-                'StartMenuDir': appName(),
+                'StartMenuDir': CONFIG.app_name,
                 'TargetDir': target_dir,
                 #'CreateLocalRepository': 'true',
                 #'SaveDefaultRepositories': 'false',
@@ -121,7 +98,7 @@ def installerConfigXml():
                     'Repository': [
                         {
                             'Url': f'http://easyscience.apptimity.com/{repositoryDir()}',
-                            'DisplayName': f'{appName()} {setupOs()}_{setupArch()} repository',
+                            'DisplayName': f'{CONFIG.app_name} {CONFIG.setup_os}_{CONFIG.setup_arch} repository',
                             'Enabled': 1,
                         }
                     ]
@@ -152,7 +129,7 @@ def appPackageXml():
         license_name = dephell_licenses.licenses.get_by_id(license_id).name
         raw_xml = Functions.dict2xml({
             'Package': {
-                'DisplayName': appName(),
+                'DisplayName': CONFIG.app_name,
                 'Description': description,
                 'Version': version,
                 'ReleaseDate': release_date,
@@ -164,7 +141,7 @@ def appPackageXml():
                 'Licenses': {
                     'License': {
                         '@name': license_name,
-                        '@file': licenseFile()
+                        '@file': CONFIG.license_file
                     }
                 },
                 'Script': package_install_script,
@@ -211,15 +188,15 @@ def downloadQtInstallerFramework():
     )
 
 def osDependentPreparation():
-    message = f'prepare for os {Functions.osName()}'
-    if Functions.osName() == 'macos':
+    message = f'prepare for os {CONFIG.os}'
+    if CONFIG.os == 'macos':
         Functions.attachDmg(qtifwSetupDownloadDest())
-    elif Functions.osName() == 'ubuntu':
+    elif CONFIG.os == 'ubuntu':
         Functions.run('sudo', 'apt-get', 'install', '-qq', 'libxkbcommon-x11-0')
         Functions.setEnvironmentVariable('QT_QPA_PLATFORM', 'minimal')
         Functions.addReadPermission(qtifwSetupExe())
     else:
-        Functions.printNeutralMessage(f'No preparation needed for os {Functions.osName()}')
+        Functions.printNeutralMessage(f'No preparation needed for os {CONFIG.os}')
 
 def installQtInstallerFramework():
     if os.path.exists(qtifwDirPath()):
@@ -227,7 +204,7 @@ def installQtInstallerFramework():
         return
     try:
         message = f'install QtInstallerFramework to {qtifwDirPath()}'
-        silent_script = os.path.join(scriptsDir(), CONFIG['ci']['scripts']['silent_install'])
+        silent_script = os.path.join(CONFIG.scripts_dir, CONFIG['ci']['scripts']['silent_install'])
         Functions.installSilently(
             installer=qtifwSetupExe(),
             silent_script=silent_script
@@ -244,8 +221,8 @@ def createInstallerSourceDir():
         # base
         Functions.createDir(setupBuildDirPath())
         # config
-        config_control_script_path = os.path.join(scriptsDir(), CONFIG['ci']['scripts']['config_control'])
-        config_style_path = os.path.join(scriptsDir(), CONFIG['ci']['scripts']['config_style'])
+        config_control_script_path = os.path.join(CONFIG.scripts_dir, CONFIG['ci']['scripts']['config_control'])
+        config_style_path = os.path.join(CONFIG.scripts_dir, CONFIG['ci']['scripts']['config_style'])
         Functions.createDir(configDirPath())
         Functions.createFile(path=configXmlPath(), content=installerConfigXml())
         Functions.copyFile(source=config_control_script_path, destination=configDirPath())
@@ -255,17 +232,17 @@ def createInstallerSourceDir():
         app_data_subsubdir_path =  os.path.join(app_subdir_path, CONFIG['ci']['app']['setup']['build']['data_subsubdir'])
         app_meta_subsubdir_path =  os.path.join(app_subdir_path, CONFIG['ci']['app']['setup']['build']['meta_subsubdir'])
         app_package_xml_path = os.path.join(app_meta_subsubdir_path, CONFIG['ci']['app']['setup']['build']['package_xml'])
-        package_install_script_src = os.path.join(scriptsDir(), CONFIG['ci']['scripts']['package_install'])
-        freezed_app_src = os.path.join(distributionDir(), f"{appName()}{CONFIG['ci']['pyinstaller']['dir_suffix'][Functions.osName()]}")
+        package_install_script_src = os.path.join(CONFIG.scripts_dir, CONFIG['ci']['scripts']['package_install'])
+        freezed_app_src = os.path.join(CONFIG.dist_dir, f"{CONFIG.app_name}{CONFIG['ci']['pyinstaller']['dir_suffix'][CONFIG.os]}")
         Functions.createDir(packagesDirPath())
         Functions.createDir(app_subdir_path)
         Functions.createDir(app_data_subsubdir_path)
         Functions.createDir(app_meta_subsubdir_path)
         Functions.createFile(path=app_package_xml_path, content=appPackageXml())
         Functions.copyFile(source=package_install_script_src, destination=app_meta_subsubdir_path)
-        Functions.copyFile(source=licenseFile(), destination=app_meta_subsubdir_path)
+        Functions.copyFile(source=CONFIG.license_file, destination=app_meta_subsubdir_path)
         Functions.moveDir(source=freezed_app_src, destination=app_data_subsubdir_path)
-        Functions.copyFile(source=licenseFile(), destination=app_data_subsubdir_path)
+        Functions.copyFile(source=CONFIG.license_file, destination=app_data_subsubdir_path)
         # package: docs
         #docs_subdir_path = os.path.join(packagesDirPath(), CONFIG['ci']['app']['setup']['build']['docs_package_subdir'])
         #docs_data_subsubdir_path = os.path.join(docs_subdir_path, CONFIG['ci']['app']['setup']['build']['data_subsubdir'])
@@ -309,7 +286,7 @@ def createInstaller():
         qtifw_bin_dir_path = os.path.join(qtifwDirPath(), 'bin')
         qtifw_binarycreator_path = os.path.join(qtifw_bin_dir_path, 'binarycreator')
         qtifw_installerbase_path = os.path.join(qtifw_bin_dir_path, 'installerbase')
-        setup_exe_path = os.path.join(distributionDir(), setupName())
+        setup_exe_path = os.path.join(CONFIG.dist_dir, CONFIG.setup_name)
         Functions.run(
             qtifw_binarycreator_path,
             '--verbose',
