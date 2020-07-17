@@ -43,7 +43,6 @@ jobs:
         echo ::set-env name=DOWNLOAD_PATH::$(python pyproject.py ci.project.subdirs.download)
         echo ::set-env name=DISTRIBUTION_PATH::$(python pyproject.py ci.project.subdirs.distribution)
         echo ::set-env name=APP_NAME::$(python pyproject.py tool.poetry.name)
-        echo ::set-env name=REPO_DIR_SUFFIX::$(python pyproject.py ci.app.setup.repository_dir_suffix)
         echo ::set-env name=POETRY_VENV_PATH::$(python pyproject.py ci.poetry.venv_path.${{ matrix.os }})
         echo ::set-env name=QTIFW_PATH::$(python pyproject.py ci.qtifw.setup.installation_path.${{ matrix.os }})
 
@@ -104,4 +103,4 @@ jobs:
         artifacts: "${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}_*.zip"
 
     - name: Deploy app installer repository via FTP
-      run: poetry run python ${{ env.SCRIPTS_PATH }}/DeployFtp.py ${{ secrets.FTP_PASSWORD }}
+      run: poetry run python ${{ env.SCRIPTS_PATH }}/DeployFtp.py ${{ env.SHORT_GITHUB_REF }} ${{ secrets.FTP_PASSWORD }}
