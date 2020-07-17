@@ -29,10 +29,10 @@ def login(ftp, user, password):
     else:
         Functions.printSuccessMessage(message)
 
-def make_dir(ftp, destination):
+def make_dir(ftp, path):
     try:
-        message = f'make directory {destination}'
-        ftp.mkd(destination)
+        message = f'make directory {path}'
+        ftp.mkd(path)
     except Exception as exception:
         Functions.printFailMessage(message, exception)
         sys.exit()
@@ -89,6 +89,33 @@ def upload(ftp, source, destination):
     else:
         Functions.printSuccessMessage(message)
 
+def remove_ftp_dir(ftp, path):
+    for (name, properties) in ftp.mlsd(path=path):
+        if name in ['.', '..']:
+            continue
+        elif properties['type'] == 'file':
+            ftp.delete(f"{path}/{name}")
+        elif properties['type'] == 'dir':
+            remove_ftp_dir(ftp, f"{path}/{name}")
+    ftp.rmd(path)
+
+def removeDir(ftp, path):
+    try:
+        message = f'remove directory {path}'
+        for (name, properties) in ftp.mlsd(path=path):
+            if name in ['.', '..']:
+                continue
+            elif properties['type'] == 'file':
+                ftp.delete(f'{path}/{name}')
+            elif properties['type'] == 'dir':
+                removeDir(ftp, f'{path}/{name}')
+        ftp.rmd(path)
+    except Exception as exception:
+        Functions.printFailMessage(message, exception)
+        sys.exit()
+    else:
+        Functions.printSuccessMessage(message)
+
 def deploy():
     branch = sys.argv[1]
     if branch != 'master':
@@ -103,10 +130,12 @@ def deploy():
     repository_dir_name = f'{CONFIG.app_name}{CONFIG.repository_dir_suffix}'
     local_repository_dir_path = os.path.join(CONFIG.dist_dir, repository_dir_name, CONFIG.setup_os)
     remote_repositories_root_dir = repository_dir_name
+    remote_repository_dir = os.path.join(remote_repositories_root_dir, CONFIG.setup_os)
 
     ftp = ftplib.FTP()
     connect(ftp, host, port)
     login(ftp, user, password)
+    removeDir(ftp, remote_repository_dir)
     upload(ftp, local_repository_dir_path, remote_repositories_root_dir)
     ftp.quit()
 
