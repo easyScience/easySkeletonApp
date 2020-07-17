@@ -11,11 +11,11 @@ CONFIG = Functions.config()
 def appName():
     return CONFIG['tool']['poetry']['name']
 
-def localRepositoryDir():
+def localRepositoryDirPath():
     distribution_dir = CONFIG['ci']['project']['subdirs']['distribution']
+    setup_os = CONFIG['ci']['app']['setup']['os'][Functions.osName()]
     repository_dir_suffix = CONFIG['ci']['app']['setup']['repository_dir_suffix']
-    repository_os_suffix = CONFIG['ci']['app']['setup']['repository_os_suffix'][Functions.osName()]
-    return os.path.join(distribution_dir, f'{appName()}{repository_dir_suffix}', repository_os_suffix)
+    return os.path.join(distribution_dir, f'{appName()}{repository_dir_suffix}', setup_os)
 
 def remoteRepositoriesRootDir():
     repository_dir_suffix = CONFIG['ci']['app']['setup']['repository_dir_suffix']
@@ -110,5 +110,5 @@ if __name__ == "__main__":
     ftp = ftplib.FTP()
     connect(ftp, host, port)
     login(ftp, user, password)
-    upload(ftp, localRepositoryDir(), remoteRepositoriesRootDir())
+    upload(ftp, localRepositoryDirPath(), remoteRepositoriesRootDir())
     ftp.quit()

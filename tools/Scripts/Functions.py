@@ -211,7 +211,6 @@ def moveDir(source, destination):
 def dict2xml(d, root_node=None, add_xml_version=True):
     wrap          = False if root_node is None or isinstance(d, list) else True
     root          = 'root' if root_node is None else root_node
-    root_singular = root[:-1] if root[-1] == 's' else root
     xml           = ''
     attr          = ''
     children      = []
@@ -231,7 +230,7 @@ def dict2xml(d, root_node=None, add_xml_version=True):
 
     elif isinstance(d, list):
         for value in d:
-            children.append(dict2xml(value, root_node=root_singular, add_xml_version=False))
+            children.append(dict2xml(value, root_node=root, add_xml_version=False))
 
     else:
         raise TypeError(f"Type {type(d)} is not supported")

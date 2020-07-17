@@ -6,7 +6,7 @@ build-backend = "poetry.masonry.api"
 
 [tool.poetry]
 name = "easyTemplate"
-version = "0.1.3"
+version = "0.1.4"
 description = "Template for easyScience applications"
 license = "GPL-3.0-only"
 authors = ["Andrew Sazonov", "Simon Ward"]
@@ -54,7 +54,7 @@ license_file = "LICENSE.md" # how to combine this with tool.poetry.license???
 
 [ci.project.subdirs]
 scripts = 'tools/Scripts'
-docs = 'docs'
+docs = { src = 'docs', dest = 'Documentation' }
 tutorials = 'docs/UserManual/VideoTutorials'
 download = '.ci/download'
 screenshots = '.ci/screenshots'
@@ -63,8 +63,9 @@ distribution = '.ci/distribution'
 
 [ci.scripts]
 silent_install = 'SilentInstall.js'
-config_control = 'InstallerControlScript.js'
 package_install = 'InstallerInstallScript.js'
+config_control = 'InstallerControlScript.js'
+config_style = 'style.qss'
 
 [ci.app.icon]
 dir = ['Gui', 'Resources', 'Logo']
@@ -72,11 +73,11 @@ file_name = 'App'
 file_ext = { macos = '.icns', ubuntu = '.png', windows = '.ico' }
 
 [ci.app.setup]
-file_name_suffix = 'Setup'
-repository_dir_suffix = 'Repo'
-repository_os_suffix = { macos = 'macOS', ubuntu = 'Linux', windows = 'Windows' } # Should be the same as GH actions ${{ runner.os }}
+build_dir_suffix = 'Setup'
+repository_dir_suffix = 'Repositories'
+os = { macos = 'macOS', ubuntu = 'Linux', windows = 'Windows' } # Should be the same as GH actions ${{ runner.os }}
+arch = { macos = 'x86-64', ubuntu = 'x86-64', windows = 'x86-32' }
 file_ext = { macos = '.app', ubuntu = '', windows = '.exe' }
-version = '0.1.0'
 maintenance_tool_suffix = 'MaintenanceTool'
 installation_dir = { macos = '/Applications', ubuntu = '/opt', windows = 'ProgramFiles(x86)' }
 
@@ -97,10 +98,11 @@ package_xml = 'package.xml'
 # package: app
 app_package_subdir = 'app'
 # package: docs
-docs_package_subdir = 'docs'
-docs_package_name = 'Documentation'
-docs_package_description = "Documentation: User manual, text and video tutorials"
-docs_package_version = '2020.7.15'
+#docs_package_subdir = 'docs'
+#docs_package_subdir = 'docs'
+#docs_package_name = 'Documentation'
+#docs_package_description = "Documentation: User manual, text and video tutorials"
+#docs_package_version = '2020.7.11'
 
 [ci.app.tutorials.video]
 fps = 16                # Frames per Second

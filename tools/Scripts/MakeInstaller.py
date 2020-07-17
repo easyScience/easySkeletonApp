@@ -47,8 +47,17 @@ def licenseFile():
 def appName():
     return CONFIG['tool']['poetry']['name']
 
+def appVersion():
+    return CONFIG['tool']['poetry']['version']
+
+def setupOs():
+    return CONFIG['ci']['app']['setup']['os'][Functions.osName()]
+
+def setupArch():
+    return CONFIG['ci']['app']['setup']['arch'][Functions.osName()]
+
 def setupName():
-    return f"{appName()}{CONFIG['ci']['app']['setup']['file_name_suffix']}"
+    return f'{appName()}_{setupOs()}_{setupArch()}_v{appVersion()}'
 
 def distributionDir():
     return CONFIG['ci']['project']['subdirs']['distribution']
@@ -56,22 +65,23 @@ def distributionDir():
 def scriptsDir():
     return CONFIG['ci']['project']['subdirs']['scripts']
 
-def setupBuildDir():
-    return os.path.join(CONFIG['ci']['project']['subdirs']['build'], setupName())
+def setupBuildDirPath():
+    build_dir = CONFIG['ci']['project']['subdirs']['build']
+    setup_build_dir_suffix = CONFIG['ci']['app']['setup']['build_dir_suffix']
+    return os.path.join(build_dir, f'{appName()}{setup_build_dir_suffix}')
 
 def configDirPath():
-    return os.path.join(setupBuildDir(), CONFIG['ci']['app']['setup']['build']['config_dir'])
+    return os.path.join(setupBuildDirPath(), CONFIG['ci']['app']['setup']['build']['config_dir'])
 
 def configXmlPath():
     return os.path.join(configDirPath(), CONFIG['ci']['app']['setup']['build']['config_xml'])
 
 def packagesDirPath():
-    return os.path.join(setupBuildDir(), CONFIG['ci']['app']['setup']['build']['packages_dir'])
+    return os.path.join(setupBuildDirPath(), CONFIG['ci']['app']['setup']['build']['packages_dir'])
 
 def repositoryDir():
     repository_dir_suffix = CONFIG['ci']['app']['setup']['repository_dir_suffix']
-    repository_os_suffix = CONFIG['ci']['app']['setup']['repository_os_suffix'][Functions.osName()]
-    return os.path.join(f'{appName()}{repository_dir_suffix}', repository_os_suffix)
+    return os.path.join(f'{appName()}{repository_dir_suffix}', setupOs())
 
 def installationDir():
     var = CONFIG['ci']['app']['setup']['installation_dir'][Functions.osName()]
@@ -80,28 +90,41 @@ def installationDir():
 def installerConfigXml():
     try:
         message = f"create {CONFIG['ci']['app']['setup']['build']['config_xml']} content"
-        app_version = CONFIG['ci']['app']['setup']['version']
         app_url = CONFIG['tool']['poetry']['homepage']
         target_dir = os.path.join(installationDir(), appName())
         maintenance_tool_suffix = CONFIG['ci']['app']['setup']['maintenance_tool_suffix']
         maintenance_tool_name = maintenance_tool_suffix #f'{appName()}{maintenance_tool_suffix}'
         config_control_script = CONFIG['ci']['scripts']['config_control']
+        config_style = CONFIG['ci']['scripts']['config_style']
+        # https://doc.qt.io/qtinstallerframework/ifw-globalconfig.html
+        # /Applications/easyTemplate/MaintenanceTool.app/Contents/MacOS/MaintenanceTool --addRepository http://easyscience.apptimity.com/easyTemplateRepo/official/macOS --updater
+        # http://download.qt.io/online/qtsdkrepository/windows_x86/root/qt/
+        # https://stackoverflow.com/questions/46455360/workaround-for-qt-installer-framework-not-overwriting-existing-installation/46614107#46614107
         raw_xml = Functions.dict2xml({
             'Installer': {
                 'Name': appName(),
-                'Version': app_version,
+                'Version': appVersion(),
                 'Title': appName(),
                 'Publisher': appName(),
                 'ProductUrl': app_url,
                 #'Logo': 'logo.png',
-                #'WizardStyle': 'Classic', #'Aero',
+                'WizardStyle': 'Classic', #'Aero',
+                'WizardDefaultWidth': 900,
+                'WizardDefaultHeight': 600,
+                'StyleSheet': config_style,
                 'StartMenuDir': appName(),
                 'TargetDir': target_dir,
+                #'CreateLocalRepository': 'true',
+                #'SaveDefaultRepositories': 'false',
+                #'RepositorySettingsPageVisible': 'false',
                 'RemoteRepositories': {
-                    'Repository': {
-                        #'Url': f'http://localhost/{repositoryDir()}'
-                        'Url': f'http://easyscience.apptimity.com/{repositoryDir()}'
-                    }
+                    'Repository': [
+                        {
+                            'Url': f'http://easyscience.apptimity.com/{repositoryDir()}',
+                            'DisplayName': f'{appName()} {setupOs()}_{setupArch()} repository',
+                            'Enabled': 1,
+                        }
+                    ]
                 },
                 'MaintenanceToolName': maintenance_tool_name,
                 'AllowNonAsciiCharacters': 'true',
@@ -134,6 +157,7 @@ def appPackageXml():
                 'Version': version,
                 'ReleaseDate': release_date,
                 'Default': 'true',
+                #'SortingPriority': 100,
                 'Essential': 'true',
                 'ForcedInstallation': 'true',
                 #'RequiresAdminRights': 'true',
@@ -154,29 +178,30 @@ def appPackageXml():
         Functions.printSuccessMessage(message)
         return pretty_xml
 
-def docsPackageXml():
-    try:
-        message = f"create docs package content"
-        name = CONFIG['ci']['app']['setup']['build']['docs_package_name']
-        description = CONFIG['ci']['app']['setup']['build']['docs_package_description']
-        version = CONFIG['ci']['app']['setup']['build']['docs_package_version']
-        release_date = "2020-01-01" #datetime.datetime.strptime(config['release']['date'], "%d %b %Y").strftime("%Y-%m-%d")
-        raw_xml = Functions.dict2xml({
-            'Package': {
-                'DisplayName': name,
-                'Description': description,
-                'Version': version,
-                'ReleaseDate': release_date,
-                'Default': 'true',
-            }
-        })
-        pretty_xml = xml.dom.minidom.parseString(raw_xml).toprettyxml()
-    except Exception as exception:
-        Functions.printFailMessage(message, exception)
-        sys.exit()
-    else:
-        Functions.printSuccessMessage(message)
-        return pretty_xml
+#def docsPackageXml():
+#    try:
+#        message = f"create docs package content"
+#        name = CONFIG['ci']['app']['setup']['build']['docs_package_name']
+#        description = CONFIG['ci']['app']['setup']['build']['docs_package_description']
+#        version = CONFIG['ci']['app']['setup']['build']['docs_package_version']
+#        release_date = "2020-01-01" #datetime.datetime.strptime(config['release']['date'], "%d %b %Y").strftime("%Y-%m-%d")
+#        raw_xml = Functions.dict2xml({
+#            'Package': {
+#                'DisplayName': f'{name} {version}',
+#                'Description': description,
+#                'Version': version,
+#                'ReleaseDate': release_date,
+#                'Default': 'true',
+#                'SortingPriority': 20,
+#            }
+#        })
+#        pretty_xml = xml.dom.minidom.parseString(raw_xml).toprettyxml()
+#    except Exception as exception:
+#        Functions.printFailMessage(message, exception)
+#        sys.exit()
+#    else:
+#        Functions.printSuccessMessage(message)
+#        return pretty_xml
 
 def downloadQtInstallerFramework():
     Functions.createDir(CONFIG['ci']['project']['subdirs']['download'])
@@ -215,14 +240,16 @@ def installQtInstallerFramework():
 
 def createInstallerSourceDir():
     try:
-        message = f'create installer source directory {setupBuildDir()}'
+        message = f'create installer source directory {setupBuildDirPath()}'
         # base
-        Functions.createDir(setupBuildDir())
+        Functions.createDir(setupBuildDirPath())
         # config
         config_control_script_path = os.path.join(scriptsDir(), CONFIG['ci']['scripts']['config_control'])
+        config_style_path = os.path.join(scriptsDir(), CONFIG['ci']['scripts']['config_style'])
         Functions.createDir(configDirPath())
         Functions.createFile(path=configXmlPath(), content=installerConfigXml())
         Functions.copyFile(source=config_control_script_path, destination=configDirPath())
+        Functions.copyFile(source=config_style_path, destination=configDirPath())
         # package: app
         app_subdir_path =  os.path.join(packagesDirPath(), CONFIG['ci']['app']['setup']['build']['app_package_subdir'])
         app_data_subsubdir_path =  os.path.join(app_subdir_path, CONFIG['ci']['app']['setup']['build']['data_subsubdir'])
@@ -238,17 +265,20 @@ def createInstallerSourceDir():
         Functions.copyFile(source=package_install_script_src, destination=app_meta_subsubdir_path)
         Functions.copyFile(source=licenseFile(), destination=app_meta_subsubdir_path)
         Functions.moveDir(source=freezed_app_src, destination=app_data_subsubdir_path)
+        Functions.copyFile(source=licenseFile(), destination=app_data_subsubdir_path)
         # package: docs
-        docs_subdir_path = os.path.join(packagesDirPath(), CONFIG['ci']['app']['setup']['build']['docs_package_subdir'])
-        docs_data_subsubdir_path = os.path.join(docs_subdir_path, CONFIG['ci']['app']['setup']['build']['data_subsubdir'])
-        docs_meta_subsubdir_path = os.path.join(docs_subdir_path, CONFIG['ci']['app']['setup']['build']['meta_subsubdir'])
-        docs_package_xml_path = os.path.join(docs_meta_subsubdir_path, CONFIG['ci']['app']['setup']['build']['package_xml'])
-        docs_dir_src = CONFIG['ci']['project']['subdirs']['docs']
-        Functions.createDir(docs_subdir_path)
-        Functions.createDir(docs_data_subsubdir_path)
-        Functions.createDir(docs_meta_subsubdir_path)
-        Functions.createFile(path=docs_package_xml_path, content=docsPackageXml())
-        Functions.copyDir(source=docs_dir_src, destination=os.path.join(docs_data_subsubdir_path, 'Documentation'))
+        #docs_subdir_path = os.path.join(packagesDirPath(), CONFIG['ci']['app']['setup']['build']['docs_package_subdir'])
+        #docs_data_subsubdir_path = os.path.join(docs_subdir_path, CONFIG['ci']['app']['setup']['build']['data_subsubdir'])
+        #docs_meta_subsubdir_path = os.path.join(docs_subdir_path, CONFIG['ci']['app']['setup']['build']['meta_subsubdir'])
+        #docs_package_xml_path = os.path.join(docs_meta_subsubdir_path, CONFIG['ci']['app']['setup']['build']['package_xml'])
+        docs_dir_src = CONFIG['ci']['project']['subdirs']['docs']['src']
+        docs_dir_dest = CONFIG['ci']['project']['subdirs']['docs']['dest']
+        #Functions.createDir(docs_subdir_path)
+        #Functions.createDir(docs_data_subsubdir_path)
+        #Functions.createDir(docs_meta_subsubdir_path)
+        #Functions.createFile(path=docs_package_xml_path, content=docsPackageXml())
+        #Functions.copyDir(source=docs_dir_src, destination=os.path.join(docs_data_subsubdir_path, 'Documentation'))
+        Functions.copyDir(source=docs_dir_src, destination=os.path.join(app_data_subsubdir_path, docs_dir_dest))
     except Exception as exception:
         Functions.printFailMessage(message, exception)
         sys.exit()
@@ -260,7 +290,6 @@ def createOnlineRepository():
         message = 'create online repository'
         qtifw_bin_dir_path = os.path.join(qtifwDirPath(), 'bin')
         qtifw_repogen_path = os.path.join(qtifw_bin_dir_path, 'repogen')
-        repository_os_suffix = f"{appName()}{CONFIG['ci']['app']['setup']['repository_os_suffix']}"
         repository_dir_path = os.path.join(CONFIG['ci']['project']['subdirs']['distribution'], repositoryDir())
         Functions.run(
             qtifw_repogen_path,
@@ -285,7 +314,7 @@ def createInstaller():
             qtifw_binarycreator_path,
             '--verbose',
             #'--online-only',
-            #'--offline-only',
+            '--offline-only',
             '-c', configXmlPath(),
             '-p', packagesDirPath(),
             '-t', qtifw_installerbase_path,

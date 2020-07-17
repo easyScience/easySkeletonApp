@@ -101,7 +101,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         commit: ${{ env.SHORT_GITHUB_REF }}
         tag: ${{ env.SHORT_GITHUB_REF }}
-        artifacts: "${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}-*.zip"
+        artifacts: "${{ env.DISTRIBUTION_PATH }}/${{ env.APP_NAME }}_*.zip"
 
     - name: Deploy app installer repository via FTP
       run: poetry run python ${{ env.SCRIPTS_PATH }}/DeployFtp.py ${{ secrets.FTP_PASSWORD }}

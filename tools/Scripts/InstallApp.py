@@ -10,7 +10,10 @@ def appName():
     return CONFIG['tool']['poetry']['name']
 
 def setupExe():
-    setup_name = f"{appName()}{CONFIG['ci']['app']['setup']['file_name_suffix']}"
+    app_version = CONFIG['tool']['poetry']['version']
+    setup_os = CONFIG['ci']['app']['setup']['os'][Functions.osName()]
+    setup_arch = CONFIG['ci']['app']['setup']['arch'][Functions.osName()]
+    setup_name = f'{appName()}_{setup_os}_{setup_arch}_v{app_version}'
     setup_file_ext = CONFIG['ci']['app']['setup']['file_ext'][Functions.osName()]
     setup_full_name = f'{setup_name}{setup_file_ext}'
     d = {
