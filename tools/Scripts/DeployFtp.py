@@ -29,7 +29,10 @@ def login(ftp, user, password):
     else:
         Functions.printSuccessMessage(message)
 
-def make_dir(ftp, path):
+def winToLin(path):
+    return path.replace('\\', '/')
+
+def makeDir(ftp, path):
     try:
         message = f'make directory {path}'
         ftp.mkd(path)
@@ -39,14 +42,14 @@ def make_dir(ftp, path):
     else:
         Functions.printSuccessMessage(message)
 
-def upload_file(ftp, source, destination):
+def uploadFile(ftp, source, destination):
     try:
-        destination = destination.replace('\\', '/')
+        destination = winToLin(destination)
         message = f'upload file {source} to {destination}'
         dir_name = os.path.basename(destination)
         dir_names = ftp.nlst(os.path.dirname(destination))
         if dir_name not in dir_names:
-            make_dir(ftp, destination)
+            makeDir(ftp, destination)
         destination = f'{destination}/{os.path.basename(source)}'
         with open(source, 'rb') as fb:
             ftp.storbinary(f'STOR {destination}', fb)
@@ -56,7 +59,7 @@ def upload_file(ftp, source, destination):
     else:
         Functions.printSuccessMessage(message)
 
-def upload_dir(ftp, source, destination):
+def uploadDir(ftp, source, destination):
     try:
         message = f'upload dir {source} to {destination}'
         root_dir_name = os.path.basename(source)
@@ -66,7 +69,7 @@ def upload_dir(ftp, source, destination):
                 parent_path = os.path.relpath(source_file, source)
                 parent_dir = os.path.dirname(parent_path)
                 destination_dir = os.path.join(destination, root_dir_name, parent_dir).rstrip(os.path.sep)
-                upload_file(ftp, source_file, destination_dir)
+                uploadFile(ftp, source_file, destination_dir)
     except Exception as exception:
         Functions.printFailMessage(message, exception)
         sys.exit()
@@ -77,9 +80,9 @@ def upload(ftp, source, destination):
     try:
         message = f'upload {source} to {destination}'
         if os.path.isfile(source):
-            upload_file(ftp, source, destination)
+            uploadFile(ftp, source, destination)
         elif os.path.isdir(source):
-            upload_dir(ftp, source, destination)
+            uploadDir(ftp, source, destination)
         else:
             Functions.printFailMessage(message)
             sys.exit()
@@ -89,18 +92,9 @@ def upload(ftp, source, destination):
     else:
         Functions.printSuccessMessage(message)
 
-def remove_ftp_dir(ftp, path):
-    for (name, properties) in ftp.mlsd(path=path):
-        if name in ['.', '..']:
-            continue
-        elif properties['type'] == 'file':
-            ftp.delete(f"{path}/{name}")
-        elif properties['type'] == 'dir':
-            remove_ftp_dir(ftp, f"{path}/{name}")
-    ftp.rmd(path)
-
 def removeDir(ftp, path):
     try:
+        path = winToLin(path)
         message = f'remove directory {path}'
         for (name, properties) in ftp.mlsd(path=path):
             if name in ['.', '..']:
