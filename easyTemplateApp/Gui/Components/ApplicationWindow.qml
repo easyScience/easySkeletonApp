@@ -128,8 +128,10 @@ EaComponents.ApplicationWindow {
 
     // Pages for the tab buttons described above
     contentArea: [
+
         // Home page
         ExHomePage.MainContent {},
+
         // Project page
         EaComponents.ContentPage {
             mainContent: EaComponents.MainContent {
@@ -153,6 +155,7 @@ EaComponents.ApplicationWindow {
                 advancedControls: ExProjectPage.SideBarAdvanced {}
             }
         },
+
         // Sample page
         EaComponents.ContentPage {
             mainContent: EaComponents.MainContent {
@@ -176,6 +179,7 @@ EaComponents.ApplicationWindow {
                 advancedControls: ExSamplePage.SideBarAdvanced {}
             }
         },
+
         // Experiment page
         EaComponents.ContentPage {
             mainContent: EaComponents.MainContent {
@@ -203,6 +207,7 @@ EaComponents.ApplicationWindow {
                 advancedControls: ExExperimentPage.SideBarAdvanced {}
             }
         },
+
         // Analysis page
         EaComponents.ContentPage {
             mainContent: EaComponents.MainContent {
@@ -226,6 +231,7 @@ EaComponents.ApplicationWindow {
                 advancedControls: ExAnalysisPage.SideBarAdvanced {}
             }
         },
+
         // Summary page
         EaComponents.ContentPage {
             mainContent: EaComponents.MainContent {
