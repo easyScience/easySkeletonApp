@@ -6,7 +6,7 @@ Project {
     // List of module and plugin directories passed to QML runtime
     importPaths: [
         "easyTemplateApp",
-        "../easyAppGui/easyAppGui"
+        "../easyAppGui"
     ]
 
     // Include .qml files from specified directory and its subdirectories
@@ -14,7 +14,7 @@ Project {
         directory: "easyTemplateApp"
     }
     QmlFiles {
-        directory: "../easyAppGui/easyAppGui"
+        directory: "../easyAppGui"
     }
 
     // Include Module Definition Files (qmldir), as well as .ts and .qrc
@@ -26,7 +26,7 @@ Project {
     }
     Files {
         filter: "qmldir;*.ts;*.qrc"
-        directory: "../easyAppGui/easyAppGui"
+        directory: "../easyAppGui"
         recursive: true
     }
 }
