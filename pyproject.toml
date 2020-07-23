@@ -18,7 +18,7 @@ include = ["CHANGELOG.md"]
 packages = [ { include = "easyTemplateApp" } ]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8, <3.9" # "^3.8" generates error when installing PySide2 in easyAppGui
 # easyScience
 easyAppLogic = { git = "https://github.com/easyScience/easyAppLogic.git", rev = "master" }
 easyAppGui = { git = "https://github.com/easyScience/easyAppGui.git", rev = "master" }
