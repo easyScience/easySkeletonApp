@@ -6,8 +6,8 @@ from PySide2.QtCharts import QtCharts
 
 from easyTemplateLib.Objects.fitting import Parameter, Model
 
-from easyTemplateApp.Logic.DisplayModels.DataModels import MeasuredDataModel, CalculatedDataModel
-from easyTemplateApp.Logic.QtInterface import QtInterface
+from easySkeletonApp.Logic.DisplayModels.DataModels import MeasuredDataModel, CalculatedDataModel
+from easySkeletonApp.Logic.QtInterface import QtInterface
 
 
 def model():
