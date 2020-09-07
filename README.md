@@ -1,4 +1,4 @@
-# easyTemplateApp
+# easySkeletonApp
 Template for easyScience applications
 
 [![CI Build][20]][21]
@@ -13,10 +13,10 @@ Template for easyScience applications
 
 ## Download easyTemplate
 * Open **Terminal**
-* Change the current working directory to the location where you want the **easyTemplateApp** directory
-* Clone **easyTemplateApp** repo from GitHub using **git**
+* Change the current working directory to the location where you want the **easySkeletonApp** directory
+* Clone **easySkeletonApp** repo from GitHub using **git**
   ```
-  git clone https://github.com/easyScience/easyTemplateApp
+  git clone https://github.com/easyScience/easySkeletonApp
   ```
   
 ## Install easyTemplate dependencies
@@ -30,7 +30,7 @@ Template for easyScience applications
     ```
     (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python
     ```
-* Go to **easyTemplateApp** directory
+* Go to **easySkeletonApp** directory
 * Create virtual environment for **easyTemplate** and install its dependences using **poetry** (configuration file: **pyproject.toml**)
   ```
   poetry install --no-dev
@@ -38,7 +38,7 @@ Template for easyScience applications
   
 ## Launch easyTemplate application
 * Open **Terminal**
-* Go to **easyTemplateApp** directory
+* Go to **easySkeletonApp** directory
 * Launch **easyTemplate** application using **poetry**
   ```
   poetry run easyTemplate
@@ -46,7 +46,7 @@ Template for easyScience applications
 
 ## Update easyTemplate dependencies
 * Open **Terminal**
-* Go to **easyTemplateApp** directory
+* Go to **easySkeletonApp** directory
 * Update **easyTemplate** using **poetry** (configuration file: **pyproject.toml**)
   ```
   poetry update --no-dev
@@ -64,37 +64,37 @@ Template for easyScience applications
 * Unit tests
   * ...
 * GUI
-   * Test video: https://easyscience.github.io/easyTemplateApp
+   * Test video: https://easyscience.github.io/easySkeletonApp
 
 
 <!---URLs--->
 <!---https://naereen.github.io/badges/--->
 
 <!---CI Build Status--->
-[20]: https://github.com/easyScience/easyTemplateApp/workflows/macOS,%20Linux,%20Windows/badge.svg
-[21]: https://github.com/easyScience/easyTemplateApp/actions
+[20]: https://github.com/easyScience/easySkeletonApp/workflows/macOS,%20Linux,%20Windows/badge.svg
+[21]: https://github.com/easyScience/easySkeletonApp/actions
 
 <!---Release--->
-[30]: https://img.shields.io/github/release/easyScience/easyTemplateApp.svg
-[31]: https://github.com/easyScience/easyTemplateApp/releases
+[30]: https://img.shields.io/github/release/easyScience/easySkeletonApp.svg
+[31]: https://github.com/easyScience/easySkeletonApp/releases
 
 <!---License--->
-[50]: https://img.shields.io/github/license/easyScience/easyTemplateApp.svg
-[51]: https://github.com/easyScience/easyTemplateApp/blob/master/LICENSE.md
+[50]: https://img.shields.io/github/license/easyScience/easySkeletonApp.svg
+[51]: https://github.com/easyScience/easySkeletonApp/blob/master/LICENSE.md
 
 <!---LicenseScan--->
-[60]: https://app.fossa.com/api/projects/git%2Bgithub.com%2FeasyScience%2FeasyTemplateApp.svg?type=shield
-[61]: https://app.fossa.com/projects/git%2Bgithub.com%2FeasyScience%2FeasyTemplateApp?ref=badge_shield
+[60]: https://app.fossa.com/api/projects/git%2Bgithub.com%2FeasyScience%2FeasySkeletonApp.svg?type=shield
+[61]: https://app.fossa.com/projects/git%2Bgithub.com%2FeasyScience%2FeasySkeletonApp?ref=badge_shield
 
 <!---Downloads--->
-[70]: https://img.shields.io/github/downloads/easyScience/easyTemplateApp/total.svg
-[71]: https://github.com/easyScience/easyTemplateApp/releases
+[70]: https://img.shields.io/github/downloads/easyScience/easySkeletonApp/total.svg
+[71]: https://github.com/easyScience/easySkeletonApp/releases
 
 <!---Code statistics--->
-[80]: https://tokei.rs/b1/github/easyScience/easyTemplateApp
-[81]: https://tokei.rs/b1/github/easyScience/easyTemplateApp?category=code
-[82]: https://tokei.rs/b1/github/easyScience/easyTemplateApp?category=files
+[80]: https://tokei.rs/b1/github/easyScience/easySkeletonApp
+[81]: https://tokei.rs/b1/github/easyScience/easySkeletonApp?category=code
+[82]: https://tokei.rs/b1/github/easyScience/easySkeletonApp?category=files
 
 <!---W3C validation--->
-[90]: https://img.shields.io/w3c-validation/default?targetUrl=https://easyscience.github.io/easyTemplateApp
-[91]: https://easyscience.github.io/easyTemplateApp
+[90]: https://img.shields.io/w3c-validation/default?targetUrl=https://easyscience.github.io/easySkeletonApp
+[91]: https://easyscience.github.io/easySkeletonApp
